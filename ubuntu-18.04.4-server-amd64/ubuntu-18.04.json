@@ -85,5 +85,15 @@
             "ssh_password": "{{ user `ssh_password` }}",
             "ssh_username": "{{ user `ssh_username` }}"
         }
+    ],
+    "provisioners": [
+        {
+          "execute_command": "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'",
+          "inline": [
+            "/usr/sbin/userdel --remove --force packer"
+          ],
+          "skip_clean": true,
+          "type": "shell"
+        }
     ]
 }
