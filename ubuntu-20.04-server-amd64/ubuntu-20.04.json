@@ -1,0 +1,91 @@
+{
+    "builders": [
+        {
+            "type": "proxmox",
+            "proxmox_url": "https://{{ user `proxmox_host` }}/api2/json",
+            "username": "{{ user `proxmox_api_user` }}",
+            "password": "{{ user `proxmox_api_password` }}",
+            "node": "{{ user `proxmox_node_name` }}",
+
+            "iso_file": "{{ user `iso_file` }}",
+
+            "iso_url": "{{ user `iso_url` }}",
+            "iso_storage_pool": "{{ user `iso_storage_pool` }}",
+            "iso_checksum": "{{ user `iso_checksum` }}",
+
+            "insecure_skip_tls_verify": "{{ user `proxmox_insecure_tls` }}",
+
+            "pool": "{{ user `proxmox_pool` }}",
+
+            "vm_name": "{{ user `template_name` }}",
+            "vm_id": "{{ user `vmid` }}",
+            "memory": "{{ user `memory` }}",
+            "cores": "{{ user `cores` }}",
+            "sockets": "{{ user `sockets` }}",
+            "cpu_type": "{{ user `cpu_type` }}",
+            "os": "{{ user `guest_os` }}",
+            "vga": {
+                "type": "{{ user `vga_type` }}",
+                "memory": "{{ user `vga_memory` }}"
+            },
+
+            "network_adapters": [
+                {
+                    "bridge": "{{ user `network_adapter` }}",
+                    "model": "{{ user `network_adapter_model` }}"
+                }
+            ],
+            "disks": [
+                {
+                    "storage_pool": "{{ user `datastore` }}",
+                    "storage_pool_type": "{{ user `datastore_type` }}",
+                    "type": "{{ user `disk_type` }}",
+                    "disk_size": "{{ user `disk_size` }}",
+                    "cache_mode": "{{ user `disk_cache` }}",
+                    "format": "{{ user `disk_format` }}"
+                }
+            ],
+            "boot": "order=scsi0;ide2;net0",
+
+            "template_name": "{{ user `template_name` }}",
+            "template_description": "{{ user `template_description` }}",
+
+            "unmount_iso": true,
+            "onboot": "{{ user `start_on_boot` }}",
+            "qemu_agent": true,
+            "disable_kvm": "{{ user `disable_kvm` }}",
+            "scsi_controller": "{{ user `scsi_controller` }}",
+
+            "cloud_init": "{{ user `cloud_init` }}",
+            "cloud_init_storage_pool": "{{ user `cloud_init_storage_pool` }}",
+
+            "boot_wait": "5s",
+            "boot_command": [
+                "<enter><enter><f6><esc><wait> ",
+                "autoinstall ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
+                "<enter>"
+            ],
+            
+            "http_directory": "./http",
+            "http_port_min": "8000",
+            "http_port_max": "9000",
+            "http_bind_address": "{{ user `bind_address` }}",
+
+            "ssh_timeout": "{{ user `ssh_timeout` }}",
+            "ssh_password": "{{ user `ssh_password` }}",
+            "ssh_username": "{{ user `ssh_username` }}"
+        }
+    ],
+    "provisioners": [
+        {
+          "execute_command": "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'",
+          "inline": [
+            "cloud-init clean",
+            "rm /etc/cloud/cloud.cfg.d/*",
+            "/usr/sbin/userdel --remove --force packer"
+          ],
+          "skip_clean": true,
+          "type": "shell"
+        }
+      ]
+}

@@ -1,12 +1,10 @@
 {
-    "proxmox_host": "localhost:8006",
-    "proxmox_insecure_tls": "false",
+    "proxmox_host": "116.202.169.131:8006",
+    "proxmox_insecure_tls": "true",
     "proxmox_node_name": "proxmox",
-    "proxmox_api_user": "user@pve",
-    "proxmox_api_password": "passw0rd",
-    "proxmox_pool": "",
-
-    "iso_file": "",
+    "proxmox_api_user": "terraform@pve",
+    "proxmox_api_password": "zmEYm4jxXgzLcHag22DjsvXQ",
+    "proxmox_pool": "Templates",
 
     "iso_url": "https://old-releases.ubuntu.com/releases/18.04.4/ubuntu-18.04.4-server-amd64.iso",
     "iso_storage_pool": "images",
@@ -42,8 +40,8 @@
     "disable_kvm": "false",
     "scsi_controller": "lsi",
 
-    "cloud_init": "false",
-    "cloud_init_storage_pool": "",
+    "cloud_init": "true",
+    "cloud_init_storage_pool": "storage",
 
     "locale": "en_US"
 }
