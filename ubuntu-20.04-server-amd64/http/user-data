@@ -2,6 +2,7 @@
 autoinstall:
   version: 1
   identity:
+    hostname: ubuntu-2004
     username: packer
     password: '$6$FhcddHFVZ7ABA4Gi$QybBjJXeTESb.NIDf7umP5rubBXM0N.SseGarXYz1kZpit8UgV6CVWo7ubIoacgdBEPUXTWXe92GyAVJ.jOJZ.'
   network:
