@@ -1,0 +1,15 @@
+{
+    "proxmox_host": "t-dietrich.com",
+    "proxmox_insecure_tls": "false",
+    "proxmox_node_name": "proxmox",
+    "proxmox_api_user": "{{env `PROXMOX_USER`}}@pve",
+    "proxmox_api_password": "{{env `PROXMOX_PASSWORD`}}",
+    "proxmox_pool": "Templates",
+    "ssh_timeout": "30m",
+    "vmid": "{{env `TEMPLATE_VMID`}}",
+    "datastore": "storage",
+    "datastore_type": "directory",
+    "start_on_boot": "true",
+    "cloud_init": "true",
+    "cloud_init_storage_pool": "storage"
+}
