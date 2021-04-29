@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: docker
-name: packer
+name: packer-home
 node:
   location: home
 steps:
@@ -65,7 +65,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: packer
+name: packer-hetzner
 node:
   location: hetzner
 steps:
