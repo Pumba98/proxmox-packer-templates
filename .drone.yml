@@ -1,5 +1,3 @@
-
-
 ---
 .packer-vm: &packer-vm
   image: hashicorp/packer:1.6.6
