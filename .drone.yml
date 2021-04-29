@@ -53,6 +53,16 @@ type: docker
 name: packer-hetzner
 node:
   location: hetzner
+environment:
+  PROXMOX_USER:
+    from_secret: proxmox_user
+  PROXMOX_PASSWORD:
+    from_secret: proxmox_password
+  PROXMOX_HOST: t-dietrich.com
+  PROXMOX_NODE: proxmox
+  PROXMOX_DATASTORE: storage
+  PROXMOX_DATASTORE_TYPE: directory
+  PROXMOX_ISO_STORAGE: images
 steps:
   - name: delete
     image: ubuntu
@@ -76,16 +86,7 @@ steps:
       - delete
     network_mode: host
     environment:
-      PROXMOX_USER:
-        from_secret: proxmox_user
-      PROXMOX_PASSWORD:
-        from_secret: proxmox_password
       TEMPLATE_VMID: 1000
-      PROXMOX_HOST: t-dietrich.com
-      PROXMOX_NODE: proxmox
-      PROXMOX_DATASTORE: storage
-      PROXMOX_DATASTORE_TYPE: directory
-      PROXMOX_ISO_STORAGE: images
     commands:
       - cd $DRONE_STEP_NAME
       - packer build -var-file=../drone.json packer.json
@@ -95,16 +96,7 @@ steps:
       - delete
     network_mode: host
     environment:
-      PROXMOX_USER:
-        from_secret: proxmox_user
-      PROXMOX_PASSWORD:
-        from_secret: proxmox_password
       TEMPLATE_VMID: 1001
-      PROXMOX_HOST: t-dietrich.com
-      PROXMOX_NODE: proxmox
-      PROXMOX_DATASTORE: storage
-      PROXMOX_DATASTORE_TYPE: directory
-      PROXMOX_ISO_STORAGE: images
     commands:
       - cd $DRONE_STEP_NAME
       - packer build -var-file=../drone.json packer.json
