@@ -13,7 +13,6 @@ packer-vm: &packer-vm
     - cd $DRONE_STEP_NAME
     - packer build -var-file=../drone.json packer.json
 
-
 kind: pipeline
 type: docker
 name: packer-home
@@ -52,23 +51,20 @@ trigger:
   event:
     - push
 
-
-
 ---
-# packer-vm: &packer-vm
-#   image: hashicorp/packer:1.6.6
-#   depends_on:
-#     - delete
-#   network_mode: host
-#   environment:
-#     PROXMOX_USER:
-#       from_secret: proxmox_user
-#     PROXMOX_PASSWORD:
-#       from_secret: proxmox_password
-#   commands:
-#     - cd $DRONE_STEP_NAME
-#     - packer build -var-file=../drone.json packer.json
-
+packer-vm: &packer-vm
+  image: hashicorp/packer:1.6.6
+  depends_on:
+    - delete
+  network_mode: host
+  environment:
+    PROXMOX_USER:
+      from_secret: proxmox_user
+    PROXMOX_PASSWORD:
+      from_secret: proxmox_password
+  commands:
+    - cd $DRONE_STEP_NAME
+    - packer build -var-file=../drone.json packer.json
 
 kind: pipeline
 type: docker
