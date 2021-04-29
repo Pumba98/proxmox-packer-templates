@@ -4,4 +4,5 @@
 
 ## Ubuntu
 
-`packer build ./packer.json`
+> cd ubuntu-xxx
+> packer build -var-file=../proxmox.json packer.json`

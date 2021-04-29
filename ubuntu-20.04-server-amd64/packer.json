@@ -123,7 +123,7 @@
         "vga_memory": "32",
         "network_adapter": "vmbr0",
         "network_adapter_model": "virtio",
-        "disk_size": "3G",
+        "disk_size": "5G",
         "disk_type": "scsi",
         "disk_format": "qcow2",
         "disk_cache": "none",
