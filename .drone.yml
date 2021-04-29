@@ -28,6 +28,11 @@ environment:
 steps:
   - name: delete
     image: ubuntu
+    environment:
+      PROXMOX_USER:
+        from_secret: proxmox_user
+      PROXMOX_PASSWORD:
+        from_secret: proxmox_password
     commands:
       - apt update && apt install unzip wget -y
       - wget https://github.com/Corsinvest/cv4pve-cli/releases/download/v1.6.5/cv4pve-cli-linux-x64.zip
@@ -43,62 +48,62 @@ steps:
     <<: *packer-vm
     environment:
       TEMPLATE_VMID: 5001
+trigger:
+  event:
+    - push
 
 
 
-# ---
-# kind: pipeline
-# type: docker
-# name: packer-hetzner
-# node:
-#   location: hetzner
-# environment:
-#   PROXMOX_USER:
-#     from_secret: proxmox_user
-#   PROXMOX_PASSWORD:
-#     from_secret: proxmox_password
-#   PROXMOX_HOST: t-dietrich.com
-#   PROXMOX_NODE: proxmox
-#   PROXMOX_DATASTORE: storage
-#   PROXMOX_DATASTORE_TYPE: directory
-#   PROXMOX_ISO_STORAGE: images
-# steps:
-#   - name: delete
-#     image: ubuntu
-#     environment:
-#       PROXMOX_USER:
-#         from_secret: proxmox_user
-#       PROXMOX_PASSWORD:
-#         from_secret: proxmox_password
-#       PROXMOX_HOST: t-dietrich.com:443
-#       PROXMOX_NODE: proxmox
-#     commands:
-#       - apt update && apt install unzip wget -y
-#       - wget https://github.com/Corsinvest/cv4pve-cli/releases/download/v1.6.5/cv4pve-cli-linux-x64.zip
-#       - unzip cv4pve-cli-linux-x64.zip -d /usr/local/bin
-#       - chmod 700 /usr/local/bin/cv4pve-cli
-#       - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1000 || true
-#       - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1001 || true
-#   - name: ubuntu-20.04-server-amd64
-#     image: hashicorp/packer:1.6.6
-#     depends_on:
-#       - delete
-#     network_mode: host
-#     environment:
-#       TEMPLATE_VMID: 1000
-#     commands:
-#       - cd $DRONE_STEP_NAME
-#       - packer build -var-file=../drone.json packer.json
-#   - name: ubuntu-18.04.4-server-amd64
-#     image: hashicorp/packer:1.6.6
-#     depends_on:
-#       - delete
-#     network_mode: host
-#     environment:
-#       TEMPLATE_VMID: 1001
-#     commands:
-#       - cd $DRONE_STEP_NAME
-#       - packer build -var-file=../drone.json packer.json
-# trigger:
-#   event:
-#   - push
+---
+# packer-vm: &packer-vm
+#   image: hashicorp/packer:1.6.6
+#   depends_on:
+#     - delete
+#   network_mode: host
+#   environment:
+#     PROXMOX_USER:
+#       from_secret: proxmox_user
+#     PROXMOX_PASSWORD:
+#       from_secret: proxmox_password
+#   commands:
+#     - cd $DRONE_STEP_NAME
+#     - packer build -var-file=../drone.json packer.json
+
+
+kind: pipeline
+type: docker
+name: packer-hetzner
+node:
+  location: hetzner
+environment:
+  PROXMOX_HOST: t-dietrich.com
+  PROXMOX_NODE: proxmox
+  PROXMOX_DATASTORE: storage
+  PROXMOX_DATASTORE_TYPE: directory
+  PROXMOX_ISO_STORAGE: images
+steps:
+  - name: delete
+    image: ubuntu
+    environment:
+      PROXMOX_USER:
+        from_secret: proxmox_user
+      PROXMOX_PASSWORD:
+        from_secret: proxmox_password
+    commands:
+      - apt update && apt install unzip wget -y
+      - wget https://github.com/Corsinvest/cv4pve-cli/releases/download/v1.6.5/cv4pve-cli-linux-x64.zip
+      - unzip cv4pve-cli-linux-x64.zip -d /usr/local/bin
+      - chmod 700 /usr/local/bin/cv4pve-cli
+      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1000 || true
+      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1001 || true
+  - name: ubuntu-20.04-server-amd64
+    <<: *packer-vm
+    environment:
+      TEMPLATE_VMID: 1000
+  - name: ubuntu-18.04.4-server-amd64
+    <<: *packer-vm
+    environment:
+      TEMPLATE_VMID: 1001
+trigger:
+  event:
+    - push
