@@ -125,6 +125,6 @@ steps:
   # #   depends_on:
   # #     - ubuntu-18.04.4-server-amd64
   # #     - ubuntu-20.04-server-amd64
-  trigger:
+trigger:
   event:
   - push
