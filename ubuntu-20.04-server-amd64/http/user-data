@@ -14,6 +14,8 @@ autoinstall:
   storage:
     layout:
       name: lvm
+  package_update: true
+  package_upgrade: true
   packages:
     - qemu-guest-agent
   ssh:
