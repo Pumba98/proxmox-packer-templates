@@ -5,10 +5,10 @@ name: packer-hetzner
 node:
   location: hetzner
 environment:
-  PROXMOX_USER:
-    from_secret: proxmox_user
-  PROXMOX_PASSWORD:
-    from_secret: proxmox_password
+  # PROXMOX_USER:
+  #   from_secret: proxmox_user
+  # PROXMOX_PASSWORD:
+  #   from_secret: proxmox_password
   PROXMOX_HOST: t-dietrich.com
   PROXMOX_NODE: proxmox
   PROXMOX_DATASTORE: storage
