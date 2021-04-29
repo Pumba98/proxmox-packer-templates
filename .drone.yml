@@ -12,7 +12,7 @@ steps:
         from_secret: proxmox_user
       PROXMOX_PASSWORD:
         from_secret: proxmox_password
-      PROXMOX_HOST: nuc.t-d.dev
+      PROXMOX_HOST: nuc.t-d.dev:8006
       PROXMOX_NODE: nuc8i5beh
     commands:
       - apt update && apt install unzip wget -y
@@ -36,6 +36,7 @@ steps:
       PROXMOX_NODE: nuc8i5beh
       PROXMOX_DATASTORE: local
       PROXMOX_DATASTORE_TYPE: directory
+      PROXMOX_ISO_STORAGE: nas
     commands:
       - cd $DRONE_STEP_NAME
       - packer build -var-file=../drone.json packer.json
@@ -50,10 +51,11 @@ steps:
       PROXMOX_PASSWORD:
         from_secret: proxmox_password
       TEMPLATE_VMID: 5001
-      PROXMOX_HOST: nuc.t-d.dev
+      PROXMOX_HOST: nuc.t-d.dev:8006
       PROXMOX_NODE: nuc8i5beh
       PROXMOX_DATASTORE: local
       PROXMOX_DATASTORE_TYPE: directory
+      PROXMOX_ISO_STORAGE: nas
     commands:
       - cd $DRONE_STEP_NAME
       - packer build -var-file=../drone.json packer.json
@@ -97,6 +99,7 @@ steps:
   #     PROXMOX_NODE: proxmox
   #     PROXMOX_DATASTORE: storage
   #     PROXMOX_DATASTORE_TYPE: directory
+  #     PROXMOX_ISO_STORAGE: images
   #   commands:
   #     - cd $DRONE_STEP_NAME
   #     - packer build -var-file=../drone.json packer.json
@@ -115,6 +118,7 @@ steps:
   #     PROXMOX_NODE: proxmox
   #     PROXMOX_DATASTORE: storage
   #     PROXMOX_DATASTORE_TYPE: directory
+  #     PROXMOX_ISO_STORAGE: images
   #   commands:
   #     - cd $DRONE_STEP_NAME
   #     - packer build -var-file=../drone.json packer.json
