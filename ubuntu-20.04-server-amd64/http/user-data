@@ -14,9 +14,10 @@ autoinstall:
   storage:
     layout:
       name: direct
-  package_update: true
-  package_upgrade: true
   packages:
     - qemu-guest-agent
   ssh:
     install-server: true
+  late-commands:
+    - curtin in-target --target=/target -- apt update           
+    - curtin in-target --target=/target -- apt upgrade -y
