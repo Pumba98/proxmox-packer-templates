@@ -13,7 +13,7 @@ autoinstall:
           dhcp4: true
   storage:
     layout:
-      name: lvm
+      name: direct
   package_update: true
   package_upgrade: true
   packages:
