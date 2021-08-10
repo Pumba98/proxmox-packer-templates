@@ -49,17 +49,16 @@
             "additional_iso_files": [
                 {
                   "device": "sata3",
-                  "iso_url": "./Autounattend.iso",
-                  "iso_checksum": "7226710d4abe5def4c8722bff7222f80a43462f0",
-                  "iso_storage_pool": "ISO-storage",
+                  "iso_file": "synology:iso/Autounattend.iso",
+                  "iso_storage_pool": "local",
                   "unmount": true
                 },
                 {
                   "device": "sata4",
-                  "iso_url": "ISO-storage:iso/virtio-win-0.1.185.iso",
+                  "iso_file": "synology:iso/virtio-win-0.1.185.iso",
                   "unmount": true
                 }
-              ], 
+            ], 
             "boot": "order=scsi0;ide2;net0",
 
             "template_name": "{{ user `template_name` }}",
@@ -75,19 +74,7 @@
             "winrm_username": "{{ user `winrm_username` }}",
             "winrm_password": "{{ user `winrm_password` }}",
             "winrm_insecure": true,
-            "winrm_use_ssl": true
-        }
-    ],
-    "provisioners": [
-        {
-          "execute_command": "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'",
-          "inline": [
-            "cloud-init clean",
-            "rm /etc/cloud/cloud.cfg.d/*",
-            "/usr/sbin/userdel --remove --force packer"
-          ],
-          "skip_clean": true,
-          "type": "shell"
+            "winrm_use_ssl": false
         }
     ],
     "variables": {
@@ -98,7 +85,7 @@
         "proxmox_api_password": "passw0rd",
         "proxmox_pool": "",
 
-        "iso_file": "",
+        "iso_file": "synology:iso/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso",
 
         "iso_url": "",
         "iso_storage_pool": "images",
@@ -127,7 +114,7 @@
         "disable_kvm": "false",
         "scsi_controller": "lsi",
 
-        "winrm_username": "packer",
-        "winrm_password": "packer"
+        "winrm_username": "Administrator",
+        "winrm_password": "test"
     }
 }
