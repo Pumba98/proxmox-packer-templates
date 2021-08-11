@@ -107,7 +107,7 @@
         "network_adapter": "vmbr0",
         "network_adapter_model": "e1000",
         "disk_size": "20G",
-        "disk_type": "sata",
+        "disk_type": "scsi",
         "disk_format": "qcow2",
         "disk_cache": "none",
         "datastore": "storage",

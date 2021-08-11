@@ -60,7 +60,7 @@ variable "disk_size" {
 
 variable "disk_type" {
   type    = string
-  default = "sata"
+  default = "scsi"
 }
 
 variable "iso_checksum" {
