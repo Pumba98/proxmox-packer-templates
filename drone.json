@@ -12,5 +12,6 @@
     "start_on_boot": "true",
     "cloud_init": "true",
     "cloud_init_storage_pool": "{{env `PROXMOX_DATASTORE`}}",
-    "iso_storage_pool": "{{env `PROXMOX_ISO_STORAGE`}}"
+    "iso_storage_pool": "{{env `PROXMOX_ISO_STORAGE`}}",
+    "autounattend_iso_checksum": "{{env `AUTOUNATTEND_CHECKSUM`}}"
 }

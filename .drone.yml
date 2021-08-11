@@ -9,9 +9,9 @@ packer-vm: &packer-vm
       from_secret: proxmox_user
     PROXMOX_PASSWORD:
       from_secret: proxmox_password
-  commands:
-    - cd $DRONE_STEP_NAME
-    - packer build -var-file=../drone.json packer.json
+  # commands:
+  #   - cd $DRONE_STEP_NAME
+  #   - packer build -var-file=../drone.json packer.json
 
 kind: pipeline
 type: docker
@@ -52,6 +52,16 @@ steps:
     <<: *packer-vm
     environment:
       TEMPLATE_VMID: 5002
+  - name: windows-server-2019
+    <<: *packer-vm
+    environment:
+      TEMPLATE_VMID: 5005
+    commands:
+      - cd $DRONE_STEP_NAME
+      - apk add cdrkit
+      - mkisofs -J -l -R -V "Label CD" -iso-level 4 -o Autounattend.iso setup
+      - export AUTOUNATTEND_CHECKSUM=$(sha256sum Autounattend.iso | awk '{print $1}') && echo $AUTOUNATTEND_CHECKSUM
+      - packer build -var-file=../drone.json packer.json
 
 trigger:
   event:
