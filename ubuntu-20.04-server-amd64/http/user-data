@@ -13,10 +13,11 @@ autoinstall:
           dhcp4: true
   storage:
     layout:
-      name: lvm
-  package_update: true
-  package_upgrade: true
+      name: direct
   packages:
     - qemu-guest-agent
   ssh:
     install-server: true
+  late-commands:
+    - curtin in-target --target=/target -- apt update           
+    - curtin in-target --target=/target -- apt upgrade -y
