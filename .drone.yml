@@ -42,13 +42,13 @@ steps:
         from_secret: proxmox_password
     commands:
       - apt update && apt install unzip wget -y
-      - wget https://github.com/Corsinvest/cv4pve-cli/releases/download/v1.6.5/cv4pve-cli-linux-x64.zip
-      - unzip cv4pve-cli-linux-x64.zip -d /usr/local/bin
-      - chmod 700 /usr/local/bin/cv4pve-cli
-      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1000 || true
-      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1001 || true
-      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1002 || true
-      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1005 || true
+      # - wget https://github.com/Corsinvest/cv4pve-cli/releases/download/v1.6.5/cv4pve-cli-linux-x64.zip
+      # - unzip cv4pve-cli-linux-x64.zip -d /usr/local/bin
+      # - chmod 700 /usr/local/bin/cv4pve-cli
+      # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1000 || true
+      # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1001 || true
+      # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1002 || true
+      # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1005 || true
   - name: ubuntu-20.04-server-amd64
     <<: *packer-vm
     environment:
