@@ -5,7 +5,7 @@
     "proxmox_api_user": "{{env `PROXMOX_USER`}}@pve",
     "proxmox_api_password": "{{env `PROXMOX_PASSWORD`}}",
     "proxmox_pool": "Templates",
-    "ssh_timeout": "60m",
+    "ssh_timeout": "30m",
     "vmid": "{{env `TEMPLATE_VMID`}}",
     "datastore": "{{env `PROXMOX_DATASTORE`}}",
     "datastore_type": "{{env `PROXMOX_DATASTORE_TYPE`}}",
