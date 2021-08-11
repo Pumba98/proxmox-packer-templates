@@ -15,7 +15,7 @@ variable "bind_min_port" {
 
 variable "boot_wait" {
   type    = string
-  default = "10s"
+  default = "5s"
 }
 
 variable "cloud_init" {
