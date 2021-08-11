@@ -7,11 +7,12 @@ packer-vm: &packer-vm
   environment:
     PROXMOX_USER:
       from_secret: proxmox_user
-    PROXMOX_PASSWORD:
+    PKR_VAR_proxmox_api_password:
       from_secret: proxmox_password
   commands:
     - cd $DRONE_STEP_NAME
-    - packer build -var-file=../drone.json packer.json
+    - export PKR_VAR_proxmox_api_user=$PROXMOX_USER@pve
+    - packer build main.pkr.hcl
 
 kind: pipeline
 type: docker
@@ -19,11 +20,18 @@ name: packer-home
 node:
   location: home
 environment:
-  PROXMOX_HOST: nuc.t-d.dev:443
-  PROXMOX_NODE: nuc8i5beh
-  PROXMOX_DATASTORE: local
-  PROXMOX_DATASTORE_TYPE: directory
-  PROXMOX_ISO_STORAGE: synology
+  PKR_VAR_proxmox_host: nuc.t-d.dev:443
+  PKR_VAR_proxmox_insecure_tls: "false"
+  PKR_VAR_proxmox_node_name: nuc8i5beh
+  PKR_VAR_proxmox_pool: Templates
+  PKR_VAR_ssh_timeout: 30m
+  PKR_VAR_datastore: local
+  PKR_VAR_datastore_type: directory
+  PKR_VAR_start_on_boot: "true"
+  PKR_VAR_cloud_init: "true"
+  PKR_VAR_cloud_init_storage_pool: local
+  PKR_VAR_iso_storage_pool: synology
+  PKR_VAR_iso_download: "false"
 steps:
   - name: delete
     image: ubuntu
@@ -34,33 +42,34 @@ steps:
         from_secret: proxmox_password
     commands:
       - apt update && apt install unzip wget -y
-      - wget https://github.com/Corsinvest/cv4pve-cli/releases/download/v1.6.5/cv4pve-cli-linux-x64.zip
-      - unzip cv4pve-cli-linux-x64.zip -d /usr/local/bin
-      - chmod 700 /usr/local/bin/cv4pve-cli
-      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1000 || true
-      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1001 || true
-      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1002 || true
-      - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1005 || true
+      # - wget https://github.com/Corsinvest/cv4pve-cli/releases/download/v1.6.5/cv4pve-cli-linux-x64.zip
+      # - unzip cv4pve-cli-linux-x64.zip -d /usr/local/bin
+      # - chmod 700 /usr/local/bin/cv4pve-cli
+      # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1000 || true
+      # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1001 || true
+      # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1002 || true
+      # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1005 || true
   - name: ubuntu-20.04-server-amd64
     <<: *packer-vm
     environment:
-      TEMPLATE_VMID: 1000
+      PKR_VAR_vmid: 1000
   - name: ubuntu-18.04.4-server-amd64
     <<: *packer-vm
     environment:
-      TEMPLATE_VMID: 1001
+      PKR_VAR_vmid: 1001
   - name: debian-10.9.0-amd64
     <<: *packer-vm
     environment:
-      TEMPLATE_VMID: 1002
+      PKR_VAR_vmid: 1002
   - name: windows-server-2019
     <<: *packer-vm
     environment:
-      TEMPLATE_VMID: 1005
+      PKR_VAR_vmid: 1005
     commands:
       - cd $DRONE_STEP_NAME
-      - apk add cdrkit && mkisofs -J -l -R -V "Label CD" -iso-level 4 -o Autounattend.iso setup && export WIN_AUTOUNATTEND_ISO_CHECKSUM=$(sha256sum Autounattend.iso | awk '{print $1}') && echo $AUTOUNATTEND_CHECKSUM
-      - packer build -var-file=../drone.json packer.json
+      - apk add cdrkit && mkisofs -J -l -R -V "Label CD" -iso-level 4 -o Autounattend.iso setup && export PKR_VAR_win_autounattend_iso_checksum=$(sha256sum Autounattend.iso | awk '{print $1}') && echo $AUTOUNATTEND_CHECKSUM
+      - export PKR_VAR_proxmox_api_user=$PROXMOX_USER@pve
+      - packer build main.pkr.hcl
 trigger:
   event:
     - push
