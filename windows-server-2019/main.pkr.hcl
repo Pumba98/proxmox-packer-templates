@@ -135,7 +135,7 @@ variable "proxmox_pool" {
 
 variable "scsi_controller" {
   type    = string
-  default = "lsi"
+  default = "virtio-scsi-pci"
 }
 
 variable "sockets" {
