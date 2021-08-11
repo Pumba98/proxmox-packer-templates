@@ -55,7 +55,7 @@
             <SetupUILanguage>
                 <UILanguage>en-US</UILanguage>
             </SetupUILanguage>
-            <InputLocale>en-US</InputLocale>
+            <InputLocale>de-DE</InputLocale>
             <SystemLocale>en-US</SystemLocale>
             <UILanguage>en-US</UILanguage>
             <UserLocale>en-US</UserLocale>
@@ -138,7 +138,7 @@
                 <Enabled>true</Enabled>
                 <Username>Administrator</Username>
                 <Password>
-                    <Value>test</Value>
+                    <Value>packer</Value>
                     <PlainText>true</PlainText>
                 </Password>
             </AutoLogon>
@@ -168,7 +168,7 @@
             </OOBE>
             <UserAccounts>
                 <AdministratorPassword>
-                    <Value>test</Value>
+                    <Value>packer</Value>
                     <PlainText>true</PlainText>
                 </AdministratorPassword>
             </UserAccounts>

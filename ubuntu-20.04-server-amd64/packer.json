@@ -46,7 +46,7 @@
                     "format": "{{ user `disk_format` }}"
                 }
             ],
-            "boot": "order=scsi0;ide2;net0",
+            "boot": "order={{ user `disk_type` }}0;ide2;net0",
 
             "template_name": "{{ user `template_name` }}",
             "template_description": "{{ user `template_description` }}",

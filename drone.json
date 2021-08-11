@@ -13,5 +13,5 @@
     "cloud_init": "true",
     "cloud_init_storage_pool": "{{env `PROXMOX_DATASTORE`}}",
     "iso_storage_pool": "{{env `PROXMOX_ISO_STORAGE`}}",
-    "autounattend_iso_checksum": "{{env `AUTOUNATTEND_CHECKSUM`}}"
+    "win_autounattend_iso_checksum": "{{env `WIN_AUTOUNATTEND_ISO_CHECKSUM`}}"
 }
