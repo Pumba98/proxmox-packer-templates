@@ -23,7 +23,6 @@ environment:
   PKR_VAR_proxmox_host: nuc.t-d.dev:443
   PKR_VAR_proxmox_insecure_tls: "false"
   PKR_VAR_proxmox_node_name: nuc8i5beh
-  #PKR_VAR_proxmox_api_password: $PROXMOX_PASSWORD
   PKR_VAR_proxmox_pool: Templates
   PKR_VAR_ssh_timeout: 30m
   PKR_VAR_datastore: local
@@ -32,6 +31,7 @@ environment:
   PKR_VAR_cloud_init: "true"
   PKR_VAR_cloud_init_storage_pool: local
   PKR_VAR_iso_storage_pool: synology
+  PKR_VAR_iso_download: "false"
 steps:
   - name: delete
     image: ubuntu
@@ -68,6 +68,7 @@ steps:
     commands:
       - cd $DRONE_STEP_NAME
       - apk add cdrkit && mkisofs -J -l -R -V "Label CD" -iso-level 4 -o Autounattend.iso setup && export PKR_VAR_win_autounattend_iso_checksum=$(sha256sum Autounattend.iso | awk '{print $1}') && echo $AUTOUNATTEND_CHECKSUM
+      - export PKR_VAR_proxmox_api_user=$PROXMOX_USER@pve
       - packer build main.pkr.hcl
 trigger:
   event:
