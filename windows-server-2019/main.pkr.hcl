@@ -60,7 +60,7 @@ variable "disk_size" {
 
 variable "disk_type" {
   type    = string
-  default = "sata"
+  default = "scsi"
 }
 
 variable "iso_checksum" {
@@ -135,7 +135,7 @@ variable "proxmox_pool" {
 
 variable "scsi_controller" {
   type    = string
-  default = "lsi"
+  default = "virtio-scsi-pci"
 }
 
 variable "sockets" {

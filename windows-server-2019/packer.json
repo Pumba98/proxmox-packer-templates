@@ -107,7 +107,7 @@
         "network_adapter": "vmbr0",
         "network_adapter_model": "e1000",
         "disk_size": "20G",
-        "disk_type": "sata",
+        "disk_type": "scsi",
         "disk_format": "qcow2",
         "disk_cache": "none",
         "datastore": "storage",
@@ -115,7 +115,7 @@
 
         "start_on_boot": "false",
         "disable_kvm": "false",
-        "scsi_controller": "lsi",
+        "scsi_controller": "virtio-scsi-pci",
 
         "winrm_username": "Administrator",
         "winrm_password": "packer"
