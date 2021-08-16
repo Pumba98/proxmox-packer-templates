@@ -48,6 +48,7 @@ steps:
       # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1000 || true
       # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1001 || true
       # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1002 || true
+      # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1003 || true
       # - cv4pve-cli --host $PROXMOX_HOST --username $PROXMOX_USER@pve --password $PROXMOX_PASSWORD delete /nodes/$PROXMOX_NODE/qemu/1005 || true
   - name: ubuntu-20.04-server-amd64
     <<: *packer-vm
@@ -57,10 +58,14 @@ steps:
     <<: *packer-vm
     environment:
       PKR_VAR_vmid: 1001
-  - name: debian-10.9.0-amd64
+  - name: debian-10-amd64
     <<: *packer-vm
     environment:
       PKR_VAR_vmid: 1002
+  - name: debian-11-amd64
+    <<: *packer-vm
+    environment:
+      PKR_VAR_vmid: 1003
   - name: windows-server-2019
     <<: *packer-vm
     environment:
