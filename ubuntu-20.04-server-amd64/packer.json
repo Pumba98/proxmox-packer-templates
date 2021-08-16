@@ -117,7 +117,7 @@
         "vmid": "1000",
         "sockets": "1",
         "cores": "2",
-        "cpu_type": "kvm64",
+        "cpu_type": "host",
         "memory": "2048",
         "vga_type": "std",
         "vga_memory": "32",
@@ -132,7 +132,7 @@
 
         "start_on_boot": "false",
         "disable_kvm": "false",
-        "scsi_controller": "lsi",
+        "scsi_controller": "virtio-scsi-pci",
 
         "cloud_init": "true",
         "cloud_init_storage_pool": "storage"

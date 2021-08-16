@@ -35,7 +35,7 @@ variable "cores" {
 
 variable "cpu_type" {
   type    = string
-  default = "kvm64"
+  default = "host"
 }
 
 variable "datastore" {
@@ -145,7 +145,7 @@ variable "proxmox_pool" {
 
 variable "scsi_controller" {
   type    = string
-  default = "lsi"
+  default = "virtio-scsi-pci"
 }
 
 variable "sockets" {
