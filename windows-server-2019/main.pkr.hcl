@@ -25,7 +25,7 @@ variable "cores" {
 
 variable "cpu_type" {
   type    = string
-  default = "kvm64"
+  default = "host"
 }
 
 variable "datastore" {
@@ -100,7 +100,7 @@ variable "network_adapter" {
 
 variable "network_adapter_model" {
   type    = string
-  default = "e1000"
+  default = "virtio"
 }
 
 variable "proxmox_api_password" {
