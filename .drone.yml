@@ -25,11 +25,11 @@ environment:
   PKR_VAR_proxmox_node_name: nuc8i5beh
   PKR_VAR_proxmox_pool: Templates
   PKR_VAR_ssh_timeout: 30m
-  PKR_VAR_datastore: local
-  PKR_VAR_datastore_type: directory
+  PKR_VAR_datastore: synology
+  PKR_VAR_datastore_type: nfs
   PKR_VAR_start_on_boot: "true"
   PKR_VAR_cloud_init: "true"
-  PKR_VAR_cloud_init_storage_pool: local
+  PKR_VAR_cloud_init_storage_pool: synology
   PKR_VAR_iso_storage_pool: synology
   PKR_VAR_iso_download: "false"
 steps:
