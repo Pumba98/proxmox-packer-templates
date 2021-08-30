@@ -20,7 +20,7 @@ name: packer-home
 node:
   location: home
 environment:
-  PKR_VAR_proxmox_host: nuc.t-d.dev:443
+  PKR_VAR_proxmox_host: proxmox.t-d.dev:443
   PKR_VAR_proxmox_insecure_tls: "false"
   PKR_VAR_proxmox_node_name: nuc8i5beh
   PKR_VAR_proxmox_pool: Templates
