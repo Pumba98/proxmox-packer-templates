@@ -30,7 +30,7 @@ variable "cpu_type" {
 
 variable "datastore" {
   type    = string
-  default = "storage"
+  default = "local"
 }
 
 variable "datastore_type" {
@@ -75,7 +75,7 @@ variable "iso_file" {
 
 variable "iso_storage_pool" {
   type    = string
-  default = "images"
+  default = "local"
 }
 
 variable "iso_url" {
