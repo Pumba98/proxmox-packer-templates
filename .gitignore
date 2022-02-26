@@ -1,4 +1,5 @@
 config.json
 packer_cache/
 *.iso
+!Autounattend.iso
 packer.exe
