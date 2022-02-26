@@ -6,4 +6,3 @@ boot_command  = ["<enter><enter><f6><esc><wait> ", "autoinstall ds=nocloud-net;s
 provisioner = [
   "userdel --remove --force packer"
 ]
-

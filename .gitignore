@@ -1,3 +1,4 @@
 config.json
 packer_cache/
 *.iso
+packer.exe
