@@ -1,5 +1,5 @@
 ```sh
-mkisofs -J -l -R -V "Label CD" -iso-level 4 -o Autounattend.iso http 
+mkisofs -J -l -R -V "Label CD" -iso-level 4 -o Autounattend.iso setup 
 sha256sum Autounattend.iso | awk '{print $1}'
 ```
 

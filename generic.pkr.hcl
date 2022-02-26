@@ -28,7 +28,7 @@ source "proxmox" "vm" {
     type              = var.disk_type
   }
   http_bind_address        = var.bind_address
-  http_directory           = "./http"
+  http_directory           = var.http_directory
   http_port_max            = var.bind_max_port
   http_port_min            = var.bind_min_port
   insecure_skip_tls_verify = var.proxmox_insecure_tls
@@ -66,18 +66,24 @@ source "proxmox" "vm" {
   ssh_password         = var.ssh_password
   ssh_timeout          = var.ssh_timeout
 
-  winrm_insecure = true
-  winrm_password = var.winrm_password
-  winrm_use_ssl  = false
   winrm_username = var.winrm_username
+  winrm_password = var.winrm_password
+  winrm_insecure = true
+  winrm_use_ssl  = false
 }
 
- build {
-   sources = ["source.proxmox.vm"]
+build {
+  name = "linux"
+  sources = ["source.proxmox.vm"]
 
   provisioner "shell" {
-    execute_command = length(var.provisioner) > 0 ? "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'" : ""
-    inline          = length(var.provisioner) > 0 ? var.provisioner : [""]
+    execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
+    inline          = var.provisioner
     skip_clean      = true
   }
+}
+
+build {
+  name = "windows"
+  sources = ["source.proxmox.vm"]
 }

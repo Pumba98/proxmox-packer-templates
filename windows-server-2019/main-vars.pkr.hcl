@@ -18,5 +18,6 @@ additional_iso_files = [
     }
 ]
 communicator = "winrm"
+http_directory = ""
 boot_command = []
 provisioner = []

@@ -187,6 +187,11 @@ variable "vga_type" {
   default = "std"
 }
 
+variable "http_directory" {
+  type    = string
+  default = "./http"
+}
+
 variable "additional_iso_files" {
   type    = list(object({
     device = string
