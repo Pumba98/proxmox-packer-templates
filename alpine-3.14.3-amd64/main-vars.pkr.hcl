@@ -21,7 +21,7 @@ boot_command  = [
   "rc-update add qemu-guest-agent<enter>",
   "apk add --no-cache sudo<enter>",
   "echo '%wheel ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/wheel<enter>",
-  "adduser packer -G packer -H -D<enter>",
+  "adduser packer -H -D<enter>",
   "echo packer:packer | chpasswd<enter>",
   "adduser packer wheel<enter>",
   "exit<enter>",
