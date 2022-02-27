@@ -1,4 +1,4 @@
-template_name  = "alpine-3-14-3-template"
+template_name  = "alpine-3-14-template"
 iso_file = "alpine-virt-3.14.3-x86_64.iso"
 iso_url  = "https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/x86_64/alpine-virt-3.14.3-x86_64.iso"
 iso_checksum = "4a62a5dabd61e7cb8f865d95781b9f070f32300ba784553b61efef2b65a8347b"

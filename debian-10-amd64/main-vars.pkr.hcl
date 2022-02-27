@@ -1,4 +1,4 @@
-template_name  = "debian-10-10-0-template"
+template_name  = "debian-10-template"
 iso_file = "debian-10.10.0-amd64-netinst.iso"
 iso_url  = "https://cdimage.debian.org/mirror/cdimage/archive/10.10.0/amd64/iso-cd/debian-10.10.0-amd64-netinst.iso"
 iso_checksum = "c433254a7c5b5b9e6a05f9e1379a0bd6ab3323f89b56537b684b6d1bd1f8b6ad"
