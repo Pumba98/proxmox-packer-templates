@@ -4,7 +4,27 @@ variable "template_name" {
 
 variable "vmid" {
   type    = number
-  default = 1000
+}
+
+variable "proxmox_api_user" {
+  type    = string
+}
+
+variable "proxmox_api_password" {
+  type    = string
+}
+
+variable "proxmox_host" {
+  type    = string
+}
+
+variable "proxmox_node_name" {
+  type    = string
+}
+
+variable "proxmox_insecure_tls" {
+  type    = bool
+  default = false
 }
 
 variable "boot_command" {
@@ -130,31 +150,6 @@ variable "network_adapter" {
 variable "network_adapter_model" {
   type    = string
   default = "virtio"
-}
-
-variable "proxmox_api_password" {
-  type    = string
-  default = "passw0rd"
-}
-
-variable "proxmox_api_user" {
-  type    = string
-  default = "user@pve"
-}
-
-variable "proxmox_host" {
-  type    = string
-  default = "localhost:8006"
-}
-
-variable "proxmox_insecure_tls" {
-  type    = bool
-  default = false
-}
-
-variable "proxmox_node_name" {
-  type    = string
-  default = "proxmox"
 }
 
 variable "proxmox_pool" {
