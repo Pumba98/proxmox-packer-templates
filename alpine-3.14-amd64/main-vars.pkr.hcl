@@ -1,8 +1,8 @@
-template_name  = "alpine-3-14-template"
-iso_file = "alpine-virt-3.14.3-x86_64.iso"
-iso_url  = "https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/x86_64/alpine-virt-3.14.3-x86_64.iso"
-iso_checksum = "4a62a5dabd61e7cb8f865d95781b9f070f32300ba784553b61efef2b65a8347b"
-boot_command  = [
+template_name = "alpine-3-14-template"
+iso_file      = "alpine-virt-3.14.3-x86_64.iso"
+iso_url       = "https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/x86_64/alpine-virt-3.14.3-x86_64.iso"
+iso_checksum  = "4a62a5dabd61e7cb8f865d95781b9f070f32300ba784553b61efef2b65a8347b"
+boot_command = [
   "root<enter><wait>",
   "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
   "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",

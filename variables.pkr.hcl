@@ -1,25 +1,25 @@
 variable "template_name" {
-  type    = string
+  type = string
 }
 
 variable "vmid" {
-  type    = number
+  type = number
 }
 
 variable "proxmox_api_user" {
-  type    = string
+  type = string
 }
 
 variable "proxmox_api_password" {
-  type    = string
+  type = string
 }
 
 variable "proxmox_host" {
-  type    = string
+  type = string
 }
 
 variable "proxmox_node_name" {
-  type    = string
+  type = string
 }
 
 variable "proxmox_insecure_tls" {
@@ -28,15 +28,15 @@ variable "proxmox_insecure_tls" {
 }
 
 variable "boot_command" {
-  type    = list(string)
+  type = list(string)
 }
 
 variable "provisioner" {
-  type    = list(string)
+  type = list(string)
 }
 
 variable "os" {
-  type = string
+  type    = string
   default = "l26"
 }
 
@@ -46,15 +46,15 @@ variable "iso_download" {
 }
 
 variable "iso_url" {
-  type    = string
+  type = string
 }
 
 variable "iso_checksum" {
-  type    = string
+  type = string
 }
 
 variable "iso_file" {
-  type    = string
+  type = string
 }
 
 variable "bind_address" {
@@ -188,17 +188,17 @@ variable "http_directory" {
 }
 
 variable "additional_iso_files" {
-  type    = list(object({
-    device = string
+  type = list(object({
+    device       = string
     iso_checksum = string
-    iso_url = string
-    iso_file = string
+    iso_url      = string
+    iso_file     = string
   }))
   default = []
 }
 
 variable "communicator" {
-  type = string
+  type    = string
   default = "ssh"
 }
 
