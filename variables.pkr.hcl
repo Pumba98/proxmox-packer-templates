@@ -214,7 +214,7 @@ variable "ssh_password" {
 
 variable "ssh_timeout" {
   type    = string
-  default = "15m"
+  default = "30m"
 }
 
 variable "winrm_username" {
