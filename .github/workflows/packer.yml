@@ -1,0 +1,45 @@
+name: Packer
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+      vm_id: 
+        required: true
+        type: number
+      os_type: 
+        required: false
+        type: string
+        default: linux
+    secrets:
+      proxmox_host:
+        required: true
+      proxmox_user:
+        required: true
+      proxmox_password:
+        required: true
+jobs:
+  build:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use Packer
+        uses: hashicorp-contrib/setup-packer@v1
+        with:
+          packer-version: 1.7.10
+      - name: Build image from template
+        env:
+          PKR_VAR_proxmox_host: ${{ secrets.proxmox_host }}
+          PKR_VAR_proxmox_api_user: ${{ secrets.proxmox_user }}
+          PKR_VAR_proxmox_api_password: ${{ secrets.proxmox_password }}
+          PKR_VAR_proxmox_node_name: nuc8i5beh
+          PKR_VAR_proxmox_pool: Templates
+          PKR_VAR_datastore_type: nfs
+          PKR_VAR_datastore: synology
+          PKR_VAR_cloud_init_storage_pool: synology
+          PKR_VAR_iso_storage_pool: synology
+          PKR_VAR_iso_download: "false"
+          PKR_VAR_vmid: ${{ inputs.vm_id }}
+        run: cd ${{ inputs.name }} && packer build -var-file="main-vars.pkr.hcl" -only="${{ inputs.os_type }}.*" ../

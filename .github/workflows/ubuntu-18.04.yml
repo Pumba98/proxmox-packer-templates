@@ -1,0 +1,12 @@
+name: Ubuntu-18.04
+on: [workflow_dispatch]
+jobs:
+  build:
+    uses: ./.github/workflows/packer.yml
+    with:
+      name: ubuntu-18.04.4-server-amd64
+      vm_id: 1001
+    secrets:
+      proxmox_host: ${{ secrets.proxmox_host }}
+      proxmox_user: ${{ secrets.proxmox_user }}
+      proxmox_password: ${{ secrets.proxmox_password }}

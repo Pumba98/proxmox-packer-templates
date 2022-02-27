@@ -1,0 +1,12 @@
+name: Debian-11
+on: [workflow_dispatch]
+jobs:
+  build:
+    uses: ./.github/workflows/packer.yml
+    with:
+      name: debian-11-amd64
+      vm_id: 1003
+    secrets:
+      proxmox_host: ${{ secrets.proxmox_host }}
+      proxmox_user: ${{ secrets.proxmox_user }}
+      proxmox_password: ${{ secrets.proxmox_password }}
