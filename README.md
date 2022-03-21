@@ -35,7 +35,7 @@ To build packer templates you need to set some variables via file (`-var-file=my
 - proxmox_node_name
 - vmid
 
-From **inside** a template directory (e.g. `debian-11-amd64`) run:
+From **inside** a template directory (e.g. `debian-11`) run:
 
 ```sh
 packer build -var-file="main-vars.pkr.hcl" -only="linux.* ../

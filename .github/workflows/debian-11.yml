@@ -4,7 +4,7 @@ jobs:
   build:
     uses: ./.github/workflows/packer.yml
     with:
-      name: debian-11-amd64
+      name: debian-11
       vm_id: 1003
     secrets:
       proxmox_host: ${{ secrets.proxmox_host }}

@@ -4,7 +4,7 @@ jobs:
   build:
     uses: ./.github/workflows/packer.yml
     with:
-      name: ubuntu-20.04-server-amd64
+      name: ubuntu-20.04
       vm_id: 1000
     secrets:
       proxmox_host: ${{ secrets.proxmox_host }}

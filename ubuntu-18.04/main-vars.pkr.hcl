@@ -1,4 +1,4 @@
-template_name = "ubuntu-18-04-template"
+template_name = "ubuntu-18.04-template"
 iso_file      = "ubuntu-18.04.4-server-amd64.iso"
 iso_url       = "https://old-releases.ubuntu.com/releases/18.04.4/ubuntu-18.04.4-server-amd64.iso"
 iso_checksum  = "e2ecdace33c939527cbc9e8d23576381c493b071107207d2040af72595f8990b"

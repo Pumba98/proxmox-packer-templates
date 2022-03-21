@@ -4,7 +4,7 @@ jobs:
   build:
     uses: ./.github/workflows/packer.yml
     with:
-      name: alpine-3.14-amd64
+      name: alpine-3.14
       vm_id: 1004
     secrets:
       proxmox_host: ${{ secrets.proxmox_host }}
