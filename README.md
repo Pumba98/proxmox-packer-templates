@@ -42,6 +42,9 @@ packer build -var-file="main-vars.pkr.hcl" -only="linux.* ../
 ```
 
 For windows:
+
+Requires `win-server-2019_x64FRE_en-us.iso` and [virtio-win-0.1.185.iso](`https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.185-2/virtio-win-0.1.185.iso`) in your iso storage.
+
 ```sh
 packer build -var-file="main-vars.pkr.hcl" -only="windows.*" ../
 ```

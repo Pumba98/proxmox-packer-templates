@@ -190,9 +190,8 @@ variable "http_directory" {
 variable "additional_iso_files" {
   type = list(object({
     device       = string
-    iso_checksum = string
-    iso_url      = string
     iso_file     = string
+    cd_files     = list(string)
   }))
   default = []
 }

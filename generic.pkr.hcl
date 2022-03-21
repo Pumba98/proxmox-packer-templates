@@ -3,10 +3,9 @@ source "proxmox" "vm" {
     for_each = var.additional_iso_files
     content {
       device           = additional_iso_files.value.device
-      iso_checksum     = additional_iso_files.value.iso_checksum
       iso_file         = length(additional_iso_files.value.iso_file) > 0 ? "${var.iso_storage_pool}:iso/${additional_iso_files.value.iso_file}" : ""
       iso_storage_pool = var.iso_storage_pool
-      iso_url          = additional_iso_files.value.iso_url
+      cd_files         = additional_iso_files.value.cd_files
       unmount          = true
     }
   }
