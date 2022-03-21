@@ -22,7 +22,13 @@ Only the Windows Server Template has a Administrator user by default (Password `
 
 The templates all use a generic source builder ([generic.pkr.hcl](./generic.pkr.hcl)) that's driven by variables. The OS specific settings are only variables and preseed files.
 
-You need to set some variables via file (`-var-file=myvars.pkr.hcl`), cli (`-var variablename=value`), or environment (`PKR_VAR_variablename=value`):
+First initialize the proxmox packer plugin:
+
+```sh
+packer init config.pkr.hcl
+```
+
+To build packer templates you need to set some variables via file (`-var-file=myvars.pkr.hcl`), cli (`-var variablename=value`), or environment (`PKR_VAR_variablename=value`):
 - proxmox_host
 - proxmox_api_user
 - proxmox_api_password

@@ -42,4 +42,7 @@ jobs:
           PKR_VAR_iso_storage_pool: synology
           PKR_VAR_iso_download: "false"
           PKR_VAR_vmid: ${{ inputs.vm_id }}
-        run: cd ${{ inputs.name }} && packer build -var-file="main-vars.pkr.hcl" -only="${{ inputs.os_type }}.*" ../
+        run: |
+          cd ${{ inputs.name }}
+          packer init ../config.pkr.hcl
+          packer build -var-file="main-vars.pkr.hcl" -only="${{ inputs.os_type }}.*" ../
