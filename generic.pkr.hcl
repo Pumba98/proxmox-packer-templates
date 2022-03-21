@@ -3,9 +3,17 @@ source "proxmox" "vm" {
     for_each = var.additional_iso_files
     content {
       device           = additional_iso_files.value.device
-      iso_file         = length(additional_iso_files.value.iso_file) > 0 ? "${var.iso_storage_pool}:iso/${additional_iso_files.value.iso_file}" : ""
+      iso_file         = "${var.iso_storage_pool}:iso/${additional_iso_files.value.iso_file}"
       iso_storage_pool = var.iso_storage_pool
-      cd_files         = additional_iso_files.value.cd_files
+      unmount          = true
+    }
+  }
+  dynamic "additional_iso_files" {
+    for_each = var.additional_cd_files
+    content {
+      device           = additional_iso_files.value.device
+      iso_storage_pool = var.iso_storage_pool
+      cd_files         = additional_iso_files.value.files
       unmount          = true
     }
   }

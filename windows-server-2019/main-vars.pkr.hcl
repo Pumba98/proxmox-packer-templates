@@ -5,14 +5,14 @@ iso_checksum   = ""
 disk_size     = "20G"
 additional_iso_files = [
   {
-    device       = "sata3"
-    iso_file     = ""
-    cd_files     = ["./setup/*"]
-  },
-  {
     device       = "sata4"
     iso_file     = "virtio-win-0.1.185.iso"
-    cd_files     = []
+  }
+]
+additional_cd_files = [
+  {
+    device       = "sata3"
+    files     = ["./setup/*"]
   }
 ]
 communicator   = "winrm"

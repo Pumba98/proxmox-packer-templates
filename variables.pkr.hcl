@@ -189,9 +189,16 @@ variable "http_directory" {
 
 variable "additional_iso_files" {
   type = list(object({
-    device       = string
-    iso_file     = string
-    cd_files     = list(string)
+    device   = string
+    iso_file = string
+  }))
+  default = []
+}
+
+variable "additional_cd_files" {
+  type = list(object({
+    device = string
+    files  = list(string)
   }))
   default = []
 }
