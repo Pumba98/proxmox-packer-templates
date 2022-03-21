@@ -29,6 +29,8 @@ jobs:
         uses: hashicorp-contrib/setup-packer@v1
         with:
           packer-version: 1.7.10
+      - name: Install mkisofs
+        run: sudo apt update && sudo apt install -y mkisofs
       - name: Build image from template
         env:
           PKR_VAR_proxmox_host: ${{ secrets.proxmox_host }}
