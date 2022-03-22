@@ -1,7 +1,8 @@
-template_name = "debian-10-template"
-iso_file      = "debian-10.10.0-amd64-netinst.iso"
-iso_url       = "https://cdimage.debian.org/mirror/cdimage/archive/10.10.0/amd64/iso-cd/debian-10.10.0-amd64-netinst.iso"
-iso_checksum  = "c433254a7c5b5b9e6a05f9e1379a0bd6ab3323f89b56537b684b6d1bd1f8b6ad"
+template_name  = "debian-11-template"
+iso_file       = "debian-11.0.0-amd64-netinst.iso"
+iso_url        = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.0.0-amd64-netinst.iso"
+iso_checksum   = "ae6d563d2444665316901fe7091059ac34b8f67ba30f9159f7cef7d2fdc5bf8a"
+http_directory = "./http/debian-11"
 boot_command = [
   "<esc><wait>",
   "install ",
@@ -25,3 +26,4 @@ boot_command = [
 provisioner = [
   "userdel --remove --force packer"
 ]
+

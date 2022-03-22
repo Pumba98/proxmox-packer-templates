@@ -12,7 +12,7 @@ additional_iso_files = [
 additional_cd_files = [
   {
     device       = "sata3"
-    files     = ["./setup/*"]
+    files     = ["./http/windows-server-2019/*"]
   }
 ]
 communicator   = "winrm"
