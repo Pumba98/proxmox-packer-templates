@@ -32,7 +32,7 @@ packer init config.pkr.hcl
 
 The templates all use a generic source builder ([generic.pkr.hcl](./generic.pkr.hcl)) that's driven by variables. The OS specific settings are only variables and preseed files.
 
-To build packer templates you need to set some variables via file (`-var-file=myvars.pkr.hcl`), cli (`-var variablename=value`), or environment (`PKR_VAR_variablename=value`):
+To build packer templates you need to set some variables via file (`-var-file=my.pkrvars.hcl`), cli (`-var variablename=value`), or environment (`PKR_VAR_variablename=value`):
 - proxmox_host
 - proxmox_api_user
 - proxmox_api_password
@@ -55,13 +55,13 @@ See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 To build a template (e.g. `debian-11`) run:
 
 ```sh
-packer build -var-file="debian-11.pkr.hcl" -only="linux.*" .
+packer build -var-file="debian-11.pkrvars.hcl" -only="linux.*" .
 ```
 
 For windows:
 
 ```sh
-packer build -var-file="windows-server-2019.pkr.hcl" -only="windows.*" .
+packer build -var-file="windows-server-2019.pkrvars.hcl" -only="windows.*" .
 ```
 
 The Windows template requires a `win-server-2019_x64FRE_en-us.iso` and [virtio-win-0.1.185.iso](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.185-2/virtio-win-0.1.185.iso) in your iso storage.
