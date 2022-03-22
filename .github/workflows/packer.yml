@@ -45,6 +45,5 @@ jobs:
           PKR_VAR_iso_download: "false"
           PKR_VAR_vmid: ${{ inputs.vm_id }}
         run: |
-          cd ${{ inputs.name }}
-          packer init ../config.pkr.hcl
-          packer build -var-file="main-vars.pkr.hcl" -only="${{ inputs.os_type }}.*" ../
+          packer init config.pkr.hcl
+          packer build -var-file="${{ inputs.name }}.pkr.hcl" -only="${{ inputs.os_type }}.*"

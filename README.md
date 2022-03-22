@@ -9,14 +9,14 @@ Only the Windows Server Template has a Administrator user by default (Password `
 
 ## Overview
 
-| OS                                            | Status                                                                                                                                                                                                                           |
-| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Ubnuntu 20.04](./ubuntu-20.04/)              | [![Ubuntu-20.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml)                      |
-| [Ubnuntu 18.04](./ubuntu-18.04/)              | [![Ubuntu-18.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml)                      |
-| [Debian 11](./debian-11/)                     | [![Debian-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml)                               |
-| [Debian 10](./debian-10/)                     | [![Debian-10](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml)                               |
-| [Alpine 3.15](./alpine-3.15/)                 | [![Alpine-3.15](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine-3.15.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine-3.15.yml)                         |
-| [Windows Server 2019](./windows-server-2019/) | [![Windows-Server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
+| OS                                                   | Status                                                                                                                                                                                                                           |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Ubnuntu 20.04](./ubuntu-20.04.pkr.hcl)              | [![ubuntu-20.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml)                      |
+| [Ubnuntu 18.04](./ubuntu-18.04.pkr.hcl)              | [![ubuntu-18.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml)                      |
+| [Debian 11](./debian-11.pkr.hcl)                     | [![debian-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml)                               |
+| [Debian 10](./debian-10.pkr.hcl)                     | [![debian-10](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml)                               |
+| [Alpine 3.15](./alpine.pkr.hcl)                      | [![alpine](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml)                                   |
+| [Windows Server 2019](./windows-server-2019.pkr.hcl) | [![windows-server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
 
 ## How to build
 
@@ -52,16 +52,16 @@ See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 
 ### Build a template
 
-From **inside** a template directory (e.g. `debian-11`) run:
+To build a template (e.g. `debian-11`) run:
 
 ```sh
-packer build -var-file="main-vars.pkr.hcl" -only="linux.* ../
+packer build -var-file="debian-11.pkr.hcl" -only="linux.*
 ```
 
 For windows:
 
 ```sh
-packer build -var-file="main-vars.pkr.hcl" -only="windows.*" ../
+packer build -var-file="windows-server-2019.pkr.hcl" -only="windows.*"
 ```
 
 The Windows template requires a `win-server-2019_x64FRE_en-us.iso` and [virtio-win-0.1.185.iso](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.185-2/virtio-win-0.1.185.iso) in your iso storage.
