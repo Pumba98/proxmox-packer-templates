@@ -1,10 +1,10 @@
-name: Alpine-3
+name: Alpine-3.15
 on: [workflow_dispatch]
 jobs:
   build:
     uses: ./.github/workflows/packer.yml
     with:
-      name: alpine-3
+      name: alpine-3.15
       vm_id: 1004
     secrets:
       proxmox_host: ${{ secrets.proxmox_host }}

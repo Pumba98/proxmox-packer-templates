@@ -1,8 +1,8 @@
 template_name  = "debian-11-template"
-iso_file       = "debian-11.0.0-amd64-netinst.iso"
-iso_url        = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.0.0-amd64-netinst.iso"
-iso_checksum   = "ae6d563d2444665316901fe7091059ac34b8f67ba30f9159f7cef7d2fdc5bf8a"
-http_directory = "./http/debian-11"
+iso_file       = "debian-11.1.0-amd64-netinst.iso"
+iso_url        = "https://cdimage.debian.org/mirror/cdimage/archive/11.1.0/amd64/iso-cd/debian-11.1.0-amd64-netinst.iso"
+iso_checksum   = "8488abc1361590ee7a3c9b00ec059b29dfb1da40f8ba4adf293c7a30fa943eb2"
+http_directory = "./http/debian"
 boot_command = [
   "<esc><wait>",
   "install ",
