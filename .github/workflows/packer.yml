@@ -42,7 +42,7 @@ jobs:
           PKR_VAR_datastore: synology
           PKR_VAR_cloud_init_storage_pool: synology
           PKR_VAR_iso_storage_pool: synology
-          PKR_VAR_iso_download: "false"
+          PKR_VAR_iso_download: "true"
           PKR_VAR_vmid: ${{ inputs.vm_id }}
         run: |
           packer init config.pkr.hcl
