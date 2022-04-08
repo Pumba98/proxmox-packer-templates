@@ -36,12 +36,8 @@ jobs:
           PKR_VAR_proxmox_host: ${{ secrets.proxmox_host }}
           PKR_VAR_proxmox_api_user: ${{ secrets.proxmox_user }}
           PKR_VAR_proxmox_api_password: ${{ secrets.proxmox_password }}
-          PKR_VAR_proxmox_node_name: nuc8i5beh
+          PKR_VAR_proxmox_node_name: proxmox
           PKR_VAR_proxmox_pool: Templates
-          PKR_VAR_datastore_type: nfs
-          PKR_VAR_datastore: synology
-          PKR_VAR_cloud_init_storage_pool: synology
-          PKR_VAR_iso_storage_pool: synology
           PKR_VAR_iso_download: "true"
           PKR_VAR_vmid: ${{ inputs.vm_id }}
         run: |
