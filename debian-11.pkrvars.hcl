@@ -1,4 +1,4 @@
-template_name  = "debian-11-template"
+name           = "debian-11-template"
 iso_file       = "debian-11.1.0-amd64-netinst.iso"
 iso_url        = "https://cdimage.debian.org/mirror/cdimage/archive/11.1.0/amd64/iso-cd/debian-11.1.0-amd64-netinst.iso"
 iso_checksum   = "8488abc1361590ee7a3c9b00ec059b29dfb1da40f8ba4adf293c7a30fa943eb2"
