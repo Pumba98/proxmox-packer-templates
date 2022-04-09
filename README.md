@@ -15,7 +15,7 @@ Only the Windows Server Template has a Administrator user by default (Password `
 | [Ubnuntu 18.04](./ubuntu-18.04.pkr.hcl)              | [![ubuntu-18.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml)                      |
 | [Debian 11](./debian-11.pkr.hcl)                     | [![debian-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml)                               |
 | [Debian 10](./debian-10.pkr.hcl)                     | [![debian-10](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml)                               |
-| [Alpine 3.15](./alpine.pkr.hcl)                      | [![alpine](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml)                                   |
+| [Alpine 3.15](./alpine.pkr.hcl)                      | [![alpine](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml)                                        |
 | [Windows Server 2019](./windows-server-2019.pkr.hcl) | [![windows-server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
 
 ## How to build
@@ -34,16 +34,16 @@ The templates all use a generic source builder ([generic.pkr.hcl](./generic.pkr.
 
 To build packer templates you need to set some variables via file (`-var-file=my.pkrvars.hcl`), cli (`-var variablename=value`), or environment (`PKR_VAR_variablename=value`):
 - proxmox_host
-- proxmox_api_user
-- proxmox_api_password
-- proxmox_node_name
+- proxmox_user
+- proxmox_password
+- node
 - vmid
 
 Other interesting variables are:
-- proxmox_pool
+- pool
 - proxmox_insecure_tls
-- datastore
-- datastore_type
+- disk_storage_pool
+- disk_storage_pool_type
 - iso_storage_pool
 - cloud_init_storage_pool
 - iso_download

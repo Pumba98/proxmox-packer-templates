@@ -34,10 +34,10 @@ jobs:
       - name: Build image from template
         env:
           PKR_VAR_proxmox_host: ${{ secrets.proxmox_host }}
-          PKR_VAR_proxmox_api_user: ${{ secrets.proxmox_user }}
-          PKR_VAR_proxmox_api_password: ${{ secrets.proxmox_password }}
-          PKR_VAR_proxmox_node_name: proxmox
-          PKR_VAR_proxmox_pool: Templates
+          PKR_VAR_proxmox_user: ${{ secrets.proxmox_user }}
+          PKR_VAR_proxmox_password: ${{ secrets.proxmox_password }}
+          PKR_VAR_node: proxmox
+          PKR_VAR_pool: Templates
           PKR_VAR_iso_download: "true"
           PKR_VAR_vmid: ${{ inputs.vm_id }}
           PACKER_KEY_INTERVAL: 100ms
