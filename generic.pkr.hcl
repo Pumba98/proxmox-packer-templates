@@ -74,15 +74,10 @@ source "proxmox" "vm" {
   cloud_init              = var.cloud_init
   cloud_init_storage_pool = var.cloud_init_storage_pool
 
-  boot         = "order=${var.disk_type}0;ide2;net0"
-  boot_command = var.boot_command
-  boot_wait    = var.boot_wait
-
-  http_bind_address = var.bind_address
-  http_directory    = var.http_directory
-  http_port_max     = var.bind_max_port
-  http_port_min     = var.bind_min_port
-
+  boot           = "order=${var.disk_type}0;ide2;net0"
+  boot_command   = var.boot_command
+  boot_wait      = var.boot_wait
+  http_directory = var.http_directory
   communicator   = var.communicator
   ssh_username   = var.ssh_username
   ssh_password   = var.ssh_password

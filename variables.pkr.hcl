@@ -264,24 +264,6 @@ variable "http_directory" {
   default     = "./http"
 }
 
-variable "bind_address" {
-  description = "The bind address for the HTTP server."
-  type        = string
-  default     = "0.0.0.0"
-}
-
-variable "bind_min_port" {
-  description = "The minimum port for the HTTP server."
-  type        = number
-  default     = 8000
-}
-
-variable "bind_max_port" {
-  description = "The maximum port for the HTTP server."
-  type        = number
-  default     = 9000
-}
-
 variable "communicator" {
   description = "The packer communicator to use"
   type        = string
