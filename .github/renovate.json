@@ -2,15 +2,15 @@
   "extends": [
     "config:base"
   ],
-  "regexManagers": [
-    {
-      "fileMatch": [
-        "config.pkr.hcl"
-      ],
-      "matchStrings": [
-        "githubReleaseVar repo=(?<depName>.*?)\n *version = \"(?<currentValue>.*)\"\n"
-      ],
-      "datasourceTemplate": "github-releases"
-    }
+  "regexManagers":[
+      {
+        "fileMatch":[
+          "config.pkr.hcl"
+        ],
+        "matchStrings":[
+          "githubReleaseVar repo=(?<depName>.*?)\n *version = \"(?<currentValue>.*)\"\n"
+        ],
+        "datasourceTemplate":"github-releases"
+      }
   ]
 }
