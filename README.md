@@ -1,6 +1,6 @@
 # Packer Templates for Proxmox
 
-**Requires Packer 1.7.4+ with Proxmox 6.2-15**
+**Tested with Packer 1.8 and with Proxmox 7.1-12**
 
 Build VM Templates with Packer for Proxmox. The generated templates are meant to be used with cloud-init, they come without a User or root login.  
 Only the Windows Server Template has a Administrator user by default (Password `packer`). It's ready for Ansible setup via winrm.
@@ -11,12 +11,12 @@ Only the Windows Server Template has a Administrator user by default (Password `
 
 | OS                                                   | Status                                                                                                                                                                                                                           |
 | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Ubnuntu 20.04](./ubuntu-20.04.pkr.hcl)              | [![ubuntu-20.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml)                      |
-| [Ubnuntu 18.04](./ubuntu-18.04.pkr.hcl)              | [![ubuntu-18.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml)                      |
-| [Debian 11](./debian-11.pkr.hcl)                     | [![debian-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml)                               |
-| [Debian 10](./debian-10.pkr.hcl)                     | [![debian-10](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml)                               |
-| [Alpine 3.15](./alpine.pkr.hcl)                      | [![alpine](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml)                                        |
-| [Windows Server 2019](./windows-server-2019.pkr.hcl) | [![windows-server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
+| [Ubnuntu 20.04](./ubuntu-20.04.pkrvars.hcl)              | [![ubuntu-20.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml)                      |
+| [Ubnuntu 18.04](./ubuntu-18.04.pkrvars.hcl)              | [![ubuntu-18.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml)                      |
+| [Debian 11](./debian-11.pkrvars.hcl)                     | [![debian-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml)                               |
+| [Debian 10](./debian-10.pkrvars.hcl)                     | [![debian-10](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml)                               |
+| [Alpine 3.15](./alpine-3.15.pkrvars.hcl)                      | [![alpine](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml)                                        |
+| [Windows Server 2019](./windows-server-2019.pkrvars.hcl) | [![windows-server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
 
 ## How to build
 
