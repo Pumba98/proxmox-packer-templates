@@ -2,7 +2,7 @@ packer {
   required_plugins {
     proxmox = {
       # renovate: githubReleaseVar repo=hashicorp/packer-plugin-proxmox
-      version = "v1.0.6"
+      version = "v1.0.7"
       source  = "github.com/hashicorp/proxmox"
     }
   }
