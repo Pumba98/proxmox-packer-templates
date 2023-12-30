@@ -1,0 +1,12 @@
+name: Ubuntu-22.04
+on: [workflow_dispatch]
+jobs:
+  build:
+    uses: ./.github/workflows/packer.yml
+    with:
+      name: ubuntu-22.04
+      vm_id: 1007
+    secrets:
+      proxmox_host: ${{ secrets.proxmox_host }}
+      proxmox_user: ${{ secrets.proxmox_user }}
+      proxmox_password: ${{ secrets.proxmox_password }}

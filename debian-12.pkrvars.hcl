@@ -1,5 +1,5 @@
 name           = "debian-12-template"
-iso_file       = "debian-12.1.0-amd64-netinst.iso"
+iso_file       = "debian-12.2.0-amd64-netinst.iso"
 iso_url        = "https://cdimage.debian.org/mirror/cdimage/archive/12.2.0/amd64/iso-cd/debian-12.2.0-amd64-netinst.iso"
 iso_checksum   = "23ab444503069d9ef681e3028016250289a33cc7bab079259b73100daee0af66"
 http_directory = "./http/debian"
