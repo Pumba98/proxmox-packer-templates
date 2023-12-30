@@ -9,13 +9,14 @@ Only the Windows Server Template has a Administrator user by default (Password `
 
 ## Overview
 
-| OS                                                   | Status                                                                                                                                                                                                                           |
-| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OS                                                       | Status                                                                                                                                                                                                                           |
+| -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Ubnuntu 20.04](./ubuntu-20.04.pkrvars.hcl)              | [![ubuntu-20.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-20.04.yml)                      |
 | [Ubnuntu 18.04](./ubuntu-18.04.pkrvars.hcl)              | [![ubuntu-18.04](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/ubuntu-18.04.yml)                      |
+| [Debian 12](./debian-12.pkrvars.hcl)                     | [![debian-12](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-12.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-12.yml)                               |
 | [Debian 11](./debian-11.pkrvars.hcl)                     | [![debian-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-11.yml)                               |
 | [Debian 10](./debian-10.pkrvars.hcl)                     | [![debian-10](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/debian-10.yml)                               |
-| [Alpine 3.15](./alpine-3.15.pkrvars.hcl)                      | [![alpine](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml)                                        |
+| [Alpine 3.15](./alpine.pkrvars.hcl)                      | [![alpine](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine.yml)                                        |
 | [Windows Server 2019](./windows-server-2019.pkrvars.hcl) | [![windows-server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
 
 ## How to build
