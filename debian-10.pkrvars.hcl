@@ -1,5 +1,6 @@
 name           = "debian-10-template"
 iso_file       = "debian-10.11.0-amd64-netinst.iso"
+# renovate: datasource=debianLinuxRelease depName=debian-10
 iso_url        = "https://cdimage.debian.org/mirror/cdimage/archive/10.11.0/amd64/iso-cd/debian-10.11.0-amd64-netinst.iso"
 iso_checksum   = "133430141272d8bf96cfb10b6bfd1c945f5a59ea0efc2bcb56d1033c7f2866ea"
 http_directory = "./http/debian"
