@@ -1,4 +1,4 @@
-source "proxmox" "vm" {
+source "proxmox-iso" "vm" {
   proxmox_url              = "https://${var.proxmox_host}/api2/json"
   username                 = var.proxmox_user
   password                 = var.proxmox_password
@@ -18,7 +18,6 @@ source "proxmox" "vm" {
 
   disks {
     storage_pool      = var.disk_storage_pool
-    storage_pool_type = var.disk_storage_pool_type
     disk_size         = var.disk_size
     format            = var.disk_format
     type              = var.disk_type
@@ -90,7 +89,7 @@ source "proxmox" "vm" {
 
 build {
   name    = "linux"
-  sources = ["source.proxmox.vm"]
+  sources = ["source.proxmox-iso.vm"]
 
   provisioner "shell" {
     execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
@@ -101,5 +100,5 @@ build {
 
 build {
   name    = "windows"
-  sources = ["source.proxmox.vm"]
+  sources = ["source.proxmox-iso.vm"]
 }

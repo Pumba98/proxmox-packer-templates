@@ -45,7 +45,6 @@ Other interesting variables are:
 - pool
 - proxmox_insecure_tls
 - disk_storage_pool
-- disk_storage_pool_type
 - iso_storage_pool
 - cloud_init_storage_pool
 - iso_download

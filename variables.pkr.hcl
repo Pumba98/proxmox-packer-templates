@@ -178,12 +178,6 @@ variable "proxmox_insecure_tls" {
   default     = false
 }
 
-variable "disk_storage_pool_type" {
-  description = "The type of pool that disk_storage_pool is backed by."
-  type        = string
-  default     = "directory"
-}
-
 variable "iso_download" {
   description = "Wether to download from iso_url or use the existing iso_file in the iso_storage_pool."
   type        = bool
