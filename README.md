@@ -64,5 +64,3 @@ For windows:
 ```sh
 packer build -var-file="windows-server-2019.pkrvars.hcl" -only="windows.*" .
 ```
-
-The Windows template requires a `win-server-2019_x64FRE_en-us.iso` and [virtio-win-0.1.185.iso](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.185-2/virtio-win-0.1.185.iso) in your iso storage.

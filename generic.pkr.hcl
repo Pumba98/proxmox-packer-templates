@@ -54,8 +54,11 @@ source "proxmox-iso" "vm" {
     for_each = var.additional_iso_files
     content {
       device           = additional_iso_files.value.device
-      iso_file         = "${var.iso_storage_pool}:iso/${additional_iso_files.value.iso_file}"
+      iso_file         = var.iso_download ? "" : "${var.iso_storage_pool}:iso/${additional_iso_files.value.iso_file}"
       iso_storage_pool = var.iso_storage_pool
+      iso_url          = var.iso_download ? additional_iso_files.value.iso_url : ""
+      iso_checksum     = additional_iso_files.value.iso_checksum
+      iso_download_pve = var.iso_download_pve
       unmount          = var.iso_unmount
     }
   }
