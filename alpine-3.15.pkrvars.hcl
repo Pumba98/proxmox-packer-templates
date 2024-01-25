@@ -2,7 +2,7 @@
 name           = "alpine-3.15-template"
 iso_file       = "alpine-virt-3.15.1-x86_64.iso"
 iso_url        = "https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-virt-3.15.1-x86_64.iso"
-iso_checksum   = "https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-virt-3.15.1-x86_64.iso.sha256"
+iso_checksum   = "file:https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-virt-3.15.1-x86_64.iso.sha256"
 http_directory = "./http/alpine"
 boot_command = [
   "root<enter><wait>",
