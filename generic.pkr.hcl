@@ -48,6 +48,7 @@ source "proxmox" "vm" {
   iso_storage_pool = var.iso_storage_pool
   iso_url          = var.iso_download ? var.iso_url : ""
   iso_checksum     = var.iso_checksum
+  iso_download_pve = var.iso_download_pve
   unmount_iso      = var.iso_unmount
 
   dynamic "additional_iso_files" {

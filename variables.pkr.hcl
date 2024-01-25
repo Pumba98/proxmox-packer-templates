@@ -190,6 +190,12 @@ variable "iso_download" {
   default     = true
 }
 
+variable "iso_download_pve" {
+  description = "Download the specified `iso_url` directly from the PVE node."
+  type        = bool
+  default     = true
+}
+
 variable "iso_url" {
   description = "URL to the iso file."
   type        = string
