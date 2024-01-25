@@ -13,12 +13,36 @@
           "githubReleaseVar repo=(?<depName>.*?)\n .*version: (?<currentValue>.*)\n"
         ],
         "datasourceTemplate":"github-releases"
+      },
+      {
+        "fileMatch":[
+          ".pkrvars.hcl"
+        ],
+        "matchStrings":[
+          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"debian-(?<currentValue>.*?)-amd64-netinst.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/amd64\/iso-cd\/debian-(.*)-amd64-netinst.iso\""
+        ],
+        "datasourceTemplate": "{{ datasource }}"
       }
   ],
   "packageRules": [
     {
       "matchPackageNames": ["hashicorp/packer"],
       "extractVersion": "^v(?<version>.*)$"
+    },
+    {
+      "matchDatasources": ["custom.debianLinuxRelease"],
+      "extractVersion": "^(?<version>\\d+.\\d+.\\d+)/$"
+    },
+    {
+      "matchDatasources": ["custom.debianLinuxRelease"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
-  ]
+  ],
+  "customDatasources": {
+    "debianLinuxRelease": {
+      "defaultRegistryUrlTemplate": "https://cdimage.debian.org/mirror/cdimage/archive/",
+      "format": "html"
+    }
+  }
 }
