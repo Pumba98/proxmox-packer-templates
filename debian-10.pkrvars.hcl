@@ -1,8 +1,8 @@
 # renovate: datasource=custom.debianLinuxRelease
 name           = "debian-10-template"
-iso_file       = "debian-10.11.0-amd64-netinst.iso"
-iso_url        = "https://cdimage.debian.org/mirror/cdimage/archive/10.11.0/amd64/iso-cd/debian-10.11.0-amd64-netinst.iso"
-iso_checksum   = "file:https://cdimage.debian.org/mirror/cdimage/archive/10.11.0/amd64/iso-cd/SHA256SUMS"
+iso_file       = "debian-10.13.0-amd64-netinst.iso"
+iso_url        = "https://cdimage.debian.org/mirror/cdimage/archive/10.13.0/amd64/iso-cd/debian-10.13.0-amd64-netinst.iso"
+iso_checksum   = "file:https://cdimage.debian.org/mirror/cdimage/archive/10.13.0/amd64/iso-cd/SHA256SUMS"
 http_directory = "./http/debian"
 boot_command = [
   "<esc><wait>",
