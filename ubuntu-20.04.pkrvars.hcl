@@ -1,7 +1,8 @@
+# renovate: datasource=custom.ubuntuLinuxRelease
 name           = "ubuntu-20.04-template"
 iso_file       = "ubuntu-20.04.3-live-server-amd64.iso"
 iso_url        = "https://old-releases.ubuntu.com/releases/20.04/ubuntu-20.04.3-live-server-amd64.iso"
-iso_checksum   = "f8e3086f3cea0fb3fefb29937ab5ed9d19e767079633960ccb50e76153effc98"
+iso_checksum   = "file:https://old-releases.ubuntu.com/releases/20.04/SHA256SUMS"
 http_directory = "./http/ubuntu"
 boot_wait      = "5s"
 boot_command = [

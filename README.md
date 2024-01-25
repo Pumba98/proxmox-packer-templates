@@ -1,6 +1,6 @@
 # Packer Templates for Proxmox
 
-**Tested with Packer 1.8 and with Proxmox 7.1-12**
+**Tested with Packer 1.10 and with Proxmox 8.1.4**
 
 Build VM Templates with Packer for Proxmox. The generated templates are meant to be used with cloud-init, they come without a User or root login.  
 Only the Windows Server Template has a Administrator user by default (Password `packer`). It's ready for Ansible setup via winrm.

@@ -1,7 +1,8 @@
+# renovate: datasource=custom.ubuntuLinuxRelease
 name           = "ubuntu-18.04-template"
 iso_file       = "ubuntu-18.04.5-server-amd64.iso"
 iso_url        = "https://old-releases.ubuntu.com/releases/18.04/ubuntu-18.04.5-server-amd64.iso"
-iso_checksum   = "8c5fc24894394035402f66f3824beb7234b757dd2b5531379cb310cedfdf0996"
+iso_checksum   = "file:https://old-releases.ubuntu.com/releases/18.04/SHA256SUMS"
 http_directory = "./http/ubuntu-18.04"
 boot_command = [
   "<esc><wait>",

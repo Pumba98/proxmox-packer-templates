@@ -19,7 +19,9 @@
           ".pkrvars.hcl"
         ],
         "matchStrings":[
-          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"debian-(?<currentValue>.*?)-amd64-netinst.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/amd64\/iso-cd\/debian-(.*)-amd64-netinst.iso\"\niso_checksum *= \"file:.*/(.*)/amd64/iso-cd/SHA256SUMS\""
+          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"debian-(?<currentValue>.*?)-amd64-netinst.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/amd64\/iso-cd\/debian-(.*)-amd64-netinst.iso\"\niso_checksum *= \"file:.*\/(.*)\/amd64\/iso-cd\/SHA256SUMS\"",
+          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"ubuntu-(?<currentValue>.*?)-.*server-amd64.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/ubuntu-(.*)-.*server-amd64.iso\"",
+          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"alpine-virt-(?<currentValue>.*?)-x86_64.iso\"\niso_url *= \"(?<registryUrl>.*)\/alpine-virt-(.*)-x86_64.iso\"\niso_checksum *= \"file:.*\/(.*)\/alpine-virt-(.*)-x86_64.iso.sha256\""
         ],
         "datasourceTemplate": "{{ datasource }}"
       }
@@ -30,18 +32,35 @@
       "extractVersion": "^v(?<version>.*)$"
     },
     {
-      "matchDatasources": ["custom.debianLinuxRelease"],
+      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease"],
       "extractVersion": "^(?<version>\\d+.\\d+.\\d+)/$"
     },
     {
-      "matchDatasources": ["custom.debianLinuxRelease"],
+      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease"],
       "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "matchDatasources": ["custom.alpineLinuxRelease"],
+      "extractVersion": "^alpine-virt-(?<version>\\d+.\\d+.\\d+)-x86_64.iso$"
+    },
+    {
+      "matchDatasources": ["custom.alpineLinuxRelease" ],
+      "matchUpdateTypes": ["major", "minor"],
       "enabled": false
     }
   ],
   "customDatasources": {
     "debianLinuxRelease": {
       "defaultRegistryUrlTemplate": "https://cdimage.debian.org/mirror/cdimage/archive/",
+      "format": "html"
+    },
+    "ubuntuLinuxRelease": {
+      "defaultRegistryUrlTemplate": "https://old-releases.ubuntu.com/releases/",
+      "format": "html"
+    },
+    "alpineLinuxRelease": {
+      "defaultRegistryUrlTemplate": "https://dl-cdn.alpinelinux.org/alpine/",
       "format": "html"
     }
   }
