@@ -6,7 +6,7 @@
       {
         "fileMatch":[
           "config.pkr.hcl",
-          "*.yml"
+          ".yml"
         ],
         "matchStrings":[
           "githubReleaseVar repo=(?<depName>.*?)\n .*version = \"(?<currentValue>.*)\"\n",
@@ -16,10 +16,10 @@
       },
       {
         "fileMatch":[
-          "*.pkrvars.hcl"
+          ".pkrvars.hcl"
         ],
         "matchStrings":[
-          "datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\niso_url *= \"https:\/\/cdimage.debian.org\/mirror\/cdimage\/archive\/(?<currentValue>.*)\/amd64\/iso-cd\/debian-(?<currentValue>.*)-amd64-netinst.iso\""
+          "datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\niso_url *= \"https:\/\/cdimage.debian.org\/mirror\/cdimage\/archive\/(?<currentValue>.*)\/amd64\/iso-cd\/debian-(.*)-amd64-netinst.iso\""
         ],
         "datasourceTemplate": "{{ datasource }}"
       }
