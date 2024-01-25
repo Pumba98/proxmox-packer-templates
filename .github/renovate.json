@@ -28,6 +28,10 @@
     {
       "matchPackageNames": ["hashicorp/packer"],
       "extractVersion": "^v(?<version>.*)$"
+    },
+    {
+      "matchDatasources": ["custom.debianLinuxRelease"],
+      "extractVersion": "^(?<version>\\d+.\\d+.\\d+)/$"
     }
   ],
   "customDatasources": {
