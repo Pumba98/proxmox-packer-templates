@@ -1,5 +1,9 @@
 name: Windows-Server-2019
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['windows-server-2019.pkrvars.hcl']
 jobs:
   build:
     uses: ./.github/workflows/packer.yml

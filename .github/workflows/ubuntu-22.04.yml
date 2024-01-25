@@ -1,5 +1,9 @@
 name: Ubuntu-22.04
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['ubuntu-22.04.pkrvars.hcl']
 jobs:
   build:
     uses: ./.github/workflows/packer.yml

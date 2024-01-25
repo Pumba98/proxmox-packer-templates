@@ -1,5 +1,9 @@
 name: Alpine-3.15
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['alpine-3.15.pkrvars.hcl']
 jobs:
   build:
     uses: ./.github/workflows/packer.yml

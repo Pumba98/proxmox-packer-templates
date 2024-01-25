@@ -1,5 +1,9 @@
 name: Debian-10
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['debian-10.pkrvars.hcl']
 jobs:
   build:
     uses: ./.github/workflows/packer.yml

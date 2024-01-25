@@ -1,5 +1,9 @@
 name: Ubuntu-20.04
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['ubuntu-20.04.pkrvars.hcl']
 jobs:
   build:
     uses: ./.github/workflows/packer.yml
