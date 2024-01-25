@@ -5,12 +5,20 @@
   "regexManagers":[
       {
         "fileMatch":[
-          "config.pkr.hcl"
+          "config.pkr.hcl",
+          ".yml"
         ],
         "matchStrings":[
-          "githubReleaseVar repo=(?<depName>.*?)\n *version = \"(?<currentValue>.*)\"\n"
+          "githubReleaseVar repo=(?<depName>.*?)\n .*version = \"(?<currentValue>.*)\"\n",
+          "githubReleaseVar repo=(?<depName>.*?)\n .*version: (?<currentValue>.*)\n"
         ],
         "datasourceTemplate":"github-releases"
       }
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["hashicorp/packer"],
+      "extractVersion": "^v(?<version>.*)$"
+    }
   ]
 }
