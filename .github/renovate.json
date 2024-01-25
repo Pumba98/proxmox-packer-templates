@@ -19,7 +19,7 @@
           ".pkrvars.hcl"
         ],
         "matchStrings":[
-          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"debian-(?<currentValue>.*?)-amd64-netinst.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/amd64\/iso-cd\/debian-(.*)-amd64-netinst.iso\""
+          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"debian-(?<currentValue>.*?)-amd64-netinst.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/amd64\/iso-cd\/debian-(.*)-amd64-netinst.iso\"\niso_checksum *= \"file:.*/(.*)/amd64/iso-cd/SHA256SUMS\""
         ],
         "datasourceTemplate": "{{ datasource }}"
       }

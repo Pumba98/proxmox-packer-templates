@@ -2,7 +2,7 @@
 name           = "debian-11-template"
 iso_file       = "debian-11.8.0-amd64-netinst.iso"
 iso_url        = "https://cdimage.debian.org/mirror/cdimage/archive/11.8.0/amd64/iso-cd/debian-11.8.0-amd64-netinst.iso"
-iso_checksum   = ""
+iso_checksum   = "file:https://cdimage.debian.org/mirror/cdimage/archive/11.8.0/amd64/iso-cd/SHA256SUMS"
 http_directory = "./http/debian"
 boot_command = [
   "<esc><wait>",
