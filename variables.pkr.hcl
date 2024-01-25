@@ -193,7 +193,7 @@ variable "iso_download" {
 variable "iso_download_pve" {
   description = "Download the specified `iso_url` directly from the PVE node."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "iso_url" {
