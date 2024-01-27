@@ -1,16 +1,15 @@
-name: Windows-Server-2022
+name: Rocky-9
 on:
   workflow_dispatch:
   push:
     branches: [master]
-    paths: ['windows-server-2022.pkrvars.hcl']
+    paths: ['rocky-9.pkrvars.hcl']
 jobs:
   build:
     uses: ./.github/workflows/packer.yml
     with:
-      name: windows-server-2022
-      vm_id: 1008
-      os_type: windows
+      name: rocky-9
+      vm_id: 1009
     secrets:
       proxmox_host: ${{ secrets.proxmox_host }}
       proxmox_user: ${{ secrets.proxmox_user }}
