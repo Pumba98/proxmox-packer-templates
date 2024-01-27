@@ -2,7 +2,7 @@ name: Rocky-9
 on:
   workflow_dispatch:
   push:
-    # branches: [master]
+    branches: [master]
     paths: ['rocky-9.pkrvars.hcl']
 jobs:
   build:
