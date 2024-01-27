@@ -37,11 +37,11 @@
       "extractVersion": "^v(?<version>.*)$"
     },
     {
-      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease", "custom.rockyLinuxRelease"],
+      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease"],
       "extractVersion": "^(?<version>\\d+.\\d+.\\d+)/$"
     },
     {
-      "matchDatasources": ["custom.rockyLinuxRelease"],
+      "matchDatasources": ["custom.rockyLinuxRelease", "custom.almaLinuxRelease"],
       "extractVersion": "^(?<version>\\d+.\\d+)/$"
     },
     {
@@ -53,7 +53,7 @@
       "versioning": "ubuntu"
     },
     {
-      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease", "custom.rockyLinuxRelease"],
+      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease", "custom.rockyLinuxRelease", "custom.almaLinuxRelease"],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },
@@ -78,6 +78,10 @@
     },
     "rockyLinuxRelease": {
       "defaultRegistryUrlTemplate": "https://download.rockylinux.org/pub/rocky/",
+      "format": "html"
+    },
+    "almaLinuxRelease": {
+      "defaultRegistryUrlTemplate": "https://repo.almalinux.org/almalinux/",
       "format": "html"
     }
   }
