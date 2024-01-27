@@ -6,7 +6,5 @@ http_directory = "./http/rocky"
 boot_wait      = "5s"
 boot_command = ["<tab> text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"]
 provisioner = [
-  "cloud-init clean",
-  "rm /etc/cloud/cloud.cfg.d/*",
   "userdel --remove --force packer"
 ]
