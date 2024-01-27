@@ -6,7 +6,7 @@
       {
         "fileMatch":[
           "config.pkr.hcl",
-          ".yml"
+          ".yml",
         ],
         "matchStrings":[
           "githubReleaseVar repo=(?<depName>.*?)\n .*version = \"(?<currentValue>.*)\"\n",
@@ -16,12 +16,15 @@
       },
       {
         "fileMatch":[
-          ".pkrvars.hcl"
+          ".pkrvars.hcl",
+          ".cfg"
         ],
         "matchStrings":[
           "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"debian-(?<currentValue>.*?)-amd64-netinst.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/amd64\/iso-cd\/debian-(.*)-amd64-netinst.iso\"\niso_checksum *= \"file:.*\/amd64\/iso-cd\/SHA256SUMS\"",
           "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"ubuntu-(?<currentValue>.*?)-.*server-amd64.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/ubuntu-(.*)-.*server-amd64.iso\"",
-          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"alpine-virt-(?<currentValue>.*?)-x86_64.iso\"\niso_url *= \"(?<registryUrl>.*)\/alpine-virt-(.*)-x86_64.iso\"\niso_checksum *= \"file:.*\/alpine-virt-(.*)-x86_64.iso.sha256\""
+          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"alpine-virt-(?<currentValue>.*?)-x86_64.iso\"\niso_url *= \"(?<registryUrl>.*)\/alpine-virt-(.*)-x86_64.iso\"\niso_checksum *= \"file:.*\/alpine-virt-(.*)-x86_64.iso.sha256\"",
+          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"Rocky-(?<currentValue>.*?)-x86_64-minimal.iso\"\niso_url *= \"(?<registryUrl>.*)\/(.*)\/isos\/x86_64\/Rocky-(.*)-x86_64-minimal.iso\"\niso_checksum *= \"file:.*\/(.*)\/isos\/x86_64\/CHECKSUM\"",
+          "datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\nrepo --name=\"AppStream\" --baseurl=http:\/\/download.rockylinux.org\/pub\/rocky\/(?<currentValue>.*?)\/AppStream\/x86_64\/os\/"
         ],
         "datasourceTemplate": "{{ datasource }}"
       }
@@ -32,21 +35,25 @@
       "extractVersion": "^v(?<version>.*)$"
     },
     {
-      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease"],
+      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease", "custom.rockyLinuxRelease"],
       "extractVersion": "^(?<version>\\d+.\\d+.\\d+)/$"
     },
     {
-      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
+      "matchDatasources": ["custom.rockyLinuxRelease"],
+      "extractVersion": "^(?<version>\\d+.\\d+)/$"
+    },
+    {
+      "matchDatasources": ["custom.alpineLinuxRelease"],
+      "extractVersion": "^alpine-virt-(?<version>\\d+.\\d+.\\d+)-x86_64.iso$"
     },
     {
       "matchDatasources": ["custom.ubuntuLinuxRelease"],
       "versioning": "ubuntu"
     },
     {
-      "matchDatasources": ["custom.alpineLinuxRelease"],
-      "extractVersion": "^alpine-virt-(?<version>\\d+.\\d+.\\d+)-x86_64.iso$"
+      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease", "custom.rockyLinuxRelease"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     },
     {
       "matchDatasources": ["custom.alpineLinuxRelease" ],
@@ -65,6 +72,10 @@
     },
     "alpineLinuxRelease": {
       "defaultRegistryUrlTemplate": "https://dl-cdn.alpinelinux.org/alpine/",
+      "format": "html"
+    },
+    "rockyLinuxRelease": {
+      "defaultRegistryUrlTemplate": "https://download.rockylinux.org/pub/rocky/",
       "format": "html"
     }
   }
