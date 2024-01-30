@@ -29,7 +29,7 @@ jobs:
         uses: hashicorp-contrib/setup-packer@v3
         with:
           # renovate: githubReleaseVar repo=hashicorp/packer
-          packer-version: 1.10.0
+          packer-version: 1.10.1
       - name: Install mkisofs
         run: sudo apt update && sudo apt install -y mkisofs
       - name: Build image from template
