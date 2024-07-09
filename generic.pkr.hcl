@@ -79,6 +79,7 @@ source "proxmox-iso" "vm" {
   boot           = "order=${var.disk_type}0;ide2;net0"
   boot_command   = var.boot_command
   boot_wait      = var.boot_wait
+  task_timeout   = var.task_timeout
   http_directory = var.http_directory
   communicator   = var.communicator
   ssh_username   = var.ssh_username

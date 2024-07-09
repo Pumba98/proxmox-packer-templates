@@ -260,6 +260,12 @@ variable "boot_wait" {
   default     = "10s"
 }
 
+variable "task_timeout" {
+  description = "The timeout for Promox API operations, e.g. clones"
+  type        = string
+  default     = "2m"
+}
+
 variable "http_directory" {
   description = "Path to a directory to serve using an HTTP server."
   type        = string
