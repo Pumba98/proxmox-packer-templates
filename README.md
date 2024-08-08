@@ -23,7 +23,7 @@ Only the Windows Server Template has a Administrator user by default (Password `
 | [Alpine 3.19](./alpine-3.19.pkrvars.hcl)                 | [![alpine-3.19](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine-3.19.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/alpine-3.19.yml)                         |
 | [Windows Server 2019](./windows-server-2019.pkrvars.hcl) | [![windows-server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
 | [Windows Server 2022](./windows-server-2022.pkrvars.hcl) | [![windows-server-2022](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2022.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2022.yml) |
-
+| [Talos Linux](./talos.pkrvars.hcl) | [![talos](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml) |
 
 ## How to build
 

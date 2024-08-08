@@ -7,10 +7,12 @@
         "fileMatch":[
           "config.pkr.hcl",
           ".yml",
+          ".pkrvars.hcl"
         ],
         "matchStrings":[
           "githubReleaseVar repo=(?<depName>.*?)\n .*version = \"(?<currentValue>.*)\"\n",
-          "githubReleaseVar repo=(?<depName>.*?)\n .*version: (?<currentValue>.*)\n"
+          "githubReleaseVar repo=(?<depName>.*?)\n .*version: (?<currentValue>.*)\n",
+          "githubReleaseVar repo=(?<depName>.*?)\n .*SCHEMATIC\/(?<currentValue>.*)\/nocloud",
         ],
         "datasourceTemplate":"github-releases"
       },
