@@ -11,7 +11,7 @@ boot_command = [
 ]
 provisioner = [
     "curl -L http://$PACKER_HTTP_IP:$PACKER_HTTP_PORT/schematic.yaml -o schematic.yaml",
-    "export SCHEMATIC=$(curl -L curl -X POST --data-binary @schematic.yaml https://factory.talos.dev/schematics)",
+    "export SCHEMATIC=$(curl -L -X POST --data-binary @schematic.yaml https://factory.talos.dev/schematics | jq -r '.id')",
     "curl -L https://factory.talos.dev/image/$SCHEMATIC/v1.7.5/nocloud-amd64.raw.xz -o /tmp/talos.raw.xz",
     "xz -d -c /tmp/talos.raw.xz | dd of=/dev/sda && sync"
 ]
