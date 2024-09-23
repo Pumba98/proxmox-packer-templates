@@ -19,11 +19,9 @@ on:
         required: true
       proxmox_password:
         required: true
-      NETBIRD_SETUP_KEY:
-        required: true
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,11 +32,6 @@ jobs:
           packer-version: 1.11.2
       - name: Install mkisofs
         run: sudo apt update && sudo apt install -y mkisofs
-      - name: Netbird Connect
-        id: netbird
-        uses: Alemiz112/netbird-connect@175ca0487002e6d4d96d16da5f4b91f639e8a765 #v1.0.1
-        with:
-          setup-key: ${{ secrets.NETBIRD_SETUP_KEY }}
       - name: Build image from template
         env:
           PKR_VAR_proxmox_host: ${{ secrets.proxmox_host }}
@@ -52,6 +45,3 @@ jobs:
         run: |
           packer init config.pkr.hcl
           packer build -var-file="${{ inputs.name }}.pkrvars.hcl" -only="${{ inputs.os_type }}.*" -force .
-      - name: Netbird Disconnect
-        shell: bash
-        run: sudo netbird down

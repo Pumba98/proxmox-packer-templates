@@ -14,4 +14,3 @@ jobs:
       proxmox_host: ${{ secrets.proxmox_host }}
       proxmox_user: ${{ secrets.proxmox_user }}
       proxmox_password: ${{ secrets.proxmox_password }}
-      NETBIRD_SETUP_KEY: ${{ secrets.NETBIRD_SETUP_KEY }}
