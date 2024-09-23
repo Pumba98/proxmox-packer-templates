@@ -19,6 +19,8 @@ on:
         required: true
       proxmox_password:
         required: true
+      NETBIRD_SETUP_KEY:
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
