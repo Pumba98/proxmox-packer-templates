@@ -1,90 +1,116 @@
 {
-  "extends": [
-    "config:base"
+  extends: [
+    'config:recommended',
   ],
-  "regexManagers":[
-      {
-        "fileMatch":[
-          "config.pkr.hcl",
-          ".yml",
-          ".pkrvars.hcl"
-        ],
-        "matchStrings":[
-          "githubReleaseVar repo=(?<depName>.*?)\n .*version = \"(?<currentValue>.*)\"\n",
-          "githubReleaseVar repo=(?<depName>.*?)\n .*version: (?<currentValue>.*)\n",
-          "githubReleaseVar repo=(?<depName>.*?)\n .*SCHEMATIC\/(?<currentValue>.*)\/nocloud",
-        ],
-        "datasourceTemplate":"github-releases"
-      },
-      {
-        "fileMatch":[
-          ".pkrvars.hcl",
-          ".cfg"
-        ],
-        "matchStrings":[
-          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"debian-(?<currentValue>.*?)-amd64-netinst.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/amd64\/iso-cd\/debian-(.*)-amd64-netinst.iso\"\niso_checksum *= \"file:.*\/amd64\/iso-cd\/SHA256SUMS\"",
-          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"ubuntu-(?<currentValue>.*?)-.*server-amd64.iso\"\niso_url *= \"(?<registryUrl>.*\/)(.*)\/ubuntu-(.*)-.*server-amd64.iso\"",
-          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"alpine-virt-(?<currentValue>.*?)-x86_64.iso\"\niso_url *= \"(?<registryUrl>.*)\/alpine-virt-(.*)-x86_64.iso\"\niso_checksum *= \"file:.*\/alpine-virt-(.*)-x86_64.iso.sha256\"",
-          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"Rocky-(?<currentValue>.*?)-x86_64-minimal.iso\"\niso_url *= \"(?<registryUrl>.*)\/(.*)\/isos\/x86_64\/Rocky-(.*)-x86_64-minimal.iso\"\niso_checksum *= \"file:.*\/(.*)\/isos\/x86_64\/CHECKSUM\"",
-          "datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\nrepo --name=\"AppStream\" --baseurl=http:\/\/download.rockylinux.org\/pub\/rocky\/(?<currentValue>.*?)\/AppStream\/x86_64\/os\/",
-          "datasource=(?<datasource>\\S+)\nname *= \"(?<depName>.*?)\"\niso_file *= \"AlmaLinux-(?<currentValue>.*?)-x86_64-minimal.iso\"\niso_url *= \"(?<registryUrl>.*)\/(.*)\/isos\/x86_64\/AlmaLinux-(.*)-x86_64-minimal.iso\"\niso_checksum *= \"file:.*\/(.*)\/isos\/x86_64\/CHECKSUM\"",
-          "datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\nrepo --name=\"AppStream\" --baseurl=http:\/\/repo.almalinux.org\/almalinux\/(?<currentValue>.*?)\/AppStream\/x86_64\/os\/"
-        ],
-        "datasourceTemplate": "{{ datasource }}"
-      }
+  customManagers: [
+    {
+      customType: 'regex',
+      fileMatch: [
+        'config.pkr.hcl',
+        '.yml',
+        '.pkrvars.hcl',
+      ],
+      matchStrings: [
+        'githubReleaseVar repo=(?<depName>.*?)\n .*version = "(?<currentValue>.*)"\n',
+        'githubReleaseVar repo=(?<depName>.*?)\n .*version: (?<currentValue>.*)\n',
+        'githubReleaseVar repo=(?<depName>.*?)\n .*SCHEMATIC/(?<currentValue>.*)/nocloud',
+      ],
+      datasourceTemplate: 'github-releases',
+    },
+    {
+      customType: 'regex',
+      fileMatch: [
+        '.pkrvars.hcl',
+        '.cfg',
+      ],
+      matchStrings: [
+        'datasource=(?<datasource>\\S+)\nname *= "(?<depName>.*?)"\niso_file *= "debian-(?<currentValue>.*?)-amd64-netinst.iso"\niso_url *= "(?<registryUrl>.*/)(.*)/amd64/iso-cd/debian-(.*)-amd64-netinst.iso"\niso_checksum *= "file:.*/amd64/iso-cd/SHA256SUMS"',
+        'datasource=(?<datasource>\\S+)\nname *= "(?<depName>.*?)"\niso_file *= "ubuntu-(?<currentValue>.*?)-.*server-amd64.iso"\niso_url *= "(?<registryUrl>.*/)(.*)/ubuntu-(.*)-.*server-amd64.iso"',
+        'datasource=(?<datasource>\\S+)\nname *= "(?<depName>.*?)"\niso_file *= "alpine-virt-(?<currentValue>.*?)-x86_64.iso"\niso_url *= "(?<registryUrl>.*)/alpine-virt-(.*)-x86_64.iso"\niso_checksum *= "file:.*/alpine-virt-(.*)-x86_64.iso.sha256"',
+        'datasource=(?<datasource>\\S+)\nname *= "(?<depName>.*?)"\niso_file *= "Rocky-(?<currentValue>.*?)-x86_64-minimal.iso"\niso_url *= "(?<registryUrl>.*)/(.*)/isos/x86_64/Rocky-(.*)-x86_64-minimal.iso"\niso_checksum *= "file:.*/(.*)/isos/x86_64/CHECKSUM"',
+        'datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\nrepo --name="AppStream" --baseurl=http://download.rockylinux.org/pub/rocky/(?<currentValue>.*?)/AppStream/x86_64/os/',
+        'datasource=(?<datasource>\\S+)\nname *= "(?<depName>.*?)"\niso_file *= "AlmaLinux-(?<currentValue>.*?)-x86_64-minimal.iso"\niso_url *= "(?<registryUrl>.*)/(.*)/isos/x86_64/AlmaLinux-(.*)-x86_64-minimal.iso"\niso_checksum *= "file:.*/(.*)/isos/x86_64/CHECKSUM"',
+        'datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\nrepo --name="AppStream" --baseurl=http://repo.almalinux.org/almalinux/(?<currentValue>.*?)/AppStream/x86_64/os/',
+      ],
+      datasourceTemplate: '{{ datasource }}',
+    },
   ],
-  "packageRules": [
+  packageRules: [
     {
-      "matchPackageNames": ["hashicorp/packer"],
-      "extractVersion": "^v(?<version>.*)$"
+      matchPackageNames: [
+        'hashicorp/packer',
+      ],
+      extractVersion: '^v(?<version>.*)$',
     },
     {
-      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease"],
-      "extractVersion": "^(?<version>\\d+.\\d+.\\d+)/$"
+      matchDatasources: [
+        'custom.debianLinuxRelease',
+        'custom.ubuntuLinuxRelease',
+      ],
+      extractVersion: '^(?<version>\\d+.\\d+.\\d+)/$',
     },
     {
-      "matchDatasources": ["custom.rockyLinuxRelease", "custom.almaLinuxRelease"],
-      "extractVersion": "^(?<version>\\d+.\\d+)/$"
+      matchDatasources: [
+        'custom.rockyLinuxRelease',
+        'custom.almaLinuxRelease',
+      ],
+      extractVersion: '^(?<version>\\d+.\\d+)/$',
     },
     {
-      "matchDatasources": ["custom.alpineLinuxRelease"],
-      "extractVersion": "^alpine-virt-(?<version>\\d+.\\d+.\\d+)-x86_64.iso$"
+      matchDatasources: [
+        'custom.alpineLinuxRelease',
+      ],
+      extractVersion: '^alpine-virt-(?<version>\\d+.\\d+.\\d+)-x86_64.iso$',
     },
     {
-      "matchDatasources": ["custom.ubuntuLinuxRelease"],
-      "versioning": "ubuntu"
+      matchDatasources: [
+        'custom.ubuntuLinuxRelease',
+      ],
+      versioning: 'ubuntu',
     },
     {
-      "matchDatasources": ["custom.debianLinuxRelease", "custom.ubuntuLinuxRelease", "custom.rockyLinuxRelease", "custom.almaLinuxRelease"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
+      matchDatasources: [
+        'custom.debianLinuxRelease',
+        'custom.ubuntuLinuxRelease',
+        'custom.rockyLinuxRelease',
+        'custom.almaLinuxRelease',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      enabled: false,
     },
     {
-      "matchDatasources": ["custom.alpineLinuxRelease" ],
-      "matchUpdateTypes": ["major", "minor"],
-      "enabled": false
-    }
+      matchDatasources: [
+        'custom.alpineLinuxRelease',
+      ],
+      matchUpdateTypes: [
+        'major',
+        'minor',
+      ],
+      enabled: false,
+    },
   ],
-  "customDatasources": {
-    "debianLinuxRelease": {
-      "defaultRegistryUrlTemplate": "https://cdimage.debian.org/mirror/cdimage/archive/",
-      "format": "html"
+  customDatasources: {
+    debianLinuxRelease: {
+      defaultRegistryUrlTemplate: 'https://cdimage.debian.org/mirror/cdimage/archive/',
+      format: 'html',
     },
-    "ubuntuLinuxRelease": {
-      "defaultRegistryUrlTemplate": "https://old-releases.ubuntu.com/releases/",
-      "format": "html"
+    ubuntuLinuxRelease: {
+      defaultRegistryUrlTemplate: 'https://old-releases.ubuntu.com/releases/',
+      format: 'html',
     },
-    "alpineLinuxRelease": {
-      "defaultRegistryUrlTemplate": "https://dl-cdn.alpinelinux.org/alpine/",
-      "format": "html"
+    alpineLinuxRelease: {
+      defaultRegistryUrlTemplate: 'https://dl-cdn.alpinelinux.org/alpine/',
+      format: 'html',
     },
-    "rockyLinuxRelease": {
-      "defaultRegistryUrlTemplate": "https://download.rockylinux.org/pub/rocky/",
-      "format": "html"
+    rockyLinuxRelease: {
+      defaultRegistryUrlTemplate: 'https://download.rockylinux.org/pub/rocky/',
+      format: 'html',
     },
-    "almaLinuxRelease": {
-      "defaultRegistryUrlTemplate": "https://repo.almalinux.org/almalinux/",
-      "format": "html"
-    }
-  }
+    almaLinuxRelease: {
+      defaultRegistryUrlTemplate: 'https://repo.almalinux.org/almalinux/',
+      format: 'html',
+    },
+  },
 }
