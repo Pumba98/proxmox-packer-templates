@@ -43,17 +43,22 @@ source "proxmox-iso" "vm" {
   qemu_agent      = var.qemu_agent
   bios            = var.bios
 
-  iso_file         = var.iso_download ? "" : "${var.iso_storage_pool}:iso/${var.iso_file}"
-  iso_storage_pool = var.iso_storage_pool
-  iso_url          = var.iso_download ? var.iso_url : ""
-  iso_checksum     = var.iso_checksum
-  iso_download_pve = var.iso_download_pve
-  unmount_iso      = var.iso_unmount
+  boot_iso {
+    # type             = var.iso_type
+    # index            = var.iso_index
+    iso_file         = var.iso_download ? "" : "${var.iso_storage_pool}:iso/${var.iso_file}"
+    iso_storage_pool = var.iso_storage_pool
+    iso_url          = var.iso_download ? var.iso_url : ""
+    iso_checksum     = var.iso_checksum
+    iso_download_pve = var.iso_download_pve
+    unmount          = var.iso_unmount
+  }
 
   dynamic "additional_iso_files" {
     for_each = var.additional_iso_files
     content {
-      device           = additional_iso_files.value.device
+      # type             = additional_iso_files.value.type
+      # index            = additional_iso_files.value.index
       iso_file         = var.iso_download ? "" : "${var.iso_storage_pool}:iso/${additional_iso_files.value.iso_file}"
       iso_storage_pool = var.iso_storage_pool
       iso_url          = var.iso_download ? additional_iso_files.value.iso_url : ""

@@ -6,7 +6,6 @@ iso_download = true
 disk_size    = "20G"
 additional_iso_files = [
   {
-    device       = "sata4"
     iso_file     = "virtio-win-0.1.185.iso"
     iso_url      = "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.185-2/virtio-win-0.1.185.iso"
     iso_checksum = "af2b3cc9fa7905dea5e58d31508d75bba717c2b0d5553962658a47aebc9cc386"

@@ -232,7 +232,6 @@ variable "cloud_init_storage_pool" {
 variable "additional_iso_files" {
   description = "Additional ISO files attached to the virtual machine."
   type = list(object({
-    device       = string
     iso_file     = string
     iso_url      = string
     iso_checksum = string
