@@ -1,7 +1,7 @@
 # renovate: datasource=custom.ubuntuLinuxRelease
 name           = "ubuntu-22.04-template"
-iso_file       = "ubuntu-22.04.3-live-server-amd64.iso"
-iso_url        = "https://old-releases.ubuntu.com/releases/22.04/ubuntu-22.04.3-live-server-amd64.iso"
+iso_file       = "ubuntu-22.04.4-live-server-amd64.iso"
+iso_url        = "https://old-releases.ubuntu.com/releases/22.04/ubuntu-22.04.4-live-server-amd64.iso"
 iso_checksum   = "file:https://old-releases.ubuntu.com/releases/22.04/SHA256SUMS"
 http_directory = "./http/ubuntu"
 boot_wait      = "5s"
