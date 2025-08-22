@@ -7,47 +7,47 @@
                  This makes the VirtIO drivers available to Windows, assuming that
                  the VirtIO driver disk at https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
                  (see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html#virtio-win-direct-downloads)
-                 is available as drive F:
+                 is available as drive D:
             -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="2">
-                    <Path>F:\viostor\w10\amd64</Path>
+                    <Path>D:\viostor\w10\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="3">
-                    <Path>F:\NetKVM\w10\amd64</Path>
+                    <Path>D:\NetKVM\w10\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-                    <Path>F:\Balloon\w10\amd64</Path>
+                    <Path>D:\Balloon\w10\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="5">
-                    <Path>F:\pvpanic\w10\amd64</Path>
+                    <Path>D:\pvpanic\w10\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="6">
-                    <Path>F:\qemupciserial\w10\amd64</Path>
+                    <Path>D:\qemupciserial\w10\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="7">
-                    <Path>F:\qxldod\w10\amd64</Path>
+                    <Path>D:\qxldod\w10\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="8">
-                    <Path>F:\vioinput\w10\amd64</Path>
+                    <Path>D:\vioinput\w10\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="9">
-                    <Path>F:\viorng\w10\amd64</Path>
+                    <Path>D:\viorng\w10\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="10">
-                    <Path>F:\vioscsi\w10\amd64</Path>
+                    <Path>D:\vioscsi\w10\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="11">
-                    <Path>F:\vioserial\w10\amd64</Path>
+                    <Path>D:\vioserial\w10\amd64</Path>
                 </PathAndCredentials>
             </DriverPaths>
         </component>
@@ -157,7 +157,7 @@
                 <SynchronousCommand wcm:action="add">
                     <Order>3</Order>
                     <!-- Install Proxmox guest-agent -->
-                    <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -Command "F:\guest-agent\qemu-ga-x86_64.msi /quiet"</CommandLine>
+                    <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -Command "D:\guest-agent\qemu-ga-x86_64.msi /quiet"</CommandLine>
                 </SynchronousCommand>
             </FirstLogonCommands>
             <OOBE>
