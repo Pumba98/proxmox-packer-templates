@@ -262,7 +262,7 @@ variable "boot_wait" {
 variable "task_timeout" {
   description = "The timeout for Promox API operations, e.g. clones"
   type        = string
-  default     = "2m"
+  default     = "5m"
 }
 
 variable "http_directory" {
