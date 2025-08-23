@@ -1,0 +1,16 @@
+name: Ubuntu-24.04
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['ubuntu-24.04.pkrvars.hcl']
+jobs:
+  build:
+    uses: ./.github/workflows/packer.yml
+    with:
+      name: ubuntu-24.04
+      vm_id: 1016
+    secrets:
+      proxmox_host: ${{ secrets.proxmox_host }}
+      proxmox_user: ${{ secrets.proxmox_user }}
+      proxmox_password: ${{ secrets.proxmox_password }}
