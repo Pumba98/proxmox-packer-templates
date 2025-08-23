@@ -1,7 +1,7 @@
 # renovate: datasource=custom.ubuntuLinuxRelease
 name           = "ubuntu-24.04-template"
-iso_file       = "ubuntu-24.04.1-live-server-amd64.iso"
-iso_url        = "https://old-releases.ubuntu.com/releases/24.04/ubuntu-24.04.1-live-server-amd64.iso"
+iso_file       = "ubuntu-24.04.2-live-server-amd64.iso"
+iso_url        = "https://old-releases.ubuntu.com/releases/24.04/ubuntu-24.04.2-live-server-amd64.iso"
 iso_checksum   = "file:https://old-releases.ubuntu.com/releases/24.04/SHA256SUMS"
 http_directory = "./http/ubuntu"
 boot_wait      = "5s"
