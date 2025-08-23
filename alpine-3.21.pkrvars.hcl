@@ -1,8 +1,8 @@
 # renovate: datasource=custom.alpineLinuxRelease
-name           = "alpine-3.15-template"
-iso_file       = "alpine-virt-3.15.11-x86_64.iso"
-iso_url        = "https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-virt-3.15.11-x86_64.iso"
-iso_checksum   = "file:https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-virt-3.15.11-x86_64.iso.sha256"
+name           = "alpine-3.21-template"
+iso_file       = "alpine-virt-3.21.4-x86_64.iso"
+iso_url        = "https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-virt-3.21.4-x86_64.iso"
+iso_checksum   = "file:https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-virt-3.21.4-x86_64.iso.sha256"
 http_directory = "./http/alpine"
 boot_command = [
   "root<enter><wait>",
@@ -11,7 +11,8 @@ boot_command = [
   "setup-alpine -f answers<enter><wait5>",
   "packer<enter><wait>",
   "packer<enter><wait5>",
-  "<wait>y<enter><wait5>",
+  "<enter><wait5>",
+  "y<enter><wait5>",
   "rc-service sshd stop <enter>",
   "mount /dev/vg0/lv_root /mnt<enter>",
   "mount --bind /dev/ /mnt/dev<enter>",

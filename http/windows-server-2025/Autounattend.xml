@@ -11,43 +11,43 @@
             -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="2">
-                    <Path>D:\viostor\2k22\amd64</Path>
+                    <Path>D:\viostor\2k25\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="3">
-                    <Path>D:\NetKVM\2k22\amd64</Path>
+                    <Path>D:\NetKVM\2k25\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-                    <Path>D:\Balloon\2k22\amd64</Path>
+                    <Path>D:\Balloon\2k25\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="5">
-                    <Path>D:\pvpanic\2k22\amd64</Path>
+                    <Path>D:\pvpanic\2k25\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="6">
-                    <Path>D:\qemupciserial\2k22\amd64</Path>
+                    <Path>D:\qemupciserial\2k25\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="7">
-                    <Path>D:\qxldod\2k22\amd64</Path>
+                    <Path>D:\qxldod\2k25\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="8">
-                    <Path>D:\vioinput\2k22\amd64</Path>
+                    <Path>D:\vioinput\2k25\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="9">
-                    <Path>D:\viorng\2k22\amd64</Path>
+                    <Path>D:\viorng\2k25\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="10">
-                    <Path>D:\vioscsi\2k22\amd64</Path>
+                    <Path>D:\vioscsi\2k25\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="11">
-                    <Path>D:\vioserial\2k22\amd64</Path>
+                    <Path>D:\vioserial\2k25\amd64</Path>
                 </PathAndCredentials>
             </DriverPaths>
         </component>
@@ -67,21 +67,34 @@
                         <CreatePartition wcm:action="add">
                             <Order>1</Order>
                             <Type>Primary</Type>
+                            <Size>100</Size>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
+                            <Type>Primary</Type>
                             <Extend>true</Extend>
                         </CreatePartition>
                     </CreatePartitions>
                     <ModifyPartitions>
                         <ModifyPartition wcm:action="add">
+                            <Order>1</Order>
+                            <PartitionID>1</PartitionID>
+                            <Label>System Reserved</Label>
+                            <Format>NTFS</Format>
+                            <Active>true</Active>
+                        </ModifyPartition>
+                        <ModifyPartition wcm:action="add">
                             <Extend>false</Extend>
                             <Format>NTFS</Format>
                             <Letter>C</Letter>
-                            <Order>1</Order>
-                            <PartitionID>1</PartitionID>
+                            <Order>2</Order>
+                            <PartitionID>2</PartitionID>
                             <Label>Windows</Label>
                         </ModifyPartition>
                     </ModifyPartitions>
                     <DiskID>0</DiskID>
                     <WillWipeDisk>true</WillWipeDisk>
+                    <!-- <MBR>true</MBR> -->
                 </Disk>
                 <WillShowUI>OnError</WillShowUI>
             </DiskConfiguration>
@@ -97,14 +110,14 @@
                 <OSImage>
                     <InstallTo>
                         <DiskID>0</DiskID>
-                        <PartitionID>1</PartitionID>
+                        <PartitionID>2</PartitionID>
                     </InstallTo>
                     <WillShowUI>OnError</WillShowUI>
                     <InstallToAvailablePartition>false</InstallToAvailablePartition>
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME</Key>
-                            <Value>Windows Server 2022 SERVERSTANDARD</Value>
+                            <Value>Windows Server 2025 SERVERSTANDARD</Value>
                         </MetaData>
                     </InstallFrom>
                 </OSImage>
@@ -161,7 +174,6 @@
                 </SynchronousCommand>
             </FirstLogonCommands>
             <OOBE>
-                <NetworkLocation>Work</NetworkLocation>
                 <ProtectYourPC>3</ProtectYourPC>
                 <HideEULAPage>true</HideEULAPage>
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
@@ -179,5 +191,4 @@
             <EnableLUA>false</EnableLUA>
         </component>
     </settings>
-    <cpi:offlineImage cpi:source="catalog://winryadkx64/users/misheska/github/box-cutter/windows-vm/wsim/wineval/win81/x64/install_windows 10 enterprise evaluation.clg" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
 </unattend>

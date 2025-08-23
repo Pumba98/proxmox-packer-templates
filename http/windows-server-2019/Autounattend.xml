@@ -11,43 +11,43 @@
             -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="2">
-                    <Path>D:\viostor\w10\amd64</Path>
+                    <Path>D:\viostor\2k19\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="3">
-                    <Path>D:\NetKVM\w10\amd64</Path>
+                    <Path>D:\NetKVM\2k19\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-                    <Path>D:\Balloon\w10\amd64</Path>
+                    <Path>D:\Balloon\2k19\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="5">
-                    <Path>D:\pvpanic\w10\amd64</Path>
+                    <Path>D:\pvpanic\2k19\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="6">
-                    <Path>D:\qemupciserial\w10\amd64</Path>
+                    <Path>D:\qemupciserial\2k19\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="7">
-                    <Path>D:\qxldod\w10\amd64</Path>
+                    <Path>D:\qxldod\2k19\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="8">
-                    <Path>D:\vioinput\w10\amd64</Path>
+                    <Path>D:\vioinput\2k19\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="9">
-                    <Path>D:\viorng\w10\amd64</Path>
+                    <Path>D:\viorng\2k19\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="10">
-                    <Path>D:\vioscsi\w10\amd64</Path>
+                    <Path>D:\vioscsi\2k19\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="11">
-                    <Path>D:\vioserial\w10\amd64</Path>
+                    <Path>D:\vioserial\2k19\amd64</Path>
                 </PathAndCredentials>
             </DriverPaths>
         </component>
@@ -146,7 +146,7 @@
                 <SynchronousCommand wcm:action="add">
                     <Order>1</Order>
                     <!-- Enable WinRM service -->
-                    <CommandLine>powershell -ExecutionPolicy Bypass -File E:\setup.ps1</CommandLine>
+                    <CommandLine>powershell -ExecutionPolicy Bypass -File F:\setup.ps1</CommandLine>
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">

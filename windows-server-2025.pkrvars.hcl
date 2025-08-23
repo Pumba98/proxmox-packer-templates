@@ -1,7 +1,7 @@
-name         = "windows-server-2022-template"
-iso_file     = "SERVER_EVAL_x64FRE_en-us.iso"
-iso_url      = "https://software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/SERVER_EVAL_x64FRE_en-us.iso"
-iso_checksum = "3e4fa6d8507b554856fc9ca6079cc402df11a8b79344871669f0251535255325"
+name         = "windows-server-2025-template"
+iso_file     = "26100.1742.240906-0331.ge_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso"
+iso_url      = "https://software-static.download.prss.microsoft.com/dbazure/888969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso"
+iso_checksum = "d0ef4502e350e3c6c53c15b1b3020d38a5ded011bf04998e950720ac8579b23d"
 iso_download = true
 disk_size    = "20G"
 additional_iso_files = [
@@ -14,10 +14,10 @@ additional_iso_files = [
 additional_cd_files = [
   {
     device = "sata3"
-    files  = ["./http/windows-server-2022/*"]
+    files  = ["./http/windows-server-2025/*"]
   }
 ]
-os             = "win10"
+os             = "win11"
 communicator   = "winrm"
 http_directory = ""
 boot_command   = []
