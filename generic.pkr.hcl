@@ -1,9 +1,9 @@
 locals {
   boot_command = var.http_enabled ? var.boot_command_http : var.boot_command_local_file
-  http_content = { for key, value in var.http_content : key => templatefile(value.template, value.vars) }
+  http_content = { for key, value in var.http_content : key => templatefile(value.template, merge(value.vars, { http_enabled = var.http_enabled })) }
   http_as_cd = var.http_enabled ? [] : [{
     type = "sata"
-    index = 3
+    index = 3 + length(var.additional_cd_files)
     content = local.http_content
   }]
   additional_cd_files = concat(var.additional_cd_files, local.http_as_cd)
@@ -119,9 +119,9 @@ build {
     for_each = length(var.provisioner) > 0 ? [1] : []
     labels = ["shell"]
     content {
-    execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
+      execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
       inline          = var.provisioner
-    skip_clean      = true
+      skip_clean      = true
     }
   }
 }

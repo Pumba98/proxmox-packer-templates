@@ -283,7 +283,7 @@ variable "http_content" {
   description = "Key/Values to serve using an HTTP server"
   type        = map(object({
                   template = string
-                  vars = map(list(string))
+                  vars = map(string)
                 }))
   default     = {}
 }
