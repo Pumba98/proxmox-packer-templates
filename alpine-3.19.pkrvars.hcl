@@ -4,7 +4,7 @@ iso_file       = "alpine-virt-3.19.8-x86_64.iso"
 iso_url        = "https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-virt-3.19.8-x86_64.iso"
 iso_checksum   = "file:https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-virt-3.19.8-x86_64.iso.sha256"
 http_content = {
-  "answers" = {
+  "/answers" = {
     template = "./http/alpine/answers"
     vars = {}
   }

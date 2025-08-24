@@ -6,7 +6,12 @@ name           = "debian-13-template"
 iso_file       = "debian-13.0.0-amd64-netinst.iso"
 iso_url        = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.0.0-amd64-netinst.iso"
 iso_checksum   = "file:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
-http_directory = "./http/debian"
+http_content = {
+  "/preseed.cfg" = {
+    template = "./http/debian/preseed.cfg.pkrtpl"
+    vars = {}
+  }
+}
 boot_command = [
   "<esc><wait>",
   "install ",

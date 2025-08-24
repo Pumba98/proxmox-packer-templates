@@ -4,11 +4,11 @@ iso_file       = "ubuntu-20.04.5-live-server-amd64.iso"
 iso_url        = "https://old-releases.ubuntu.com/releases/20.04/ubuntu-20.04.5-live-server-amd64.iso"
 iso_checksum   = "file:https://old-releases.ubuntu.com/releases/20.04/SHA256SUMS"
 http_content = {
-  "meta-data" = {
+  "/meta-data" = {
     template = "./http/ubuntu/meta-data"
     vars = {}
   },
-  "user-data" = {
+  "/user-data" = {
     template = "./http/ubuntu/user-data"
     vars = {}
   }

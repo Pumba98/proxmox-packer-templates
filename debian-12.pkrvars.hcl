@@ -3,14 +3,13 @@ name           = "debian-12-template"
 iso_file       = "debian-12.11.0-amd64-netinst.iso"
 iso_url        = "https://cdimage.debian.org/mirror/cdimage/archive/12.11.0/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
 iso_checksum   = "file:https://cdimage.debian.org/mirror/cdimage/archive/12.11.0/amd64/iso-cd/SHA256SUMS"
-http_directory = "./http/debian"
 http_content = {
-  "preseed.cfg" = {
-    template = "./http/debian/preseed.cfg.pkrtpl.hcl"
+  "/preseed.cfg" = {
+    template = "./http/debian/preseed.cfg.pkrtpl"
     vars = {}
   }
 }
-http_enabled = false
+# http_enabled = false
 
 boot_command_http = [
   "<esc><wait>",

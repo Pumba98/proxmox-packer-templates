@@ -4,8 +4,8 @@ iso_file       = "ubuntu-18.04.5-server-amd64.iso"
 iso_url        = "https://old-releases.ubuntu.com/releases/18.04/ubuntu-18.04.5-server-amd64.iso"
 iso_checksum   = "file:https://old-releases.ubuntu.com/releases/18.04/SHA256SUMS"
 http_content = {
-  "preseed.cfg" = {
-    template = "./http/ubuntu-18.04/preseed.cfg"
+  "/preseed.cfg" = {
+    template = "./http/ubuntu/ubuntu-18.04-preseed.cfg"
     vars = {}
   }
 }
