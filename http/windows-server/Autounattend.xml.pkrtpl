@@ -11,43 +11,43 @@
             -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="2">
-                    <Path>D:\viostor\2k25\amd64</Path>
+                    <Path>D:\viostor\${driver_version}\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="3">
-                    <Path>D:\NetKVM\2k25\amd64</Path>
+                    <Path>D:\NetKVM\${driver_version}\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-                    <Path>D:\Balloon\2k25\amd64</Path>
+                    <Path>D:\Balloon\${driver_version}\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="5">
-                    <Path>D:\pvpanic\2k25\amd64</Path>
+                    <Path>D:\pvpanic\${driver_version}\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="6">
-                    <Path>D:\qemupciserial\2k25\amd64</Path>
+                    <Path>D:\qemupciserial\${driver_version}\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="7">
-                    <Path>D:\qxldod\2k25\amd64</Path>
+                    <Path>D:\qxldod\${driver_version}\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="8">
-                    <Path>D:\vioinput\2k25\amd64</Path>
+                    <Path>D:\vioinput\${driver_version}\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="9">
-                    <Path>D:\viorng\2k25\amd64</Path>
+                    <Path>D:\viorng\${driver_version}\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="10">
-                    <Path>D:\vioscsi\2k25\amd64</Path>
+                    <Path>D:\vioscsi\${driver_version}\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="11">
-                    <Path>D:\vioserial\2k25\amd64</Path>
+                    <Path>D:\vioserial\${driver_version}\amd64</Path>
                 </PathAndCredentials>
             </DriverPaths>
         </component>
@@ -94,7 +94,6 @@
                     </ModifyPartitions>
                     <DiskID>0</DiskID>
                     <WillWipeDisk>true</WillWipeDisk>
-                    <!-- <MBR>true</MBR> -->
                 </Disk>
                 <WillShowUI>OnError</WillShowUI>
             </DiskConfiguration>
@@ -117,7 +116,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME</Key>
-                            <Value>Windows Server 2025 SERVERSTANDARD</Value>
+                            <Value>${image_name}</Value>
                         </MetaData>
                     </InstallFrom>
                 </OSImage>

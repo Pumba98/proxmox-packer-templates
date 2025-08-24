@@ -61,6 +61,7 @@ Other interesting variables are:
 - iso_storage_pool
 - cloud_init_storage_pool
 - iso_download
+- iso_download_pve
 
 See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 
@@ -69,11 +70,11 @@ See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 To build a template (e.g. `debian-11`) run:
 
 ```sh
-packer build -var-file="debian-11.pkrvars.hcl" -only="linux.*" .
+packer build -var-file="debian-11.pkrvars.hcl" .
 ```
 
-For windows:
+You can set the `http_enabled` variable to `false` to mount preseed/kickstart files via ISO instead of serving them over HTTP. This is useful if your Packer instance cannot be reached by your Proxmox VMs, for example due to firewall restrictions.
 
-```sh
-packer build -var-file="windows-server-2019.pkrvars.hcl" -only="windows.*" .
-```
+One use case is running builds on public GitHub Actions runners.
+
+**Note:** The Packer instance must still be able to reach the Proxmox VMs via SSH.

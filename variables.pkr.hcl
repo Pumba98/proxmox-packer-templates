@@ -242,15 +242,29 @@ variable "additional_iso_files" {
 variable "additional_cd_files" {
   description = "Additional files attached to the virtual machine as iso."
   type = list(object({
-    device = string
+    type   = string
+    index  = number
     files  = list(string)
   }))
   default = []
 }
 
-variable "boot_command" {
-  description = "The keys to type when the virtual machine is first booted in order to start the OS installer."
+variable "http_iso_label" {
+  description = "The label of the mounted http iso."
+  type        = string
+  default     = ""
+}
+
+variable "boot_command_http" {
+  description = "The keys to type when the virtual machine is first booted in order to start the OS installer with instructions from packer http."
   type        = list(string)
+  default     = []
+}
+
+variable "boot_command_local_file" {
+  description = "The keys to type when the virtual machine is first booted in order to start the OS installer with instructions from mounted file."
+  type        = list(string)
+  default     = []
 }
 
 variable "boot_wait" {
@@ -265,10 +279,19 @@ variable "task_timeout" {
   default     = "5m"
 }
 
-variable "http_directory" {
-  description = "Path to a directory to serve using an HTTP server."
-  type        = string
-  default     = "./http"
+variable "http_enabled" {
+  description = "Wether to enable the HTTP server or mount a preseed iso"
+  type        = bool
+  default     = true
+}
+
+variable "http_content" {
+  description = "Key/Values to serve using an HTTP server"
+  type        = map(object({
+                  template = string
+                  vars = map(string)
+                }))
+  default     = {}
 }
 
 variable "communicator" {
@@ -322,4 +345,5 @@ variable "winrm_use_ssl" {
 variable "provisioner" {
   description = "The packer provisioner commands."
   type        = list(string)
+  default     = []
 }

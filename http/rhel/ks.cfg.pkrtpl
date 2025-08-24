@@ -1,6 +1,6 @@
 # Use CD-ROM installation media
-# renovate: datasource=custom.almaLinuxRelease depName=almalinux-9-template
-repo --name="AppStream" --baseurl=http://repo.almalinux.org/almalinux/9.6/AppStream/x86_64/os/
+repo --name="BaseOS" --baseurl=${base_os_url}
+repo --name="AppStream" --baseurl=${app_stream_url}
 cdrom
 # Use text install
 text
@@ -13,8 +13,7 @@ keyboard --vckeymap=us --xlayouts='us'
 lang en_US.UTF-8
 
 # Network information
-network --bootproto=dhcp --activate
-network --hostname=localhost.localdomain
+network --device=link --bootproto=dhcp --hostname=localhost.localdomain
 
 # Root password
 rootpw packer
@@ -28,6 +27,7 @@ timezone Etc/UTC --utc
 # Partition clearing information
 clearpart --none --initlabel
 # Disk partitionning information
+part biosboot --fstype=biosboot --size=1
 part / --fstype="xfs" --grow --size=4096
 
 skipx
