@@ -3,7 +3,12 @@ name           = "debian-11-template"
 iso_file       = "debian-11.11.0-amd64-netinst.iso"
 iso_url        = "https://cdimage.debian.org/mirror/cdimage/archive/11.11.0/amd64/iso-cd/debian-11.11.0-amd64-netinst.iso"
 iso_checksum   = "file:https://cdimage.debian.org/mirror/cdimage/archive/11.11.0/amd64/iso-cd/SHA256SUMS"
-http_directory = "./http/debian"
+http_content = {
+  "preseed.cfg" = {
+    template = "./http/debian/preseed.cfg.pkrtpl.hcl"
+    vars = {}
+  }
+}
 boot_command = [
   "<esc><wait>",
   "install ",

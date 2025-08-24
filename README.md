@@ -69,11 +69,5 @@ See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 To build a template (e.g. `debian-11`) run:
 
 ```sh
-packer build -var-file="debian-11.pkrvars.hcl" -only="linux.*" .
-```
-
-For windows:
-
-```sh
-packer build -var-file="windows-server-2019.pkrvars.hcl" -only="windows.*" .
+packer build -var-file="debian-11.pkrvars.hcl" .
 ```

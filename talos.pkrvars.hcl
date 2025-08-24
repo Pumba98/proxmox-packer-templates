@@ -2,7 +2,12 @@ name           = "talos-template"
 iso_file       = "archlinux-2024.08.01-x86_64.iso"
 iso_url        = "https://www.archlinux.de/download/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso"
 iso_checksum   = "file:https://www.archlinux.de/download/iso/2024.08.01/sha256sums.txt"
-http_directory = "./http/talos"
+http_content = {
+  "schematic.yml" = {
+    template = "./http/talos/schematic.yml"
+    vars = {}
+  }
+}
 ssh_username   = "root"
 boot_wait      = "5s"
 boot_command = [

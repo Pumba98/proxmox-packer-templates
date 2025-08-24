@@ -1,3 +1,14 @@
+locals {
+  boot_command = var.http_enabled ? var.boot_command_http : var.boot_command_local_file
+  http_content = { for key, value in var.http_content : key => templatefile(value.template, value.vars) }
+  http_as_cd = var.http_enabled ? [] : [{
+    type = "sata"
+    index = 3
+    content = local.http_content
+  }]
+  additional_cd_files = concat(var.additional_cd_files, local.http_as_cd)
+}
+
 source "proxmox-iso" "vm" {
   proxmox_url              = "https://${var.proxmox_host}/api2/json"
   username                 = var.proxmox_user
@@ -56,24 +67,28 @@ source "proxmox-iso" "vm" {
 
   dynamic "additional_iso_files" {
     for_each = var.additional_iso_files
+    iterator = iso
     content {
-      # type             = additional_iso_files.value.type
-      # index            = additional_iso_files.value.index
-      iso_file         = var.iso_download ? "" : "${var.iso_storage_pool}:iso/${additional_iso_files.value.iso_file}"
+      # type             = iso.value.type
+      # index            = iso.value.index
+      iso_file         = var.iso_download ? "" : "${var.iso_storage_pool}:iso/${iso.value.iso_file}"
       iso_storage_pool = var.iso_storage_pool
-      iso_url          = var.iso_download ? additional_iso_files.value.iso_url : ""
-      iso_checksum     = additional_iso_files.value.iso_checksum
+      iso_url          = var.iso_download ? iso.value.iso_url : ""
+      iso_checksum     = iso.value.iso_checksum
       iso_download_pve = var.iso_download_pve
       unmount          = var.iso_unmount
     }
   }
 
   dynamic "additional_iso_files" {
-    for_each = var.additional_cd_files
+    for_each = local.additional_cd_files
+    iterator = iso
     content {
-      device           = additional_iso_files.value.device
+      type             = iso.value.type
+      index            = iso.value.index
       iso_storage_pool = var.iso_storage_pool
-      cd_files         = additional_iso_files.value.files
+      cd_files         = contains(keys(iso.value), "files") ? iso.value.files : []
+      cd_content       = contains(keys(iso.value), "content") ? iso.value.content : {}
       unmount          = var.iso_unmount
     }
   }
@@ -82,10 +97,10 @@ source "proxmox-iso" "vm" {
   cloud_init_storage_pool = var.cloud_init_storage_pool
 
   boot           = "order=${var.disk_type}0;ide2;net0"
-  boot_command   = var.boot_command
+  boot_command   = local.boot_command
   boot_wait      = var.boot_wait
   task_timeout   = var.task_timeout
-  http_directory = var.http_directory
+  http_content   = local.http_content
   communicator   = var.communicator
   ssh_username   = var.ssh_username
   ssh_password   = var.ssh_password
@@ -101,13 +116,9 @@ build {
   sources = ["source.proxmox-iso.vm"]
 
   provisioner "shell" {
+    only = length(var.provisioner) > 0 ? ["*"] : []
     execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
-    inline          = var.provisioner
+    inline          = length(var.provisioner) > 0 ? var.provisioner : [""] 
     skip_clean      = true
   }
-}
-
-build {
-  name    = "windows"
-  sources = ["source.proxmox-iso.vm"]
 }

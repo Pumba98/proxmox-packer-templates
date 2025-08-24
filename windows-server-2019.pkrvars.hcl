@@ -13,12 +13,10 @@ additional_iso_files = [
 ]
 additional_cd_files = [
   {
-    device = "sata3"
+    type   = "sata"
+    index  = 3
     files  = ["./http/windows-server-2019/*"]
   }
 ]
 os             = "win10"
 communicator   = "winrm"
-http_directory = ""
-boot_command   = []
-provisioner    = []

@@ -3,7 +3,12 @@ name           = "ubuntu-18.04-template"
 iso_file       = "ubuntu-18.04.5-server-amd64.iso"
 iso_url        = "https://old-releases.ubuntu.com/releases/18.04/ubuntu-18.04.5-server-amd64.iso"
 iso_checksum   = "file:https://old-releases.ubuntu.com/releases/18.04/SHA256SUMS"
-http_directory = "./http/ubuntu-18.04"
+http_content = {
+  "preseed.cfg" = {
+    template = "./http/ubuntu-18.04/preseed.cfg"
+    vars = {}
+  }
+}
 boot_command = [
   "<esc><wait>",
   "<esc><wait>",

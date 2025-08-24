@@ -45,4 +45,4 @@ jobs:
           PACKER_KEY_INTERVAL: 100ms
         run: |
           packer init config.pkr.hcl
-          packer build -var-file="${{ inputs.name }}.pkrvars.hcl" -only="${{ inputs.os_type }}.*" -force .
+          packer build -var-file="${{ inputs.name }}.pkrvars.hcl" -force .

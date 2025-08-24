@@ -1,4 +1,6 @@
+{{ if not .http_enabled }}
 d-i preseed/early_command string umount /mnt/cdrom2 && echo 1 > /sys/block/sr1/device/delete
+{{ end }}
 
 #### Contents of the preconfiguration file (for buster)
 ### Localization
