@@ -112,13 +112,16 @@ source "proxmox-iso" "vm" {
 }
 
 build {
-  name    = "linux"
+  name    = "build"
   sources = ["source.proxmox-iso.vm"]
 
-  provisioner "shell" {
-    only = length(var.provisioner) > 0 ? ["*"] : []
+  dynamic "provisioner" {
+    for_each = length(var.provisioner) > 0 ? [1] : []
+    labels = ["shell"]
+    content {
     execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
-    inline          = length(var.provisioner) > 0 ? var.provisioner : [""] 
+      inline          = var.provisioner
     skip_clean      = true
+    }
   }
 }
