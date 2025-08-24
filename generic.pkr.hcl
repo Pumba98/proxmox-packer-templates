@@ -5,6 +5,7 @@ locals {
     type = "sata"
     index = 3 + length(var.additional_cd_files)
     content = local.http_content
+    label   = "cidata"
   }]
   additional_cd_files = concat(var.additional_cd_files, local.http_as_cd)
 }
@@ -89,6 +90,7 @@ source "proxmox-iso" "vm" {
       iso_storage_pool = var.iso_storage_pool
       cd_files         = contains(keys(iso.value), "files") ? iso.value.files : []
       cd_content       = contains(keys(iso.value), "content") ? iso.value.content : {}
+      cd_label         = contains(keys(iso.value), "label") ? iso.value.label : ""
       unmount          = var.iso_unmount
     }
   }

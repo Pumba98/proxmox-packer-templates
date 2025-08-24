@@ -15,7 +15,8 @@ http_content = {
   }
 }
 boot_wait      = "5s"
-boot_command = ["<tab> text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"]
+boot_command_http = ["<tab> text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"]
+boot_command_local_file = ["<tab> text inst.ks=cdrom:sr1:/ks.cfg<enter><wait>"]
 provisioner = [
   "userdel --remove --force packer"
 ]

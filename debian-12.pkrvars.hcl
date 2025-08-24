@@ -9,8 +9,6 @@ http_content = {
     vars = {}
   }
 }
-# http_enabled = false
-
 boot_command_http = [
   "<esc><wait>",
   "install ",
@@ -31,7 +29,6 @@ boot_command_http = [
   "passwd/user-password-again=packer ",
   "<enter>"
 ]
-
 boot_command_local_file = [
   "<esc><wait>",
   "install ",
@@ -59,7 +56,6 @@ boot_command_local_file = [
   "<leftAltOn><f1><leftAltOff><wait>",
   "<enter><wait><enter><wait><enter>",
 ]
-
 provisioner = [
   "userdel --remove --force packer"
 ]

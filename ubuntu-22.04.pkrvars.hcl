@@ -14,9 +14,18 @@ http_content = {
   }
 }
 boot_wait      = "5s"
-boot_command = [
+boot_command_http = [
   "c<wait> ",
   "linux /casper/vmlinuz --- autoinstall ds='nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/'",
+  "<enter><wait>",
+  "initrd /casper/initrd",
+  "<enter><wait>",
+  "boot",
+  "<enter>"
+]
+boot_command_local_file = [
+  "c<wait> ",
+  "linux /casper/vmlinuz --- autoinstall ds='nocloud;h=sr1'",
   "<enter><wait>",
   "initrd /casper/initrd",
   "<enter><wait>",

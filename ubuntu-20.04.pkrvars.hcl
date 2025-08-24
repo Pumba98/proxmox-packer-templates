@@ -14,9 +14,14 @@ http_content = {
   }
 }
 boot_wait      = "5s"
-boot_command = [
+boot_command_http = [
   "<enter><enter><f6><esc><wait> ",
   "autoinstall ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
+  "<enter>"
+]
+boot_command_local_file = [
+  "<enter><enter><f6><esc><wait> ",
+  "autoinstall ds=nocloud;h=sr1",
   "<enter>"
 ]
 provisioner = [

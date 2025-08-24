@@ -15,9 +15,18 @@ http_content = {
   }
 }
 boot_wait      = "5s"
-boot_command = [
+boot_command_http = [
     "c<wait> ",
     "linux /images/pxeboot/vmlinuz inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg",
+    "<enter><wait>",
+    "initrd /images/pxeboot/initrd.img",
+    "<enter><wait>",
+    "boot",
+    "<enter>"
+]
+boot_command_local_file = [
+    "c<wait> ",
+    "linux /images/pxeboot/vmlinuz inst.text inst.ks=cdrom:sr1:/ks.cfg",
     "<enter><wait>",
     "initrd /images/pxeboot/initrd.img",
     "<enter><wait>",
