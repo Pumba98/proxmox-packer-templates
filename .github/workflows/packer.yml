@@ -8,10 +8,6 @@ on:
       vm_id: 
         required: true
         type: number
-      os_type: 
-        required: false
-        type: string
-        default: linux
     secrets:
       proxmox_host:
         required: true
@@ -21,10 +17,15 @@ on:
         required: true
 jobs:
   build:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+      - name: Netbird Connect
+        id: netbird
+        uses: Alemiz112/netbird-connect@175ca0487002e6d4d96d16da5f4b91f639e8a765 #v1.0.1
+        with:
+          setup-key: ${{ secrets.NETBIRD_SETUP_KEY }}
       - name: Use Packer
         uses: hashicorp-contrib/setup-packer@v3
         with:
@@ -42,7 +43,11 @@ jobs:
           PKR_VAR_iso_download: "true"
           PKR_VAR_iso_download_pve: "true"
           PKR_VAR_vmid: ${{ inputs.vm_id }}
+          PKR_VAR_http_enabled: "false"
           PACKER_KEY_INTERVAL: 100ms
         run: |
           packer init config.pkr.hcl
           packer build -var-file="${{ inputs.name }}.pkrvars.hcl" -force .
+      - name: Netbird Disconnect
+        shell: bash
+        run: sudo netbird down

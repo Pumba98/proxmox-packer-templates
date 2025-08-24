@@ -10,7 +10,6 @@ jobs:
     with:
       name: windows-server-2025
       vm_id: 1019
-      os_type: windows
     secrets:
       proxmox_host: ${{ secrets.proxmox_host }}
       proxmox_user: ${{ secrets.proxmox_user }}
