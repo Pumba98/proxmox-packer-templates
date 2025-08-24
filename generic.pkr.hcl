@@ -5,7 +5,7 @@ locals {
     type = "sata"
     index = 3 + length(var.additional_cd_files)
     content = local.http_content
-    label   = "cidata"
+    label   = var.http_iso_label
   }]
   additional_cd_files = concat(var.additional_cd_files, local.http_as_cd)
 }

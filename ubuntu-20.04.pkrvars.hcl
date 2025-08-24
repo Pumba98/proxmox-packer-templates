@@ -24,6 +24,7 @@ boot_command_local_file = [
   "autoinstall ds=nocloud;h=sr1",
   "<enter>"
 ]
+http_iso_label = "cidata"
 provisioner = [
   "cloud-init clean",
   "rm /etc/cloud/cloud.cfg.d/*",

@@ -249,6 +249,12 @@ variable "additional_cd_files" {
   default = []
 }
 
+variable "http_iso_label" {
+  description = "The label of the mounted http iso."
+  type        = string
+  default     = ""
+}
+
 variable "boot_command_http" {
   description = "The keys to type when the virtual machine is first booted in order to start the OS installer with instructions from packer http."
   type        = list(string)

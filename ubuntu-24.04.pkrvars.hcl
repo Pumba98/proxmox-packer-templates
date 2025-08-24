@@ -32,6 +32,7 @@ boot_command_local_file = [
   "boot",
   "<enter>"
 ]
+http_iso_label = "cidata"
 provisioner = [
   "cloud-init clean",
   "rm /etc/cloud/cloud.cfg.d/*",
