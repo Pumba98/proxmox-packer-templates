@@ -65,6 +65,22 @@ Other interesting variables are:
 
 See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 
+### Packer Webserver Forwarding
+
+In some cases your proxmox server might be in a datacatenter. You can ssh to the proxmox server but the proxmox server can't connect to your build computer.
+
+Start this in a console on your build host and keep it open during build time.
+
+```bash
+# forward 127.0.0.1:8000 to the remote proxmox to 127.0.0.1:8000
+ssh -N -R 127.0.0.1:8000:127.0.0.1:8000 root@proxmox
+```
+
+Set the following variables
+
+- packer_http_interface to `127.0.0.1`
+- packer_http_port to `8000`
+
 ### Build a template
 
 To build a template (e.g. `debian-11`) run:
