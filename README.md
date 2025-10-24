@@ -2,7 +2,7 @@
 
 **Tested with Packer 1.10 and with Proxmox 8.1.4**
 
-Build VM Templates with Packer for Proxmox. The generated templates are meant to be used with cloud-init, they come without a User or root login.  
+Build VM Templates with Packer for Proxmox. The generated templates are meant to be used with cloud-init, they come without a User or root login.
 Only the Windows Server Template has a Administrator user by default (Password `packer`). It's ready for Ansible setup via winrm.
 
 **All templates are made for my personal environment and may need adjustments for yours!**
@@ -29,6 +29,7 @@ Only the Windows Server Template has a Administrator user by default (Password `
 | [Windows Server 2025](./windows-server-2025.pkrvars.hcl) | [![windows-server-2025](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2025.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2025.yml) |
 | [Windows Server 2022](./windows-server-2022.pkrvars.hcl) | [![windows-server-2022](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2022.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2022.yml) |
 | [Windows Server 2019](./windows-server-2019.pkrvars.hcl) | [![windows-server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
+| [Windows 11](./windows-11.pkrvars.hcl) | [![windows-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-11.yml) |
 | [Talos Linux](./talos.pkrvars.hcl)                       | [![talos](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml)                                           |
 
 ## How to build
