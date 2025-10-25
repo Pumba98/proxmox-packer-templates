@@ -242,7 +242,8 @@ variable "additional_iso_files" {
 variable "additional_cd_files" {
   description = "Additional files attached to the virtual machine as iso."
   type = list(object({
-    device = string
+    type   = string
+    index  = number
     files  = list(string)
   }))
   default = []
@@ -271,6 +272,15 @@ variable "http_directory" {
   default     = "./http"
 }
 
+variable "unattended_content" {
+  description = "Key/Values for the windows unattended cd with the Autounattend.xml file."
+  type        = map(object({
+                  template = string
+                  vars = map(string)
+                }))
+  default     = {}
+}
+
 variable "communicator" {
   description = "The packer communicator to use"
   type        = string
@@ -296,13 +306,13 @@ variable "ssh_timeout" {
 }
 
 variable "winrm_username" {
-  description = "The winrm username to connect to the guest"
+  description = "The winrm username to connect to the guest. Keep 'Administrator' for Windows Server."
   type        = string
   default     = "Administrator"
 }
 
 variable "winrm_password" {
-  description = "The winrm password to connect to the guest"
+  description = "The winrm password to connect to the guest."
   type        = string
   default     = "packer"
 }
@@ -317,6 +327,24 @@ variable "winrm_use_ssl" {
   description = "Use winrm ssl connection."
   type        = bool
   default     = false
+}
+
+variable "windows_edition" {
+  description = "Windows edition of the ISO file to install (this is usefull to overwrite for Windows 11 Pro or Server Core/Datacenter)."
+  type        = string
+  default     = ""
+}
+
+variable "windows_language" {
+  description = "Windows language to use. The ISO file must contain this lanugage."
+  type        = string
+  default     = "en-US"
+}
+
+variable "windows_input_language" {
+  description = "Windows language for the keyboard to use. The ISO file must contain this lanugage."
+  type        = string
+  default     = "en-US"
 }
 
 variable "provisioner" {
