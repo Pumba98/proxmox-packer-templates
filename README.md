@@ -69,6 +69,13 @@ See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 
 In some cases your proxmox server might be in a datacatenter. You can ssh to the proxmox server but the proxmox server can't connect to your build computer.
 
+Set the following variables in your configuration.
+
+- packer_http_interface to `127.0.0.1`
+- packer_http_port to `8000`
+
+**Your Proxmox Server can be reached via ssh**
+
 Start this in a console on your build host and keep it open during build time.
 
 ```bash
@@ -76,10 +83,21 @@ Start this in a console on your build host and keep it open during build time.
 ssh -N -R 127.0.0.1:8000:127.0.0.1:8000 root@proxmox
 ```
 
-Set the following variables
+**Your Proxmox Server can't be reached from the build computer via ssh**
 
-- packer_http_interface to `127.0.0.1`
-- packer_http_port to `8000`
+In this case you need a 2nd computer that can be reached from the proxmox computer and the build computer acting as relais.
+
+On the proxmox host:
+
+```bash
+ssh -N -L 127.0.0.1:8000:127.0.0.1:8000 user@lighthouse
+```
+
+On the build computer:
+
+```bash
+ssh -N -R 127.0.0.1:8000:127.0.0.1:8000 user@lighthouse
+```
 
 ### Build a template
 
