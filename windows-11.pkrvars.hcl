@@ -11,10 +11,20 @@ additional_iso_files = [
     iso_checksum = "bbe6166ad86a490caefad438fef8aa494926cb0a1b37fa1212925cfd81656429"
   }
 ]
+unattended_content = {
+  "/Autounattend.xml" = {
+    template = "./http/windows/Autounattend-win11.xml.pkrtpl"
+    vars = {
+      driver_version  = "w11"
+      image_name      = "Windows 11 Enterprise Evaluation"
+    }
+  }
+}
 additional_cd_files = [
   {
-    device = "sata3"
-    files  = ["./http/windows-11/*"]
+    type = "sata"
+    index = 3
+    files  = ["./http/windows-scripts/*"]
   }
 ]
 os             = "win11"
