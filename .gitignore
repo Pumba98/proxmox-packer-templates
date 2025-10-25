@@ -1,4 +1,5 @@
 config.json
+my.pkrvars.hcl
 packer_cache/
 *.iso
 !Autounattend.iso
