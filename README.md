@@ -62,6 +62,10 @@ Other interesting variables are:
 - iso_storage_pool
 - cloud_init_storage_pool
 - iso_download
+- Windows:
+  - windows_edition
+  - windows_language / windows_input_language
+  - winrm_username / winrm_password (Win11 alway creates a user, Win Server will use Administrator)
 
 See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 
