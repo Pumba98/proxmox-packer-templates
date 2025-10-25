@@ -16,6 +16,10 @@ source "proxmox-iso" "vm" {
   cores    = var.cpu_cores
   memory   = var.memory
 
+  http_bind_address = var.packer_http_bind_address
+  http_port_min     = var.packer_http_port == -1 ? 8000 : "${var.packer_http_port}"
+  http_port_max     = var.packer_http_port == -1 ? 9000 : "${var.packer_http_port}"
+
   disks {
     storage_pool      = var.disk_storage_pool
     disk_size         = var.disk_size
