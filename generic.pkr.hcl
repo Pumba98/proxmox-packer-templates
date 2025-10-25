@@ -8,12 +8,12 @@ locals {
       windows_input_language = var.windows_input_language
     }))
   }
-  unattended_as_cd = [{
+  unattended_as_cd = length(var.unattended_content) > 0 ? [{
     type = "sata"
     index = 3 + length(var.unattended_content)
     content = local.unattended_content
     label   = "Windows Unattended CD"
-  }]
+  }] : []
   additional_cd_files = concat(var.additional_cd_files, local.unattended_as_cd)
 }
 
