@@ -65,7 +65,7 @@ Other interesting variables are:
 - Windows:
   - windows_edition
   - windows_language / windows_input_language
-  - winrm_username / winrm_password (Win11 alway creates a user, Win Server will use Adminisrator)
+  - winrm_username / winrm_password (Win11 alway creates a user, Win Server will use Administrator)
 
 See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 
