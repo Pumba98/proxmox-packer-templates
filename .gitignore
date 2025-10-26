@@ -4,3 +4,4 @@ packer_cache/
 *.iso
 !Autounattend.iso
 packer.exe
+*.auto.pkrvars.hcl
