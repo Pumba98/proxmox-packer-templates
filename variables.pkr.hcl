@@ -172,6 +172,11 @@ variable "proxmox_password" {
   type        = string
 }
 
+variable "proxmox_token" {
+  description = "Proxmox Token if you are using API Tokens. If both are set, `proxmox_token` takes precedence."
+  type        = string
+}
+
 variable "proxmox_insecure_tls" {
   description = "Skip validating the certificate."
   type        = bool
