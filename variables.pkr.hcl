@@ -170,11 +170,13 @@ variable "proxmox_user" {
 variable "proxmox_password" {
   description = "Password for the Proxmox user."
   type        = string
+  default     = ""
 }
 
 variable "proxmox_token" {
   description = "Proxmox Token if you are using API Tokens. If both are set, `proxmox_token` takes precedence."
   type        = string
+  default     = ""
 }
 
 variable "proxmox_insecure_tls" {
