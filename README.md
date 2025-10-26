@@ -51,6 +51,7 @@ To build packer templates you need to set some variables via file (`-var-file=my
 - proxmox_host
 - proxmox_user
 - proxmox_password
+- proxmox_token
 - node
 - vmid
 
