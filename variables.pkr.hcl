@@ -358,3 +358,15 @@ variable "provisioner" {
   description = "The packer provisioner commands."
   type        = list(string)
 }
+
+variable "packer_http_bind_address" {
+  description = "This is the bind address for the HTTP server (required only for ssh portworarding)."
+  type        = string
+  default     = ""
+}
+
+variable "packer_http_port" {
+  description = "Port the HTTP server started to serve the http_directory (required only for ssh portworarding)."
+  type        = number
+  default     = -1
+}
