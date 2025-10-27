@@ -83,3 +83,16 @@ For windows:
 ```sh
 packer build -var-file="windows-server-2019.pkrvars.hcl" -only="windows.*" .
 ```
+
+## Customization
+
+### Windows
+
+You can run additional setup actions for windows by creating a file `http/windows-scripts/custom/custom.ps1`.
+
+Example:
+
+```powershell
+# debloat Windows 11: https://github.com/Raphire/Win11Debloat
+& ([scriptblock]::Create((irm "https://debloat.raphi.re/"))) -RunDefaults -Sysprep -Silent
+```
