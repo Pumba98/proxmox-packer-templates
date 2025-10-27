@@ -1,7 +1,27 @@
+locals {
+  unattended_content = {
+    for key, value in var.unattended_content : key => templatefile(value.template, merge(value.vars, {
+      winrm_username = var.winrm_username
+      winrm_password = var.winrm_password
+      windows_edition = var.windows_edition == "" ? value.vars.image_name : var.windows_edition
+      windows_language = var.windows_language
+      windows_input_language = var.windows_input_language
+    }))
+  }
+  unattended_as_cd = length(var.unattended_content) > 0 ? [{
+    type = "sata"
+    index = 3 + length(var.unattended_content)
+    content = local.unattended_content
+    label   = "Windows Unattended CD"
+  }] : []
+  additional_cd_files = concat(var.additional_cd_files, local.unattended_as_cd)
+}
+
 source "proxmox-iso" "vm" {
   proxmox_url              = "https://${var.proxmox_host}/api2/json"
   username                 = var.proxmox_user
   password                 = var.proxmox_password
+  token                    = var.proxmox_token
   insecure_skip_tls_verify = var.proxmox_insecure_tls
 
   vm_id                = var.vmid
@@ -69,11 +89,15 @@ source "proxmox-iso" "vm" {
   }
 
   dynamic "additional_iso_files" {
-    for_each = var.additional_cd_files
+    for_each = local.additional_cd_files
+    iterator = iso
     content {
-      device           = additional_iso_files.value.device
+      type             = iso.value.type
+      index            = iso.value.index
       iso_storage_pool = var.iso_storage_pool
-      cd_files         = additional_iso_files.value.files
+      cd_files         = contains(keys(iso.value), "files") ? iso.value.files : []
+      cd_content       = contains(keys(iso.value), "content") ? iso.value.content : {}
+      cd_label         = contains(keys(iso.value), "label") ? iso.value.label : ""
       unmount          = var.iso_unmount
     }
   }
