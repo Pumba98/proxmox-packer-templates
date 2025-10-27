@@ -6,9 +6,9 @@ iso_download = true
 disk_size    = "20G"
 additional_iso_files = [
   {
-    iso_file     = "virtio-win-0.1.271.iso"
-    iso_url      = "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.271-1/virtio-win-0.1.271.iso"
-    iso_checksum = "bbe6166ad86a490caefad438fef8aa494926cb0a1b37fa1212925cfd81656429"
+    iso_file     = "virtio-win-0.1.285.iso"
+    iso_url      = "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.285-1/virtio-win-0.1.285.iso"
+    iso_checksum = "e14cf2b94492c3e925f0070ba7fdfedeb2048c91eea9c5a5afb30232a3976331"
   }
 ]
 unattended_content = {
