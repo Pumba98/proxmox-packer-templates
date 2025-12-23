@@ -359,8 +359,14 @@ variable "provisioner" {
   type        = list(string)
 }
 
+variable "packer_http_interface" {
+  description = "Name of the network interface that Packer gets HTTPIP from. Defaults to the first non loopback interface."
+  type        = string
+  default     = ""
+}
+
 variable "packer_http_bind_address" {
-  description = "This is the bind address for the HTTP server (required only for ssh portworarding)."
+  description = "This is the bind address for the HTTP server. Defaults to 0.0.0.0 so that it will work with any network interface."
   type        = string
   default     = ""
 }
