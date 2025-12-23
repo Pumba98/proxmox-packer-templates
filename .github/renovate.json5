@@ -33,6 +33,7 @@
         'datasource=(?<datasource>\\S+)\nname *= "(?<depName>.*?)"\niso_file *= "AlmaLinux-(?<currentValue>.*?)-x86_64-minimal.iso"\niso_url *= "(?<registryUrl>.*)/(.*)/isos/x86_64/AlmaLinux-(.*)-x86_64-minimal.iso"\niso_checksum *= "file:.*/(.*)/isos/x86_64/CHECKSUM"',
         'datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\nrepo --name="BaseOS" --baseurl=http://repo.almalinux.org/almalinux/(?<currentValue>.*?)/BaseOS/x86_64/os/',
         'datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\nrepo --name="AppStream" --baseurl=http://repo.almalinux.org/almalinux/(?<currentValue>.*?)/AppStream/x86_64/os/',
+        'datasource=(?<datasource>\\S+)\nname *= "(?<depName>.*?)"\niso_file *= "OPNsense-(?<currentValue>.*?)-dvd-amd64.iso"\niso_url *= "(?<registryUrl>.*/)(.*)/OPNsense-(.*)-dvd-amd64.iso.bz2"\niso_checksum *= "file:.*/OPNsense-(.*)-checksums-amd64.sha256"',
       ],
       datasourceTemplate: '{{ datasource }}',
     },
@@ -55,6 +56,7 @@
       matchDatasources: [
         'custom.rockyLinuxRelease',
         'custom.almaLinuxRelease',
+        'custom.opnsenseRelease',
       ],
       extractVersion: '^(?<version>\\d+.\\d+)/$',
     },
@@ -76,6 +78,7 @@
         'custom.ubuntuLinuxRelease',
         'custom.rockyLinuxRelease',
         'custom.almaLinuxRelease',
+        'custom.opnsenseRelease',
       ],
       matchUpdateTypes: [
         'major',
@@ -112,6 +115,10 @@
     },
     almaLinuxRelease: {
       defaultRegistryUrlTemplate: 'https://repo.almalinux.org/almalinux/',
+      format: 'html',
+    },
+    opnsenseRelease: {
+      defaultRegistryUrlTemplate: 'https://pkg.opnsense.org/releases/',
       format: 'html',
     },
   },

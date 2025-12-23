@@ -6,6 +6,8 @@ iso_checksum   = "file:https://pkg.opnsense.org/releases/25.7/OPNsense-25.7-chec
 disk_size      = "16G" # minimum
 memory         = 4096  # minimum
 
+iso_download_pve = false # not compatible with bz2
+
 # default credentials - change this after installation
 ssh_username   = "root"
 ssh_password   = "opnsense"

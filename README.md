@@ -30,8 +30,8 @@ Only the Windows Server Template has a Administrator user by default (Password `
 | [Windows Server 2022](./windows-server-2022.pkrvars.hcl) | [![windows-server-2022](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2022.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2022.yml) |
 | [Windows Server 2019](./windows-server-2019.pkrvars.hcl) | [![windows-server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
 | [Windows 11](./windows-11.pkrvars.hcl)                   | [![windows-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-11.yml)                            |
-| [Talos Linux](./talos.pkrvars.hcl)                       | [![talos](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml)|
-| [OPNsense 25.7](./opnsense-25.7.pkrvars.hcl)             | [![opnsense](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/opnsense.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/opnsense.yml)|
+| [Talos Linux](./talos.pkrvars.hcl)                       | [![talos](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml)                                           |
+| [OPNsense 25.7](./opnsense-25.7.pkrvars.hcl)             | [![opnsense-25.7](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/opnsense-25.7.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/opnsense-25.7.yml)                   |
 
 ## How to build
 
@@ -71,6 +71,41 @@ Other interesting variables are:
 
 See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 
+### Build a template
+
+To build a template (e.g. `debian-11`) run:
+
+```sh
+packer build -var-file="debian-11.pkrvars.hcl" -only="linux.*" .
+```
+
+For opnsense:
+
+```sh
+packer build -var-file="opnsense-25.7.pkrvars.hcl" -only="opnsense.*" .
+```
+
+For windows:
+
+```sh
+packer build -var-file="windows-server-2019.pkrvars.hcl" -only="windows.*" .
+```
+
+## Customization
+
+### Windows
+
+You can run additional setup actions for windows by creating a file `http/windows-scripts/custom/custom.ps1`.
+
+Example:
+
+```powershell
+# debloat Windows 11: https://github.com/Raphire/Win11Debloat
+& ([scriptblock]::Create((irm "https://debloat.raphi.re/"))) -RunDefaults -Sysprep -Silent
+```
+
+## Useful Tips
+
 ### Packer Webserver Forwarding
 
 In some cases your proxmox server might be in a datacatenter. You can ssh to the proxmox server but the proxmox server can't connect to your build computer.
@@ -103,37 +138,4 @@ On the build computer:
 
 ```bash
 ssh -N -R 127.0.0.1:8000:127.0.0.1:8000 user@lighthouse
-```
-
-### Build a template
-
-To build a template (e.g. `debian-11`) run:
-
-```sh
-packer build -var-file="debian-11.pkrvars.hcl" -only="linux.*" .
-```
-
-For opnsense:
-
-```sh
-packer build -var-file="opnsense-25.7.pkrvars.hcl" -only="opnsense.*" .
-```
-
-For windows:
-
-```sh
-packer build -var-file="windows-server-2019.pkrvars.hcl" -only="windows.*" .
-```
-
-## Customization
-
-### Windows
-
-You can run additional setup actions for windows by creating a file `http/windows-scripts/custom/custom.ps1`.
-
-Example:
-
-```powershell
-# debloat Windows 11: https://github.com/Raphire/Win11Debloat
-& ([scriptblock]::Create((irm "https://debloat.raphi.re/"))) -RunDefaults -Sysprep -Silent
 ```

@@ -1,0 +1,16 @@
+name: Opnsense-25.7
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['opnsense-25.7.pkrvars.hcl']
+jobs:
+  build:
+    uses: ./.github/workflows/packer.yml
+    with:
+      name: opnsense-25.7
+      vm_id: 1022
+    secrets:
+      proxmox_host: ${{ secrets.proxmox_host }}
+      proxmox_user: ${{ secrets.proxmox_user }}
+      proxmox_password: ${{ secrets.proxmox_password }}
