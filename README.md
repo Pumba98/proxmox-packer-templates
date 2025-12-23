@@ -30,7 +30,8 @@ Only the Windows Server Template has a Administrator user by default (Password `
 | [Windows Server 2022](./windows-server-2022.pkrvars.hcl) | [![windows-server-2022](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2022.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2022.yml) |
 | [Windows Server 2019](./windows-server-2019.pkrvars.hcl) | [![windows-server-2019](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-server-2019.yml) |
 | [Windows 11](./windows-11.pkrvars.hcl)                   | [![windows-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-11.yml)                            |
-| [Talos Linux](./talos.pkrvars.hcl)                       | [![talos](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml)                                           |
+| [Talos Linux](./talos.pkrvars.hcl)                       | [![talos](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml)|
+| [OPNsense 25.7](./opnsense-25.7.pkrvars.hcl)             | [![opnsense](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/opnsense.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/opnsense.yml)|
 
 ## How to build
 
@@ -110,6 +111,12 @@ To build a template (e.g. `debian-11`) run:
 
 ```sh
 packer build -var-file="debian-11.pkrvars.hcl" -only="linux.*" .
+```
+
+For opnsense:
+
+```sh
+packer build -var-file="opnsense-25.7.pkrvars.hcl" -only="opnsense.*" .
 ```
 
 For windows:
