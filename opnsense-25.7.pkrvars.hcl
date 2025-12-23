@@ -6,9 +6,12 @@ iso_checksum   = "file:https://pkg.opnsense.org/releases/25.7/OPNsense-25.7-chec
 disk_size      = "16G" # minimum
 memory         = 4096  # minimum
 
+# default credentials - change this after installation
+ssh_username   = "root"
+ssh_password   = "opnsense"
+
 #################################################
 #
-# - default credential root/opnsense
 # - single nic
 # - make it the WAN device getting an IP via DHCP (usually it is LAN with a static 192.168.1.1)
 # - install opnsense-cli for updating the config.xml
