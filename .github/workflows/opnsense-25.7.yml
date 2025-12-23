@@ -10,6 +10,7 @@ jobs:
     with:
       name: opnsense-25.7
       vm_id: 1022
+      os_type: opnsense
     secrets:
       netbird_setup_key: ${{ secrets.NETBIRD_SETUP_KEY }}
       proxmox_host: ${{ secrets.proxmox_host }}
