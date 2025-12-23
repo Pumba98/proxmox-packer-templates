@@ -13,6 +13,8 @@ on:
         type: string
         default: linux
     secrets:
+      netbird_setup_key:
+        required: true
       proxmox_host:
         required: true
       proxmox_user:
@@ -26,10 +28,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Netbird Connect
-        id: netbird
         uses: Alemiz112/netbird-connect@175ca0487002e6d4d96d16da5f4b91f639e8a765 #v1.0.1
         with:
-          setup-key: ${{ secrets.NETBIRD_SETUP_KEY }}
+          setup-key: ${{ secrets.netbird_setup_key }}
       - name: Use Packer
         uses: hashicorp-contrib/setup-packer@v3
         with:

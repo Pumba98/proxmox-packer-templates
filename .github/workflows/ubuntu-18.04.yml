@@ -11,6 +11,7 @@ jobs:
       name: ubuntu-18.04
       vm_id: 1001
     secrets:
+      netbird_setup_key: ${{ secrets.NETBIRD_SETUP_KEY }}
       proxmox_host: ${{ secrets.proxmox_host }}
       proxmox_user: ${{ secrets.proxmox_user }}
       proxmox_password: ${{ secrets.proxmox_password }}

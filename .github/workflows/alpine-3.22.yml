@@ -11,6 +11,7 @@ jobs:
       name: alpine-3.22
       vm_id: 1015
     secrets:
+      netbird_setup_key: ${{ secrets.NETBIRD_SETUP_KEY }}
       proxmox_host: ${{ secrets.proxmox_host }}
       proxmox_user: ${{ secrets.proxmox_user }}
       proxmox_password: ${{ secrets.proxmox_password }}
