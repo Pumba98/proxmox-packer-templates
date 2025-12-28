@@ -32,6 +32,7 @@ Only the Windows Server Template has a Administrator user by default (Password `
 | [Windows 11](./windows-11.pkrvars.hcl)                   | [![windows-11](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-11.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/windows-11.yml)                            |
 | [Talos Linux](./talos.pkrvars.hcl)                       | [![talos](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/talos.yml)                                           |
 | [OPNsense 25.7](./opnsense-25.7.pkrvars.hcl)             | [![opnsense-25.7](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/opnsense-25.7.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/opnsense-25.7.yml)                   |
+| [VyOS rolling](./vyos-rolling.pkrvars.hcl)               | [![opnsense](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/vyos.yml/badge.svg)](https://github.com/Pumba98/proxmox-packer-templates/actions/workflows/vyos.yml)                  |
 
 ## How to build
 
@@ -83,6 +84,16 @@ For opnsense:
 
 ```sh
 packer build -var-file="opnsense-25.7.pkrvars.hcl" -only="opnsense.*" .
+```
+
+For vyos:
+
+```sh
+# current nightly build
+curl -s https://api.github.com/repos/vyos/vyos-nightly-build/releases \
+  | jq -r '.[0] | .tag_name as $ver | .assets[] | select(.name | endswith(".iso")) | "name         = \"vyos-\($ver)-template\"\niso_file     = \"\(.name)\"\niso_url      = \"\(.browser_download_url)\"\niso_checksum = \"\(.digest)\""' > vyos-nightly-build.pkrvars.hcl
+
+packer build -var-file="vyos.rolling.pkrvars.hcl" -var-file="vyos-nightly-build.pkrvars.hcl" -only="vyos.*" .
 ```
 
 For windows:

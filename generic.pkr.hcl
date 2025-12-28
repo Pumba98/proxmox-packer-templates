@@ -142,6 +142,11 @@ build {
 }
 
 build {
+  name    = "vyos"
+  sources = ["source.proxmox-iso.vm"]
+}
+
+build {
   name    = "windows"
   sources = ["source.proxmox-iso.vm"]
 }
