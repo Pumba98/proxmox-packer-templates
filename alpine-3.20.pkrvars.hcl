@@ -33,8 +33,10 @@ boot_command = [
   "reboot<enter>"
 ]
 provisioner = [
-  "apk add --no-cache cloud-init",
+  "apk add --no-cache cloud-init util-linux e2fsprogs-extra",
   "setup-cloud-init",
+  "echo \"datasource_list: ['NoCloud']\" > /etc/cloud/cloud.cfg.d/02-datasource.cfg",
+  "echo \"PasswordAuthentication yes\" > /etc/ssh/sshd_config.d/01-password-auth.conf",
   "passwd -l root",
   "deluser --remove-home packer"
 ]
