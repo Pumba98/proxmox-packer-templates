@@ -17,6 +17,9 @@ on:
         required: true
       proxmox_password:
         required: true
+concurrency:
+  group: ${{ inputs.vm_id }}
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
