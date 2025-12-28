@@ -1,6 +1,6 @@
 # Packer Templates for Proxmox
 
-**Tested with Packer 1.10 and with Proxmox 8.1.4**
+**Tested with with Proxmox 9.1.2, Packer 1.14 and Packer Proxmox Plugin v1.2.3**
 
 Build VM Templates with Packer for Proxmox. The generated templates are meant to be used with cloud-init, they come without a User or root login.
 Only the Windows Server Template has a Administrator user by default (Password `packer`). It's ready for Ansible setup via winrm.
@@ -74,32 +74,10 @@ See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 
 ### Build a template
 
-To build a template (e.g. `debian-11`) run:
+To build a template (e.g. `debian-13`) run:
 
 ```sh
-packer build -var-file="debian-11.pkrvars.hcl" .
-```
-
-For opnsense:
-
-```sh
-packer build -var-file="opnsense-25.7.pkrvars.hcl" .
-```
-
-For vyos:
-
-```sh
-# current nightly build
-curl -s https://api.github.com/repos/vyos/vyos-nightly-build/releases \
-  | jq -r '.[0] | .tag_name as $ver | .assets[] | select(.name | endswith(".iso")) | "name         = \"vyos-\($ver)-template\"\niso_file     = \"\(.name)\"\niso_url      = \"\(.browser_download_url)\"\niso_checksum = \"\(.digest)\""' > vyos-nightly-build.pkrvars.hcl
-
-packer build -var-file="vyos.rolling.pkrvars.hcl" -var-file="vyos-nightly-build.pkrvars.hcl" -only="vyos.*" .
-```
-
-For windows:
-
-```sh
-packer build -var-file="windows-server-2019.pkrvars.hcl" .
+packer build -var-file="debian-13.pkrvars.hcl" .
 ```
 
 ## Customization
