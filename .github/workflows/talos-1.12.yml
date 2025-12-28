@@ -3,12 +3,12 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
-    paths: ['talos.pkrvars.hcl']
+    paths: ['talos-1.12.pkrvars.hcl']
 jobs:
   build:
     uses: ./.github/workflows/packer.yml
     with:
-      name: talos
+      name: talos-1.12
       vm_id: 1012
     secrets:
       netbird_setup_key: ${{ secrets.NETBIRD_SETUP_KEY }}

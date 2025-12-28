@@ -95,6 +95,16 @@
       ],
       enabled: false,
     },
+    {
+      matchPackageNames: [
+        'siderolabs/talos',
+      ],
+      matchUpdateTypes: [
+        'major',
+        'minor',
+      ],
+      enabled: false,
+    },
   ],
   customDatasources: {
     debianLinuxRelease: {

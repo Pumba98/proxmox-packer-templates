@@ -1,4 +1,4 @@
-name           = "talos-template"
+name           = "talos-1.12-template"
 iso_file       = "archlinux-2024.08.01-x86_64.iso"
 iso_url        = "https://www.archlinux.de/download/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso"
 iso_checksum   = "file:https://www.archlinux.de/download/iso/2024.08.01/sha256sums.txt"
