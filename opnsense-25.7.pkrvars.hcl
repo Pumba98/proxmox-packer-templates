@@ -12,6 +12,8 @@ iso_download_pve = false # not compatible with bz2
 ssh_username   = "root"
 ssh_password   = "opnsense"
 
+cloud_init = false
+
 #################################################
 #
 # - single nic
