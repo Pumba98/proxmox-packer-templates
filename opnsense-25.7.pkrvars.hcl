@@ -21,7 +21,7 @@ ssh_password   = "opnsense"
 # - firewall is **DISABLED** at boot time via config.xml
 #
 
-boot_wait      = "90s" # 60s, 90s, 120s (change this if needed)
+boot_wait      = "120s" # 60s, 90s, 120s (change this if needed)
 boot_command   = [
   # login as installer
   "installer<wait>",
@@ -37,7 +37,7 @@ boot_command   = [
   "<wait5>",
   "<enter><wait>",
   # disk probe
-  "<wait20>",
+  "<wait30>",
   # select default stripe
   "<enter><wait>",
   # select the only disk
@@ -47,8 +47,8 @@ boot_command   = [
 
   # confirm with yes
   "y<wait>",
-  # wait for cloning to hard disk(change this if needed)
-  "<wait180>",
+  # wait for cloning to hard disk (change this if needed)
+  "<wait300>",
 
   # complete the installation
   "c<wait>",
@@ -59,7 +59,7 @@ boot_command   = [
   "<enter><wait>",
 
   # wait for boot (change this if needed)
-  "<wait90>",
+  "<wait180>",
 
   # login after install
   "root<wait>",
