@@ -126,27 +126,16 @@ source "proxmox-iso" "vm" {
 }
 
 build {
-  name    = "linux"
+  name    = "build"
   sources = ["source.proxmox-iso.vm"]
 
-  provisioner "shell" {
-    execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
-    inline          = var.provisioner
-    skip_clean      = true
+  dynamic "provisioner" {
+    for_each = length(var.provisioner) > 0 ? [1] : []
+    labels = ["shell"]
+    content {
+      execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
+      inline          = var.provisioner
+      skip_clean      = true
+    }
   }
-}
-
-build {
-  name    = "opnsense"
-  sources = ["source.proxmox-iso.vm"]
-}
-
-build {
-  name    = "vyos"
-  sources = ["source.proxmox-iso.vm"]
-}
-
-build {
-  name    = "windows"
-  sources = ["source.proxmox-iso.vm"]
 }

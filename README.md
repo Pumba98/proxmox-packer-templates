@@ -77,13 +77,13 @@ See [variables.pkr.hcl](./variables.pkr.hcl) for all varaibles.
 To build a template (e.g. `debian-11`) run:
 
 ```sh
-packer build -var-file="debian-11.pkrvars.hcl" -only="linux.*" .
+packer build -var-file="debian-11.pkrvars.hcl" .
 ```
 
 For opnsense:
 
 ```sh
-packer build -var-file="opnsense-25.7.pkrvars.hcl" -only="opnsense.*" .
+packer build -var-file="opnsense-25.7.pkrvars.hcl" .
 ```
 
 For vyos:
@@ -99,7 +99,7 @@ packer build -var-file="vyos.rolling.pkrvars.hcl" -var-file="vyos-nightly-build.
 For windows:
 
 ```sh
-packer build -var-file="windows-server-2019.pkrvars.hcl" -only="windows.*" .
+packer build -var-file="windows-server-2019.pkrvars.hcl" .
 ```
 
 ## Customization

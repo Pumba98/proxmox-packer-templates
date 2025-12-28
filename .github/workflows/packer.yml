@@ -8,10 +8,6 @@ on:
       vm_id: 
         required: true
         type: number
-      os_type: 
-        required: false
-        type: string
-        default: linux
     secrets:
       netbird_setup_key:
         required: true
@@ -52,7 +48,7 @@ jobs:
           PACKER_KEY_INTERVAL: 100ms
         run: |
           packer init config.pkr.hcl
-          packer build -var-file="${{ inputs.name }}.pkrvars.hcl" -only="${{ inputs.os_type }}.*" -force .
+          packer build -var-file="${{ inputs.name }}.pkrvars.hcl" -force .
 
       - name: Netbird Disconnect
         shell: bash
