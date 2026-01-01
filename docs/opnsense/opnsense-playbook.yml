@@ -1,0 +1,119 @@
+---
+
+# Reference
+# https://ansible-opnsense.oxl.app/usage/2_basic.html
+
+# required steps
+# sudo apt install ansible
+# sudo apt-get install python3-httpx
+# ansible-galaxy collection install oxlorg.opnsense
+
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  name: Setup OpnSense
+  vars:
+    # your new VM
+    opnsense_vmid: 1005
+    # we query the guest agent for the IPv4 from DHCP (in this case from net0)
+    wan_network_id: 0
+  tasks:
+    - name: Wait for VM to be up and Guest Agent to be ready
+      community.proxmox.proxmox_vm_info:
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        api_host: "{{ proxmox_api_host }}"
+        vmid: "{{ opnsense_vmid }}"
+        config: current
+        network: true
+      register: vm_info
+      until:
+        - vm_info.proxmox_vms[0].config.agent | default(0) | int == 1
+        - vm_info.proxmox_vms[0].network[wan_network_id]['ip-addresses'] | list | length > 0
+        # this might be too strict as you might not get an ip4
+        #- vm_info.proxmox_vms[0].network[wan_network_id]['ip-addresses'] | selectattr('ip-address-type', 'equalto', 'ipv4') | list | length > 0
+      retries: 60
+      delay: 5
+
+    - name: Set OPNsense IP
+      ansible.builtin.set_fact:
+        # you might want to change this on an ipv6 only system - send us a PR :)
+        opnsense_dhcp_ip: "{{ vm_info.proxmox_vms[0].network[wan_network_id]['ip-addresses'] | selectattr('ip-address-type', 'equalto', 'ipv4') | map(attribute='ip-address') | first }}"
+
+    - name: List Interfaces
+      oxlorg.opnsense.list:
+        ssl_verify: false # you need to install an ssh key
+        firewall: "{{ opnsense_dhcp_ip }}"
+        api_key: "{{ opnsense_key }}"
+        api_secret: "{{ opnsense_secret }}"
+        target: 'rule_interface_group'
+      register: opnsense_interfaces
+
+    - name: Print Interfaces
+      ansible.builtin.debug:
+        var: opnsense_interfaces
+
+    - name: List Users
+      oxlorg.opnsense.list:
+        ssl_verify: false # you need to install an ssh key
+        firewall: "{{ opnsense_dhcp_ip }}"
+        api_key: "{{ opnsense_key }}"
+        api_secret: "{{ opnsense_secret }}"
+        target: 'user'
+      register: opnsense_users
+
+    - name: Print Users
+      ansible.builtin.debug:
+        var: opnsense_users
+
+    # https://ansible-opnsense.oxl.app/modules/access.html#examples
+    # - name: Example Privilege
+    #   oxlorg.opnsense.group:
+    #     id: user-config-readonly
+    #     user: alice
+    #     group: aliceandbob
+    #     # state: 'absent'
+    #     # debug: false
+
+    # - name: Adding Monitoring User
+    #   oxlorg.opnsense.user:
+    #     name: alice
+    #     update_password: on_create
+    #     scrambled_password: true
+    #     membership: []
+    #     privilege:
+    #       - user-config-readonly
+    #       - page-status-carp
+
+    # - name: Ensure only admins have all privileges
+    #   oxlorg.opnsense.privilege:
+    #     id: page-all
+    #     user: []
+    #     group: admin
+    #     state: pure
+
+    # - name: Example User
+    #   oxlorg.opnsense.user:
+    #     name: alice
+    #     # expires:
+    #     # authorized_keys: |
+    #     #   ssh-ed25519 xxxxx alice@host1
+    #     #   ssh-ed25519 yyyyy alice@host2
+    #     # shell: /bin/sh
+    #     # password:
+    #     # update_password: always
+    #     # scrambled_password: true
+    #     # landing_page:
+    #     # comment:
+    #     # email:
+    #     # language:
+    #     # description:
+    #     # membership:
+    #     # privilege:
+    #     # state: 'absent'
+    #     # debug: false
+
+## ACME
+# https://ansible-opnsense.oxl.app/modules/acmeclient.html#examples
+# https://github.com/O-X-L/ansible-opnsense/blob/31b04a3f686b2ba5181819ef773bcc3958407f0d/docs/source/modules/acmeclient.rst#L15

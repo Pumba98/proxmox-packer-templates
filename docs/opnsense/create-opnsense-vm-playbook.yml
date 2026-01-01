@@ -1,0 +1,176 @@
+---
+
+# Reference
+# https://docs.ansible.com/projects/ansible/latest/collections/community/proxmox/proxmox_kvm_module.html
+# https://docs.ansible.com/projects/ansible/latest/collections/community/proxmox/proxmox_vm_info_module.html
+
+# required steps
+# sudo apt install ansible
+# ansible-galaxy collection install community.proxmox
+
+# run with
+# ansible-playbook create-opnsense-vm-playbook.yml -e @./secrets.yml
+
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  name: Create OPNsense VM
+  vars:
+    # remove existing vm
+    force_remove: false
+
+    # your new VM
+    opnsense_vmid: 1005
+    opnsense_name: test-opnsense
+
+    # network
+    net:
+      net0: 'virtio,bridge=vmbr0' # wan (one device is the bare minimum, we assume DHCP)
+      net1: 'virtio,bridge=vmbr1' # lan
+
+    # we query the guest agent for the IPv4 from DHCP (in this case from net0)
+    wan_network_id: 0
+
+  tasks:
+    - name: Remove Existing VM
+      community.proxmox.proxmox_kvm:
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        api_host: "{{ proxmox_api_host }}"
+        vmid: "{{ opnsense_vmid }}"
+        state: absent
+        force: true
+        timeout: 300
+      ignore_errors: true
+      when: force_remove
+
+    - name: Create New VM from a Template
+      community.proxmox.proxmox_kvm:
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        api_host: "{{ proxmox_api_host }}"
+        node: "{{ proxmox_node }}"
+        newid: "{{ opnsense_vmid  }}"
+        name: "{{ opnsense_name }}"
+        clone: arbitrary_name
+        state: present
+        vmid: "{{ template_tpl_vmid }}"
+        #full: true # linked clone
+        storage: "{{ proxmox_storage }}"
+        target: "{{ proxmox_node }}"
+        timeout: 300
+        # hardware
+        agent: 1
+        net: "{{ net }}"
+
+    - name: Start VM
+      community.proxmox.proxmox_kvm:
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        api_host: "{{ proxmox_api_host }}"
+        vmid: "{{ opnsense_vmid }}"
+        state: started
+        force: true
+
+    - name: Wait for VM to be up and Guest Agent to be ready
+      community.proxmox.proxmox_vm_info:
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        api_host: "{{ proxmox_api_host }}"
+        vmid: "{{ opnsense_vmid }}"
+        config: current
+        network: true
+      register: vm_info
+      until:
+        - vm_info.proxmox_vms[0].config.agent | default(0) | int == 1
+        - vm_info.proxmox_vms[0].network[wan_network_id]['ip-addresses'] | list | length > 0
+        # this might be too strict as you might not get an ip4
+        #- vm_info.proxmox_vms[0].network[wan_network_id]['ip-addresses'] | selectattr('ip-address-type', 'equalto', 'ipv4') | list | length > 0
+      retries: 60
+      delay: 5
+
+    - name: Set OPNsense IP
+      ansible.builtin.set_fact:
+        # you might want to change this on an ipv6 only system - send us a PR :)
+        opnsense_dhcp_ip: "{{ vm_info.proxmox_vms[0].network[wan_network_id]['ip-addresses'] | selectattr('ip-address-type', 'equalto', 'ipv4') | map(attribute='ip-address') | first }}"
+
+    # - name: vm_info
+    #   debug:
+    #     var: vm_info
+
+    - name: Debug dump Guest Agent information (IPs)
+      debug:
+        msg:
+          - "VM Name: {{ vm_info.proxmox_vms[0].config.name }}"
+          - "IP: {{ opnsense_dhcp_ip }}"
+
+    - name: Read SSH public key
+      ansible.builtin.set_fact:
+        ssh_public_key: "{{ lookup('file', ssh_key_file_pub) }}"
+
+    - name: Check if login with SSH key already works
+      ansible.builtin.command:
+        cmd: >-
+          ssh -i {{ ssh_key_file }}
+          -o StrictHostKeyChecking=no
+          -o UserKnownHostsFile=/dev/null
+          -o PasswordAuthentication=no
+          -o ConnectTimeout=10
+          -o LogLevel=QUIET
+          {{ template_user }}@{{ opnsense_dhcp_ip }}
+          echo success
+      register: ssh_key_check
+      ignore_errors: true
+      changed_when: false
+
+    - name: Configure OPNsense (Password, Key, Security) if needed
+      when: ssh_key_check.rc != 0
+      block:
+        - name: Apply configuration (Change Password, Set SSH Key, Disable Password Auth)
+          ansible.builtin.expect:
+            command: "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET {{ template_user }}@{{ opnsense_dhcp_ip }}"
+            timeout: 30
+            responses:
+              '(?i)password:': "{{ template_password }}"
+              'Enter an option:':
+                - "8"
+                - "3"
+                - "0"
+              '(?i)root@.*#':
+                # the template has opnsense-cli installed: <https://github.com/mihakralj/opnsense-cli>
+                - "/usr/local/bin/opnsense set -d system/ssh/passwordauth" # delete
+                - "/usr/local/bin/opnsense set system/user/authorizedkeys {{ ssh_public_key | b64encode }}"
+                - "{{ '/usr/local/bin/opnsense set -d trigger_initial_wizard' if remove_initial_wizard | default(false) else 'echo skipping wizard removal' }}"
+                - "yes | /usr/local/bin/opnsense commit"
+                - "/usr/local/sbin/configctl webgui restart"
+                - "/usr/local/etc/rc.reload_all"
+                - "exit"
+              '(?i)Do you want to proceed.*': "y"
+              '(?i)Type a new password.*': "{{ opnsense_password }}"
+              '(?i)Confirm new password.*': "{{ opnsense_password }}"
+          register: expect_output
+
+        # - name: Debug expect output
+        #   ansible.builtin.debug:
+        #     var: expect_output.stdout_lines
+
+        - name: Verify login with SSH key works after configuration
+          ansible.builtin.command:
+            cmd: >-
+              ssh -i {{ ssh_key_file }}
+              -o StrictHostKeyChecking=no
+              -o UserKnownHostsFile=/dev/null
+              -o PasswordAuthentication=no
+              -o ConnectTimeout=10
+              -o LogLevel=QUIET
+              {{ template_user }}@{{ opnsense_dhcp_ip }}
+              echo success
+
+    - name: Debug SSH Usage
+      debug:
+        msg:
+          - "Login to your OPNSense: ssh -i {{ ssh_key_file }} {{ template_user }}@{{ opnsense_dhcp_ip }}"
