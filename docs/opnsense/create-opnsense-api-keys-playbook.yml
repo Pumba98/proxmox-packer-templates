@@ -1,0 +1,181 @@
+---
+
+# Reference
+# https://docs.ansible.com/projects/ansible/latest/collections/community/proxmox/proxmox_kvm_module.html
+# https://docs.ansible.com/projects/ansible/latest/collections/community/proxmox/proxmox_vm_info_module.html
+
+# required steps
+# sudo apt install ansible
+# ansible-galaxy collection install community.proxmox
+
+# run with
+# ansible-playbook create-opnsense-api-keys.yml -e @./secrets.yml
+
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  name: Create OPNsense VM
+  vars:
+    # your new VM
+    opnsense_vmid: 1005
+    # we query the guest agent for the IPv4 from DHCP (in this case from net0)
+    wan_network_id: 0
+
+    # this is during the initial bootstrap a chicken egg issue
+    # so we default to false
+    opnsense_validate_certs: false
+
+    # must be true, if you want to add more keys if you already have an api key
+    # this don't just append keys
+    opnsense_api_force: false
+
+    # deletes all key for the current {{ template_user }} before adding more
+    opnsense_api_delete_existing: true
+  tasks:
+    - name: Wait for VM to be up and Guest Agent to be ready
+      community.proxmox.proxmox_vm_info:
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        api_host: "{{ proxmox_api_host }}"
+        vmid: "{{ opnsense_vmid }}"
+        config: current
+        network: true
+      register: vm_info
+      until:
+        - vm_info.proxmox_vms[0].config.agent | default(0) | int == 1
+        - vm_info.proxmox_vms[0].network[wan_network_id]['ip-addresses'] | list | length > 0
+        # this might be too strict as you might not get an ip4
+        #- vm_info.proxmox_vms[0].network[wan_network_id]['ip-addresses'] | selectattr('ip-address-type', 'equalto', 'ipv4') | list | length > 0
+      retries: 60
+      delay: 5
+
+    - name: Set OPNsense IP
+      ansible.builtin.set_fact:
+        # you might want to change this on an ipv6 only system - send us a PR :)
+        opnsense_dhcp_ip: "{{ vm_info.proxmox_vms[0].network[wan_network_id]['ip-addresses'] | selectattr('ip-address-type', 'equalto', 'ipv4') | map(attribute='ip-address') | first }}"
+
+    # - name: vm_info
+    #   debug:
+    #     var: vm_info
+
+    - name: OPNsense https address
+      ansible.builtin.set_fact:
+        opnsense_url: "https://{{ opnsense_dhcp_ip }}"
+
+    # Get CSRF
+    - name: "Fetch OPNsense login page"
+      ansible.builtin.uri:
+        url: "{{ opnsense_url }}/"
+        method: GET
+        validate_certs: "{{ opnsense_validate_certs }}"
+        return_content: true
+      register: login_page
+
+    - name: "Extract CSRF token and field name"
+      ansible.builtin.set_fact:
+        csrf_token_field: "{{ login_page.content | regex_search('name=\"([^\"]*)\"[^>]*autocomplete=\"new-password\"', '\\1') | first }}"
+        csrf_token_value: "{{ login_page.content | regex_search('value=\"([^\"]*)\"[^>]*autocomplete=\"new-password\"', '\\1') | first }}"
+
+    - name: "Verify CSRF extraction"
+      ansible.builtin.fail:
+        msg: "Could not extract CSRF token from login page."
+      when: csrf_token_value is not defined or csrf_token_value == ""
+
+    # Login
+    - name: "Authenticate to OPNsense"
+      ansible.builtin.uri:
+        url: "{{ opnsense_url }}/"
+        method: POST
+        validate_certs: "{{ opnsense_validate_certs }}"
+        body_format: form-urlencoded
+        # IMPORTANT: Do not follow redirects. We need the Set-Cookie from the 302 response.
+        follow_redirects: none
+        status_code: 302
+        headers:
+          Cookie: "{{ login_page.cookies_string | default('') }}"
+        # Dictionary defined inside Jinja to handle the dynamic key variable
+        body: "{{ {
+            'usernamefld': template_user,
+            'passwordfld': opnsense_password,
+            'login': '1',
+            csrf_token_field: csrf_token_value
+          } }}"
+      register: auth_response
+
+    - name: "Ensure authentication got a session"
+      ansible.builtin.fail:
+        msg: "Authentication failed. No session cookie received."
+      when: auth_response.set_cookie is not defined or auth_response.set_cookie == ""
+
+    # Check for existing key
+    - name: "Search for existing API keys"
+      ansible.builtin.uri:
+        url: "{{ opnsense_url }}/api/auth/user/search_api_key/"
+        method: POST
+        validate_certs: "{{ opnsense_validate_certs }}"
+        body_format: json
+        headers:
+          X-CSRFTOKEN: "{{ csrf_token_value }}"
+          # Use the NEW authenticated cookie
+          Cookie: "{{ auth_response.set_cookie }}"
+        body: {}
+      register: api_keys_search
+
+    - name: "Filter keys for current user"
+      ansible.builtin.set_fact:
+        existing_keys: "{{ api_keys_search.json.rows | selectattr('username', 'equalto', template_user) | list }}"
+
+    - name: "Check conflict status"
+      ansible.builtin.fail:
+        msg: "User '{{ template_user }}' already has API keys. Set 'opnsense_api_force: true' to add another or 'opnsense_api_delete_existing: true' to overwrite."
+      when:
+        - existing_keys | length > 0
+        - not opnsense_api_force
+        - not opnsense_api_delete_existing
+
+    # Delete existing keys (if requested)
+    - name: "Delete existing API keys"
+      ansible.builtin.uri:
+        url: "{{ opnsense_url }}/api/auth/user/del_api_key/{{ item.id }}"
+        method: POST
+        validate_certs: "{{ opnsense_validate_certs }}"
+        body_format: json
+        headers:
+          X-CSRFTOKEN: "{{ csrf_token_value }}"
+          Cookie: "{{ auth_response.set_cookie }}"
+        body: {}
+      loop: "{{ existing_keys }}"
+      no_log: true
+      when:
+        - opnsense_api_delete_existing
+        - existing_keys | length > 0
+
+    # Generate new key
+    - name: "Generate new API Key"
+      ansible.builtin.uri:
+        url: "{{ opnsense_url }}/api/auth/user/add_api_key/{{ template_user }}"
+        method: POST
+        validate_certs: "{{ opnsense_validate_certs }}"
+        body_format: json
+        headers:
+          X-CSRFTOKEN: "{{ csrf_token_value }}"
+          Cookie: "{{ auth_response.set_cookie }}"
+        body: {}
+      register: new_key_response
+
+    - name: "Display Credentials"
+      ansible.builtin.debug:
+        msg:
+          - "----------------------------------------"
+          - "API Key ({{ template_user }})"
+          - "Key:    {{ new_key_response.json.key }}"
+          - "Secret: {{ new_key_response.json.secret }}"
+          - "----------------------------------------"
+      when: new_key_response.json.key is defined
+
+    - name: "Display Test Instruction"
+      ansible.builtin.debug:
+        msg:
+          - "curl -k -u '{{ new_key_response.json.key }}:{{ new_key_response.json.secret }}' '{{ opnsense_url }}/api/core/system/status'"
+      when: new_key_response.json.key is defined
