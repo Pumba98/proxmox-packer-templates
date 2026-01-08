@@ -4,7 +4,6 @@ iso_url        = "https://www.archlinux.de/download/iso/2024.08.01/archlinux-202
 iso_checksum   = "file:https://www.archlinux.de/download/iso/2024.08.01/sha256sums.txt"
 http_directory = "./http/talos"
 ssh_username   = "root"
-cloud_init     = false
 boot_wait      = "5s"
 boot_command = [
     "<enter><wait1m>",
