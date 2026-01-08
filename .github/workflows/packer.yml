@@ -43,7 +43,11 @@ jobs:
           PKR_VAR_proxmox_user: ${{ secrets.proxmox_user }}
           PKR_VAR_proxmox_password: ${{ secrets.proxmox_password }}
           PKR_VAR_node: proxmox
-          PKR_VAR_pool: Templates
+          PKR_VAR_pool: templates
+          PKR_VAR_iso_storage_pool: local
+          PKR_VAR_disk_storage_pool: local-lvm
+          PKR_VAR_cloud_init_storage_pool: local-lvm
+          PKR_VAR_disk_format: raw
           PKR_VAR_iso_download: "true"
           PKR_VAR_iso_download_pve: "true"
           PKR_VAR_vmid: ${{ inputs.vm_id }}
