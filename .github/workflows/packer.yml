@@ -27,7 +27,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Netbird Connect
-        uses: Alemiz112/netbird-connect@175ca0487002e6d4d96d16da5f4b91f639e8a765 #v1.0.1
+        uses: gene1wood/netbird-connect@b8c6916d108aee5e327546e49efcd29bbd41b69f #v1.1.0
         with:
           setup-key: ${{ secrets.netbird_setup_key }}
       - name: Use Packer
