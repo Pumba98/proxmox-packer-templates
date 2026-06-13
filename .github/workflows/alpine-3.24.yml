@@ -1,15 +1,15 @@
-name: Alpine-3.20
+name: Alpine-3.24
 on:
   workflow_dispatch:
   push:
     branches: [master]
-    paths: ['alpine-3.20.pkrvars.hcl']
+    paths: ['alpine-3.24.pkrvars.hcl']
 jobs:
   build:
     uses: ./.github/workflows/packer.yml
     with:
-      name: alpine-3.20
-      vm_id: 1013
+      name: alpine-3.24
+      vm_id: 1026
     secrets:
       netbird_setup_key: ${{ secrets.NETBIRD_SETUP_KEY }}
       proxmox_host: ${{ secrets.proxmox_host }}
