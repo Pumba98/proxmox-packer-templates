@@ -31,7 +31,7 @@ jobs:
         with:
           setup-key: ${{ secrets.netbird_setup_key }}
       - name: Use Packer
-        uses: hashicorp-contrib/setup-packer@v3
+        uses: hashicorp-contrib/setup-packer@v4
         with:
           # renovate: githubReleaseVar repo=hashicorp/packer
           packer-version: 1.15.4
