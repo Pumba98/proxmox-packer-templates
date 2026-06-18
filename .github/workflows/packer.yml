@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Netbird Connect
         uses: gene1wood/netbird-connect@b8c6916d108aee5e327546e49efcd29bbd41b69f #v1.1.0
         with:
