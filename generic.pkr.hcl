@@ -138,4 +138,12 @@ build {
       skip_clean      = true
     }
   }
+
+  dynamic "provisioner" {
+    for_each = length(var.provisioner_windows) > 0 ? [1] : []
+    labels = ["powershell"]
+    content {
+      inline = var.provisioner_windows
+    }
+  }
 }

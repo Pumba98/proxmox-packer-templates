@@ -18,6 +18,12 @@ unattended_content = {
       image_name      = "Windows Server 2022 SERVERSTANDARD"
     }
   }
+  "/sysprep-unattend.xml" = {
+    template = "./http/windows/sysprep-unattend-server.xml.pkrtpl"
+    vars = {
+      image_name = ""
+    }
+  }
 }
 additional_cd_files = [
   {
@@ -32,3 +38,6 @@ http_directory = ""
 cloud_init   = false
 boot_command   = []
 provisioner    = []
+provisioner_windows = [
+  "$sysprep = Get-PSDrive -PSProvider FileSystem | ForEach-Object { Join-Path $_.Root 'sysprep.ps1' } | Where-Object { Test-Path $_ } | Select-Object -First 1; powershell -NoProfile -ExecutionPolicy Bypass -File $sysprep"
+]
