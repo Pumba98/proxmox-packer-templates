@@ -25,7 +25,10 @@ The VM is rebooted from inside the guest and the test reconnects on the same IP 
 
 ## Machine id test
 
-A second VM is cloned and the two are checked for a shared identity, which is what a template converted without truncating `/etc/machine-id` produces. Each Linux guest checks its own `/etc/machine-id` is non-empty, and terraform compares the two clones' DHCP leases and MACs.
+A second VM is cloned and the two are compared for a shared identity.
+
+- Linux - the SSH host key, via `ssh-keyscan` in [scripts/hostkey.sh](scripts/hostkey.sh). Generated per machine on first boot.
+- Windows - the machine SID (the local account SID minus its RID), via [scripts/machinesid.py](scripts/machinesid.py).
 
 ## CI
 

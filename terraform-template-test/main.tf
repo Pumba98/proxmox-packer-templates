@@ -4,6 +4,13 @@ locals {
 
   vm_count = var.test_machine_id ? 2 : 1
 
+  # Per-VM identity read from the runner: the ssh host key on linux, the machine SID on windows
+  vm_identity = var.windows ? [
+    for d in data.external.machine_sid : d.result.sid
+    ] : [
+    for d in data.external.host_key : d.result.key
+  ]
+
   # Template ids are consecutive, so clones are spaced a block apart to keep
   # template N's second clone off template N+1's first.
   vm_id_offset = 1000
@@ -22,10 +29,6 @@ locals {
     ][0], "")
   }
 
-  vm_mac_address = {
-    for idx, vm in proxmox_virtual_environment_vm.template_test :
-    idx => lower(join(",", vm.mac_addresses))
-  }
 }
 
 resource "proxmox_virtual_environment_vm" "template_test" {
@@ -146,27 +149,25 @@ resource "null_resource" "post_reboot_test" {
   }
 }
 
-# A template converted without truncating /etc/machine-id hands every clone the
-# same id. The cross-VM comparison is in the tftest assertions.
-resource "null_resource" "machine_id_test" {
+data "external" "host_key" {
   count = var.test_machine_id && !var.windows ? local.vm_count : 0
 
   depends_on = [null_resource.connection_test]
 
-  triggers = {
-    vm_id = proxmox_virtual_environment_vm.template_test[count.index].id
-  }
+  program = ["sh", "${path.module}/scripts/hostkey.sh"]
+  query   = { host = local.vm_ipv4_address[count.index] }
+}
 
-  connection {
-    type     = "ssh"
+data "external" "machine_sid" {
+  count = var.test_machine_id && var.windows ? local.vm_count : 0
+
+  depends_on = [null_resource.connection_test]
+
+  program = ["python3", "${path.module}/scripts/machinesid.py"]
+  query = {
     host     = local.vm_ipv4_address[count.index]
     user     = local.test_username
     password = local.test_password
-    timeout  = var.connection_timeout
-  }
-
-  provisioner "remote-exec" {
-    inline = ["[ -s /etc/machine-id ] || { echo 'machine-id is empty or missing'; exit 1; }"]
   }
 }
 

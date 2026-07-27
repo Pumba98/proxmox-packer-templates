@@ -11,14 +11,15 @@ run "template_test" {
     error_message = "VM is not running after the reboot"
   }
 
-  # Clones sharing a machine-id are handed the same DHCP lease.
   assert {
-    condition     = !var.test_machine_id || local.vm_ipv4_address[0] != local.vm_ipv4_address[1]
-    error_message = "Both clones got the same IP address, so they share a machine-id"
+    condition     = !var.test_machine_id || local.vm_identity[0] != ""
+    error_message = "Could not read the ssh host key / machine SID from the first clone"
   }
 
+  # Both identities are generated per machine, so a shared value means the
+  # template was not cleaned before conversion.
   assert {
-    condition     = !var.test_machine_id || local.vm_mac_address[0] != local.vm_mac_address[1]
-    error_message = "Both clones got the same MAC address"
+    condition     = !var.test_machine_id || local.vm_identity[0] != local.vm_identity[1]
+    error_message = "Both clones have the same ssh host key / machine SID, so the template was not cleaned before conversion"
   }
 }
