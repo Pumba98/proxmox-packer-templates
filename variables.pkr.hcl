@@ -356,6 +356,12 @@ variable "provisioner" {
   type        = list(string)
 }
 
+variable "provisioner_windows" {
+  description = "The packer powershell provisioner commands (Windows builds only)."
+  type        = list(string)
+  default     = []
+}
+
 variable "packer_http_interface" {
   description = "Name of the network interface that Packer gets HTTPIP from. Defaults to the first non loopback interface."
   type        = string

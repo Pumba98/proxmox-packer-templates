@@ -15,5 +15,13 @@ boot_command = [
     "<enter>"
 ]
 provisioner = [
-  "userdel --remove --force packer"
+  "cloud-init clean --logs",
+  "rm -f /etc/ssh/ssh_host_*",
+  "truncate -s 0 /etc/machine-id",
+  "rm -f /var/lib/dbus/machine-id",
+  "dnf clean all",
+  "userdel --remove --force packer",
+  "rm -f /root/.bash_history",
+  "find /var/log -type f -exec truncate -s 0 {} +",
+  "fstrim -a || true"
 ]

@@ -38,5 +38,11 @@ provisioner = [
   "echo \"datasource_list: ['NoCloud']\" > /etc/cloud/cloud.cfg.d/02-datasource.cfg",
   "echo \"PasswordAuthentication yes\" > /etc/ssh/sshd_config.d/01-password-auth.conf",
   "passwd -l root",
-  "deluser --remove-home packer"
+  "cloud-init clean --logs",
+  "rm -f /etc/ssh/ssh_host_*",
+  "rm -f /etc/machine-id /var/lib/dbus/machine-id",
+  "deluser --remove-home packer",
+  "rm -f /root/.ash_history",
+  "find /var/log -type f -exec truncate -s 0 {} +",
+  "fstrim -a || true"
 ]
