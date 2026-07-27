@@ -35,9 +35,17 @@ Start-Process -FilePath "$env:SystemRoot\System32\Sysprep\sysprep.exe" `
     -ArgumentList "/generalize", "/oobe", "/mode:vm", "/quiet", "/quit", "/unattend:$env:SystemRoot\Panther\unattend.xml" `
     -Wait -NoNewWindow
 
-# Verify sysprep succeeded (GeneralizationState 7 = generalization complete)
-$state = (Get-ItemProperty -Path "HKLM:\SYSTEM\Setup\Status\SysprepStatus").GeneralizationState
-if ($state -ne 7) {
-    Get-Content "$env:SystemRoot\System32\Sysprep\Panther\setuperr.log" -ErrorAction SilentlyContinue
-    throw "Sysprep failed, GeneralizationState=$state"
+# Poll until windows reports the image is sealed
+$deadline = (Get-Date).AddMinutes(30)
+while ($true) {
+    $imageState = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State").ImageState
+    if ($imageState -eq "IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE") { break }
+
+    if ((Get-Date) -ge $deadline) {
+        Get-Content "$env:SystemRoot\System32\Sysprep\Panther\setuperr.log" -ErrorAction SilentlyContinue
+        throw "Sysprep did not seal the image within 30 minutes, ImageState=$imageState"
+    }
+
+    Write-Output "waiting for sysprep, ImageState=$imageState"
+    Start-Sleep -Seconds 10
 }
