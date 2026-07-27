@@ -87,7 +87,13 @@ resource "null_resource" "connection_test" {
   }
 
   provisioner "remote-exec" {
-    inline = var.windows ? ["systeminfo | findstr /B /C:\"OS Name\""] : ["uname -a"]
+    inline = var.windows ? ["systeminfo | findstr /B /C:\"OS Name\""] : [
+      "uname -a",
+      "if id ${var.packer_username} >/dev/null 2>&1; then echo 'FAIL: build user ${var.packer_username} still exists'; exit 1; fi",
+      "if grep -q '^${var.packer_username}:' /etc/passwd; then echo 'FAIL: build user ${var.packer_username} still in /etc/passwd'; exit 1; fi",
+      "if [ -d /home/${var.packer_username} ]; then echo 'FAIL: home directory of ${var.packer_username} still exists'; exit 1; fi",
+      "echo 'build user ${var.packer_username} is gone'",
+    ]
   }
 }
 

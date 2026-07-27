@@ -95,6 +95,12 @@ variable "reboot_timeout" {
   default     = "10m"
 }
 
+variable "packer_username" {
+  description = "The throwaway build user packer connects as, which the template provisioners must delete. Matches PKR_VAR_ssh_username."
+  type        = string
+  default     = "packer"
+}
+
 variable "test_machine_id" {
   description = "Clone a second VM and verify the two clones do not share an identity (machine-id, DHCP lease, MAC)."
   type        = bool
