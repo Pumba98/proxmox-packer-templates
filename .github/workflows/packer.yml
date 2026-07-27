@@ -18,6 +18,16 @@ on:
         required: false
         default: false
         type: boolean
+      test_reboot:
+        description: "Reboot the VM during the test and verify it comes back on the same IP."
+        required: false
+        default: true
+        type: boolean
+      test_machine_id:
+        description: "Clone a second VM during the test and verify the clones do not share an identity."
+        required: false
+        default: true
+        type: boolean
     secrets:
       netbird_setup_key:
         required: true
@@ -79,6 +89,8 @@ jobs:
     with:
       vm_id: ${{ inputs.vm_id }}
       windows: ${{ inputs.windows }}
+      test_reboot: ${{ inputs.test_reboot }}
+      test_machine_id: ${{ inputs.test_machine_id }}
     secrets:
       netbird_setup_key: ${{ secrets.netbird_setup_key }}
       proxmox_host: ${{ secrets.proxmox_host }}

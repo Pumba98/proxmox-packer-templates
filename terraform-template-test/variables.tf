@@ -82,3 +82,21 @@ variable "connection_timeout" {
   type        = string
   default     = "5m"
 }
+
+variable "test_reboot" {
+  description = "Reboot the VM and verify it comes back on the same IP address."
+  type        = bool
+  default     = true
+}
+
+variable "reboot_timeout" {
+  description = "How long to wait for the VM to come back after the reboot."
+  type        = string
+  default     = "10m"
+}
+
+variable "test_machine_id" {
+  description = "Clone a second VM and verify the two clones do not share an identity (machine-id, DHCP lease, MAC)."
+  type        = bool
+  default     = true
+}

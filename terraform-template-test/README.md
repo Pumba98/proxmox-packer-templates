@@ -17,7 +17,15 @@ Run it against a Windows template:
 TF_VAR_template_id=1021 TF_VAR_windows=true terraform test
 ```
 
-The test VM is created with ID `template_id + 1000` and is destroyed again when the test finishes.
+Test VMs are created with ID `template_id + 1000` and `template_id + 1100`, and are destroyed again when the test finishes. The two are spaced a block apart because template IDs are consecutive, so a smaller gap would make one template's second clone collide with the next template's first.
+
+## Reboot test
+
+The VM is rebooted from inside the guest and the test reconnects on the same IP it saw before.
+
+## Machine id test
+
+A second VM is cloned and the two are checked for a shared identity, which is what a template converted without truncating `/etc/machine-id` produces. Each Linux guest checks its own `/etc/machine-id` is non-empty, and terraform compares the two clones' DHCP leases and MACs.
 
 ## CI
 
