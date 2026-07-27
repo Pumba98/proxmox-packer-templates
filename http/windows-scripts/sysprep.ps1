@@ -18,10 +18,11 @@ Copy-Item -Path "$PSScriptRoot\setup.ps1" -Destination "$env:SystemRoot\Setup\Sc
 # The file only defines the specialize/oobeSystem passes, which run on the clone's
 # first boot. Windows picks it up from Panther automatically then, so it is staged
 # here rather than passed to sysprep.exe below.
-$cd = Get-Volume -FileSystemLabel "Windows Unattended CD" -ErrorAction SilentlyContinue | Select-Object -First 1
-if (-not $cd) { throw "Windows Unattended CD not found" }
-$unattend = "$($cd.DriveLetter):\sysprep-unattend.xml"
-if (-not (Test-Path $unattend)) { throw "sysprep-unattend.xml not found on $unattend" }
+$unattend = Get-PSDrive -PSProvider FileSystem |
+    ForEach-Object { Join-Path $_.Root "sysprep-unattend.xml" } |
+    Where-Object { Test-Path $_ } |
+    Select-Object -First 1
+if (-not $unattend) { throw "sysprep-unattend.xml not found on any attached drive" }
 Copy-Item -Path $unattend -Destination "$env:SystemRoot\Panther\unattend.xml" -Force
 
 # Clear event logs (last, so the cleanup noise is gone too).
