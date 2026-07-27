@@ -40,6 +40,8 @@ resource "proxmox_virtual_environment_vm" "template_test" {
 
   vm_id = var.template_id + local.vm_id_offset + count.index * local.vm_id_stride
 
+  stop_on_destroy = true
+
   clone {
     vm_id = var.template_id
   }
