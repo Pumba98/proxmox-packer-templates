@@ -1,12 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-# Switch network connection to private mode
-# Required for WinRM firewall rules
-$profile = Get-NetConnectionProfile
-Set-NetConnectionProfile -Name $profile.Name -NetworkCategory Private
-
-# Enable WinRM service
-winrm quickconfig -quiet
+# Enable WinRM without changing the network category. Changing it during the
+# first interactive logon can display the Windows network-discovery prompt and
+# block an unattended Packer build.
+Enable-PSRemoting -SkipNetworkProfileCheck -Force
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 winrm set winrm/config/service/auth '@{Basic="true"}'
 
