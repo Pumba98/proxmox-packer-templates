@@ -6,7 +6,7 @@ terraform {
     }
     null = {
       source  = "hashicorp/null"
-      version = "3.2.4"
+      version = "3.3.0"
     }
     external = {
       source  = "hashicorp/external"
