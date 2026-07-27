@@ -36,13 +36,13 @@ variable "node" {
 variable "pool" {
   description = "Proxmox pool to place the test VM in."
   type        = string
-  default     = "Development"
+  default     = "staging"
 }
 
 variable "cloud_init_storage_pool" {
-  description = "Datastore for the cloud-init drive of the test VM. Unused for Windows templates."
+  description = "Datastore for the cloud-init drive of the test VM. Matches PKR_VAR_cloud_init_storage_pool. Unused for Windows templates."
   type        = string
-  default     = "local"
+  default     = "local-lvm"
 }
 
 variable "ssh_username" {
