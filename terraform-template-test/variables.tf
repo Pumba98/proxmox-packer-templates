@@ -20,3 +20,65 @@ variable "template_id" {
   description = "ID of the VM template to use."
   type        = number
 }
+
+variable "windows" {
+  description = "Whether the template is a Windows template. Windows templates have no cloud-init drive and are tested over WinRM instead of SSH."
+  type        = bool
+  default     = false
+}
+
+variable "node" {
+  description = "Name of the Proxmox node to clone the test VM onto."
+  type        = string
+  default     = "proxmox"
+}
+
+variable "pool" {
+  description = "Proxmox pool to place the test VM in."
+  type        = string
+  default     = "Development"
+}
+
+variable "cloud_init_storage_pool" {
+  description = "Datastore for the cloud-init drive of the test VM. Unused for Windows templates."
+  type        = string
+  default     = "local"
+}
+
+variable "ssh_username" {
+  description = "Username provisioned via cloud-init and used for the SSH connection test."
+  type        = string
+  default     = "template"
+}
+
+variable "ssh_password" {
+  description = "Password provisioned via cloud-init and used for the SSH connection test."
+  type        = string
+  default     = "test"
+  sensitive   = true
+}
+
+variable "winrm_username" {
+  description = "Username baked into the Windows template by packer, used for the WinRM connection test."
+  type        = string
+  default     = "Administrator"
+}
+
+variable "winrm_password" {
+  description = "Password baked into the Windows template by packer, used for the WinRM connection test."
+  type        = string
+  default     = "packer"
+  sensitive   = true
+}
+
+variable "agent_timeout" {
+  description = "How long to wait for the QEMU guest agent to report an IP address."
+  type        = string
+  default     = "5m"
+}
+
+variable "connection_timeout" {
+  description = "How long to wait for the SSH/WinRM connection to succeed."
+  type        = string
+  default     = "5m"
+}

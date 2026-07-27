@@ -10,6 +10,7 @@ jobs:
     with:
       name: windows-server-2022
       vm_id: 1008
+      windows: true
     secrets:
       netbird_setup_key: ${{ secrets.NETBIRD_SETUP_KEY }}
       proxmox_host: ${{ secrets.proxmox_host }}

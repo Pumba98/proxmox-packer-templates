@@ -5,9 +5,19 @@ on:
       name:
         required: true
         type: string
-      vm_id: 
+      vm_id:
         required: true
         type: number
+      test:
+        description: "Run the terraform template test after the build."
+        required: false
+        default: true
+        type: boolean
+      windows:
+        description: "Template is a Windows template, so test it over WinRM instead of cloud-init/SSH."
+        required: false
+        default: false
+        type: boolean
     secrets:
       netbird_setup_key:
         required: true
@@ -58,5 +68,19 @@ jobs:
           packer build -var-file="${{ inputs.name }}.pkrvars.hcl" -force .
 
       - name: Netbird Disconnect
+        if: always()
         shell: bash
         run: sudo netbird down
+
+  test:
+    needs: build
+    if: inputs.test
+    uses: ./.github/workflows/terraform-test.yml
+    with:
+      vm_id: ${{ inputs.vm_id }}
+      windows: ${{ inputs.windows }}
+    secrets:
+      netbird_setup_key: ${{ secrets.netbird_setup_key }}
+      proxmox_host: ${{ secrets.proxmox_host }}
+      proxmox_user: ${{ secrets.proxmox_user }}
+      proxmox_password: ${{ secrets.proxmox_password }}

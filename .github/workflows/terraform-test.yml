@@ -1,0 +1,54 @@
+name: Terraform Template Test
+on:
+  workflow_call:
+    inputs:
+      vm_id:
+        required: true
+        type: number
+      windows:
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      netbird_setup_key:
+        required: true
+      proxmox_host:
+        required: true
+      proxmox_user:
+        required: true
+      proxmox_password:
+        required: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform-template-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+      - name: Netbird Connect
+        uses: gene1wood/netbird-connect@b8c6916d108aee5e327546e49efcd29bbd41b69f #v1.1.0
+        with:
+          setup-key: ${{ secrets.netbird_setup_key }}
+      - name: Use Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          # renovate: githubReleaseVar repo=hashicorp/terraform
+          terraform_version: 1.15.8
+          terraform_wrapper: false
+      - name: Terraform Init
+        run: terraform init -input=false
+      - name: Terraform Test
+        env:
+          TF_VAR_proxmox_host: ${{ secrets.proxmox_host }}
+          TF_VAR_proxmox_user: ${{ secrets.proxmox_user }}
+          TF_VAR_proxmox_password: ${{ secrets.proxmox_password }}
+          TF_VAR_template_id: ${{ inputs.vm_id }}
+          TF_VAR_windows: ${{ inputs.windows }}
+        run: terraform test -verbose
+
+      - name: Netbird Disconnect
+        if: always()
+        shell: bash
+        run: sudo netbird down

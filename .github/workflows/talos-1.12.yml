@@ -10,6 +10,7 @@ jobs:
     with:
       name: talos-1.12
       vm_id: 1012
+      test: false
     secrets:
       netbird_setup_key: ${{ secrets.NETBIRD_SETUP_KEY }}
       proxmox_host: ${{ secrets.proxmox_host }}

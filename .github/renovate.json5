@@ -42,6 +42,7 @@
     {
       matchPackageNames: [
         'hashicorp/packer',
+        'hashicorp/terraform',
       ],
       extractVersion: '^v(?<version>.*)$',
     },

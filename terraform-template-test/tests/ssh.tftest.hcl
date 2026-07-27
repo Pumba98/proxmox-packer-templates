@@ -1,8 +1,13 @@
-run "ssh_test_assert" {
+run "connection_test_assert" {
   command = apply
 
   assert {
-    condition     = null_resource.ssh_test.id != ""
-    error_message = "SSH test failed"
+    condition     = local.vm_ipv4_address != ""
+    error_message = "The guest agent did not report a usable IPv4 address for the cloned template"
+  }
+
+  assert {
+    condition     = null_resource.connection_test.id != ""
+    error_message = "Connection test failed"
   }
 }
