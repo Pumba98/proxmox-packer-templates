@@ -112,7 +112,6 @@
                     </ModifyPartitions>
                     <DiskID>0</DiskID>
                     <WillWipeDisk>true</WillWipeDisk>
-                    <!-- <MBR>true</MBR> -->
                 </Disk>
                 <WillShowUI>OnError</WillShowUI>
             </DiskConfiguration>

@@ -19,7 +19,7 @@ unattended_content = {
     }
   }
   "/sysprep-unattend.xml" = {
-    template = "./http/windows/sysprep-unattend-server.xml.pkrtpl"
+    template = "./http/windows/sysprep-unattend.xml.pkrtpl"
     vars = {
       image_name = ""
     }

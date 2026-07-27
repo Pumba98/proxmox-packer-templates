@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Answer file for the specialize/oobe passes that run on the FIRST BOOT OF A CLONE
-     after the template was sealed with "sysprep /generalize /oobe". -->
+     after the template was sealed with "sysprep /generalize /oobe".
+     The local account created during install survives sysprep, so it is only
+     used for autologon here, not re-created. Shared by the client and server
+     builds: ${winrm_username} resolves to "Administrator" on server images. -->
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <settings pass="specialize">
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -19,7 +22,7 @@
             <AutoLogon>
                 <Enabled>true</Enabled>
                 <LogonCount>1</LogonCount>
-                <Username>Administrator</Username>
+                <Username>${winrm_username}</Username>
                 <Password>
                     <Value>${winrm_password}</Value>
                     <PlainText>true</PlainText>
@@ -41,6 +44,8 @@
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
             </OOBE>
             <UserAccounts>
+                <!-- Re-applies the build password after generalize. Harmless on client
+                     images, where the built-in Administrator stays disabled. -->
                 <AdministratorPassword>
                     <Value>${winrm_password}</Value>
                     <PlainText>true</PlainText>
