@@ -102,7 +102,7 @@ source "proxmox-iso" "vm" {
       iso_storage_pool = var.iso_storage_pool
       cd_files         = contains(keys(iso.value), "files") ? iso.value.files : []
       cd_content       = contains(keys(iso.value), "content") ? iso.value.content : {}
-      cd_label         = contains(keys(iso.value), "label") ? iso.value.label : ""
+      cd_label         = iso.value.label
       unmount          = var.iso_unmount
     }
   }

@@ -249,6 +249,7 @@ variable "additional_cd_files" {
     type   = string
     index  = number
     files  = list(string)
+    label  = string
   }))
   default = []
 }
