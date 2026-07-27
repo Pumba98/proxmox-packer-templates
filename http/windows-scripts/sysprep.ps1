@@ -32,27 +32,42 @@ $ErrorActionPreference = "Stop"
 # /quit instead of /shutdown: packer performs the shutdown itself after the provisioner.
 # No /mode:vm: /unattend does not apply in vm mode, the combination fails with 0x80070005.
 # https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep-command-line-options
+$start = Get-Date
 $proc = Start-Process -FilePath "$env:SystemRoot\System32\Sysprep\sysprep.exe" `
     -ArgumentList "/generalize", "/oobe", "/quiet", "/quit", "/unattend:$env:SystemRoot\Panther\unattend.xml" `
     -Wait -NoNewWindow -PassThru
+Write-Output "sysprep.exe exited with $($proc.ExitCode)"
+
+function Stop-WithSysprepLogs($message) {
+    foreach ($log in "setuperr.log", "setupact.log") {
+        $path = "$env:SystemRoot\System32\Sysprep\Panther\$log"
+        if (Test-Path $path) {
+            Write-Output "--- $log ---"
+            Get-Content $path -Tail 60 -ErrorAction SilentlyContinue
+        }
+    }
+    throw $message
+}
 
 # /quiet makes sysprep silent, so the exit code is the only sign it refused to run.
 if ($proc.ExitCode -ne 0) {
-    Get-Content "$env:SystemRoot\System32\Sysprep\Panther\setuperr.log" -ErrorAction SilentlyContinue
-    throw "Sysprep exited with code $($proc.ExitCode)"
+    Stop-WithSysprepLogs "Sysprep exited with code $($proc.ExitCode)"
 }
 
 # sysprep.exe returns before generalization is done, so wait for the sealed state.
 # Returning early would let packer power the VM off mid-generalize, and every clone
 # would share the template's machine SID.
-$deadline = (Get-Date).AddMinutes(30)
+$deadline = (Get-Date).AddMinutes(10)
 while ($true) {
     $imageState = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State").ImageState
     if ($imageState -eq "IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE") { break }
 
+    if ($imageState -eq "IMAGE_STATE_COMPLETE" -and (Get-Date) -gt $start.AddSeconds(60)) {
+        Stop-WithSysprepLogs "Sysprep exited 0 but left ImageState=IMAGE_STATE_COMPLETE, so it never generalized"
+    }
+
     if ((Get-Date) -ge $deadline) {
-        Get-Content "$env:SystemRoot\System32\Sysprep\Panther\setuperr.log" -ErrorAction SilentlyContinue
-        throw "Sysprep did not seal the image within 30 minutes, ImageState=$imageState"
+        Stop-WithSysprepLogs "Sysprep did not seal the image within 10 minutes, ImageState=$imageState"
     }
 
     Write-Output "waiting for sysprep, ImageState=$imageState"
