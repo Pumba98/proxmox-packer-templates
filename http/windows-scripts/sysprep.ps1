@@ -30,12 +30,21 @@ $ErrorActionPreference = "Stop"
 
 # --- Generalize ---
 # /quit instead of /shutdown: packer performs the shutdown itself after the provisioner.
-# /mode:vm is safe here because clones run on the same virtual hardware.
-Start-Process -FilePath "$env:SystemRoot\System32\Sysprep\sysprep.exe" `
-    -ArgumentList "/generalize", "/oobe", "/mode:vm", "/quiet", "/quit", "/unattend:$env:SystemRoot\Panther\unattend.xml" `
-    -Wait -NoNewWindow
+# No /mode:vm: /unattend does not apply in vm mode, the combination fails with 0x80070005.
+# https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep-command-line-options
+$proc = Start-Process -FilePath "$env:SystemRoot\System32\Sysprep\sysprep.exe" `
+    -ArgumentList "/generalize", "/oobe", "/quiet", "/quit", "/unattend:$env:SystemRoot\Panther\unattend.xml" `
+    -Wait -NoNewWindow -PassThru
 
-# Poll until windows reports the image is sealed
+# /quiet makes sysprep silent, so the exit code is the only sign it refused to run.
+if ($proc.ExitCode -ne 0) {
+    Get-Content "$env:SystemRoot\System32\Sysprep\Panther\setuperr.log" -ErrorAction SilentlyContinue
+    throw "Sysprep exited with code $($proc.ExitCode)"
+}
+
+# sysprep.exe returns before generalization is done, so wait for the sealed state.
+# Returning early would let packer power the VM off mid-generalize, and every clone
+# would share the template's machine SID.
 $deadline = (Get-Date).AddMinutes(30)
 while ($true) {
     $imageState = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State").ImageState
