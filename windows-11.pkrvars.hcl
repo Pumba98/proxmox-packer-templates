@@ -30,6 +30,7 @@ additional_cd_files = [
     type = "sata"
     index = 3
     files  = ["./http/windows-scripts/*"]
+    label = "Windows Scripts CD"
   }
 ]
 os             = "win11"
@@ -39,5 +40,5 @@ cloud_init   = false
 boot_command   = []
 provisioner    = []
 provisioner_windows = [
-  "$sysprep = Get-PSDrive -PSProvider FileSystem | ForEach-Object { Join-Path $_.Root 'sysprep.ps1' } | Where-Object { Test-Path $_ } | Select-Object -First 1; powershell -NoProfile -ExecutionPolicy Bypass -File $sysprep"
+  "$cd = Get-Volume -FileSystemLabel 'Windows Scripts CD' | Select-Object -First 1; if (-not $cd) { throw 'Windows Scripts CD not found' }; powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path ($cd.DriveLetter + ':') 'sysprep.ps1')"
 ]

@@ -15,26 +15,31 @@ Remove-Item -Recurse -Force "$env:TEMP\*" -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path "$env:SystemRoot\Setup\Scripts" -Force | Out-Null
 Copy-Item -Path "$PSScriptRoot\setup.ps1" -Destination "$env:SystemRoot\Setup\Scripts\setup.ps1" -Force
 
-# Find the templated sysprep unattend file on the unattended CD
-$unattend = Get-PSDrive -PSProvider FileSystem |
-    ForEach-Object { Join-Path $_.Root "sysprep-unattend.xml" } |
-    Where-Object { Test-Path $_ } |
-    Select-Object -First 1
-if (-not $unattend) { throw "sysprep-unattend.xml not found on any attached drive" }
+# The file only defines the specialize/oobeSystem passes, which run on the clone's
+# first boot. Windows picks it up from Panther automatically then, so it is staged
+# here rather than passed to sysprep.exe below.
+$cd = Get-Volume -FileSystemLabel "Windows Unattended CD" -ErrorAction SilentlyContinue | Select-Object -First 1
+if (-not $cd) { throw "Windows Unattended CD not found" }
+$unattend = "$($cd.DriveLetter):\sysprep-unattend.xml"
+if (-not (Test-Path $unattend)) { throw "sysprep-unattend.xml not found on $unattend" }
 Copy-Item -Path $unattend -Destination "$env:SystemRoot\Panther\unattend.xml" -Force
 
-# Clear event logs (last, so the cleanup noise is gone too)
+# Clear event logs (last, so the cleanup noise is gone too).
+# A few analytic/debug channels deny access even to SYSTEM; skip their noise.
 $ErrorActionPreference = "SilentlyContinue"
-wevtutil el | ForEach-Object { wevtutil cl $_ }
+wevtutil el | ForEach-Object { wevtutil cl $_ 2>$null }
 $ErrorActionPreference = "Stop"
 
 # --- Generalize ---
 # /quit instead of /shutdown: packer performs the shutdown itself after the provisioner.
-# No /mode:vm: /unattend does not apply in vm mode, the combination fails with 0x80070005.
-# https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/sysprep-command-line-options
+#
+# No /unattend: passing it makes sysprep run a generalize pass over the answer file,
+# and on server 2019 that pass fails with 0x80070005 (E_ACCESSDENIED) even though the
+# file defines no generalize settings. The staged copy in Panther is picked up on the
+# clone's first boot regardless, which is all it is there for.
 $start = Get-Date
 $proc = Start-Process -FilePath "$env:SystemRoot\System32\Sysprep\sysprep.exe" `
-    -ArgumentList "/generalize", "/oobe", "/quiet", "/quit", "/unattend:$env:SystemRoot\Panther\unattend.xml" `
+    -ArgumentList "/generalize", "/oobe", "/quiet", "/quit" `
     -Wait -NoNewWindow -PassThru
 Write-Output "sysprep.exe exited with $($proc.ExitCode)"
 
