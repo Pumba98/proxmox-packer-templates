@@ -16,6 +16,7 @@ boot_command = [
 ]
 provisioner = [
   "cloud-init clean --logs",
+  "rm -f /etc/cloud/cloud.cfg.d/99-installer.cfg",
   "rm -f /etc/ssh/ssh_host_*",
   "truncate -s 0 /etc/machine-id",
   "rm -f /var/lib/dbus/machine-id",
