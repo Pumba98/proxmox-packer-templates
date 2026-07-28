@@ -44,6 +44,7 @@ resource "proxmox_virtual_environment_vm" "template_test" {
 
   clone {
     vm_id = var.template_id
+    full  = false
   }
 
   agent {
