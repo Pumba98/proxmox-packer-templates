@@ -179,12 +179,11 @@
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <Order>2</Order>
-                    <CommandLine>powershell -ExecutionPolicy Bypass -File F:\setup.ps1</CommandLine>
+                    <CommandLine>msiexec /i D:\guest-agent\qemu-ga-x86_64.msi /quiet /norestart</CommandLine>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <Order>3</Order>
-                    <!-- Install Proxmox guest-agent -->
-                    <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -Command "D:\guest-agent\qemu-ga-x86_64.msi /quiet"</CommandLine>
+                    <CommandLine>powershell -ExecutionPolicy Bypass -File F:\setup.ps1</CommandLine>
                 </SynchronousCommand>
             </FirstLogonCommands>
             <OOBE>
