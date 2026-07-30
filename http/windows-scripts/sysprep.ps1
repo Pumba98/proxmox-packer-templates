@@ -32,7 +32,7 @@ wevtutil el | ForEach-Object { wevtutil cl $_ 2>$null }
 $ErrorActionPreference = "Stop"
 
 # --- Generalize ---
-# /quit instead of /shutdown: packer performs the shutdown itself after the provisioner.
+# /quit instead of /shutdown: packer stops the VM itself once WinRM comes up.
 #
 # No /unattend: passing it makes sysprep run a generalize pass over the answer file,
 # and on server 2019 that pass fails with 0x80070005 (E_ACCESSDENIED) even though the
@@ -79,3 +79,5 @@ while ($true) {
     Write-Output "waiting for sysprep, ImageState=$imageState"
     Start-Sleep -Seconds 10
 }
+
+& "$PSScriptRoot\setup.ps1"
