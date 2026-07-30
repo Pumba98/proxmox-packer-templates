@@ -144,9 +144,7 @@ build {
     labels = ["powershell"]
     content {
       inline = var.provisioner_windows
-      # Sysprep generalizes the network stack away, so the guest is unreachable
-      # once the script returns. Cleaning up the uploaded script would need
-      # another winrm round trip that can no longer connect.
+      # The image is sealed once this returns, so leave no cleanup traces behind
       skip_clean = true
     }
   }

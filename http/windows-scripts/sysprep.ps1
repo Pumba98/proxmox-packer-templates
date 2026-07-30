@@ -1,11 +1,5 @@
 $ErrorActionPreference = "Stop"
 
-# Not under SystemRoot\Temp, which the cleanup below wipes
-New-Item -ItemType Directory -Path "$env:SystemRoot\Setup\Scripts" -Force | Out-Null
-Start-Transcript -Path "$env:SystemRoot\Setup\Scripts\sysprep.log" -Append | Out-Null
-
-try {
-
 # --- Cleanup before sealing the template ---
 
 # Windows Update download cache
@@ -17,9 +11,10 @@ Remove-Item -Recurse -Force "$env:SystemRoot\Temp\*" -ErrorAction SilentlyContin
 Remove-Item -Recurse -Force "$env:TEMP\*" -ErrorAction SilentlyContinue
 
 # Clones have no script CD, so they need setup.ps1 on disk to re-enable WinRM
+New-Item -ItemType Directory -Path "$env:SystemRoot\Setup\Scripts" -Force | Out-Null
 Copy-Item -Path "$PSScriptRoot\setup.ps1" -Destination "$env:SystemRoot\Setup\Scripts\setup.ps1" -Force
 
-# Staged, not passed to sysprep.exe: windows reads it from Panther on the clone's first boot
+# On its own CD, so scan the drives. Windows reads it from Panther on the clone's first boot
 $unattend = Get-PSDrive -PSProvider FileSystem |
     ForEach-Object { Join-Path $_.Root "sysprep-unattend.xml" } |
     Where-Object { Test-Path $_ } |
@@ -33,16 +28,16 @@ wevtutil el | ForEach-Object { wevtutil cl $_ 2>$null }
 $ErrorActionPreference = "Stop"
 
 # --- Generalize ---
-Write-Output "starting sysprep, the VM powers off when it finishes"
+$proc = Start-Process -FilePath "$env:SystemRoot\System32\Sysprep\sysprep.exe" `
+    -ArgumentList "/generalize", "/oobe", "/mode:vm", "/quiet", "/quit" `
+    -Wait -NoNewWindow -PassThru
+if ($proc.ExitCode -ne 0) { throw "sysprep exited with $($proc.ExitCode)" }
 
-# Stop before sysprep, or the shutdown truncates the log mid-write
-Stop-Transcript | Out-Null
-
-# /shutdown, not /quit: generalize removes the NIC, nothing can report back after
-Start-Process -FilePath "$env:SystemRoot\System32\Sysprep\sysprep.exe" `
-    -ArgumentList "/generalize", "/oobe", "/quiet", "/shutdown"
-
-} catch {
-    Stop-Transcript | Out-Null
-    throw
+$deadline = (Get-Date).AddMinutes(30)
+while ((Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State").ImageState `
+        -ne "IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE") {
+    if ((Get-Date) -ge $deadline) { throw "sysprep did not seal the image within 30 minutes" }
+    Start-Sleep -Seconds 5
 }
+
+Write-Output "image sealed"
