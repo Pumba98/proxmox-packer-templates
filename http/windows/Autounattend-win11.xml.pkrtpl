@@ -183,7 +183,7 @@
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <Order>3</Order>
-                    <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -File F:\sysprep.ps1</CommandLine>
+                    <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -File F:\setup.ps1</CommandLine>
                 </SynchronousCommand>
             </FirstLogonCommands>
             <OOBE>

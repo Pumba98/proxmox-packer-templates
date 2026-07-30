@@ -38,3 +38,6 @@ http_directory = ""
 cloud_init   = false
 boot_command   = []
 provisioner    = []
+provisioner_windows = [
+  "$s = Get-PSDrive -PSProvider FileSystem | ForEach-Object { Join-Path $_.Root 'sysprep.ps1' } | Where-Object { Test-Path $_ } | Select-Object -First 1; if (-not $s) { throw 'sysprep.ps1 not found on any attached drive' }; & $s"
+]

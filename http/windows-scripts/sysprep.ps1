@@ -1,5 +1,11 @@
 $ErrorActionPreference = "Stop"
 
+# Not under SystemRoot\Temp, which the cleanup below wipes
+New-Item -ItemType Directory -Path "$env:SystemRoot\Setup\Scripts" -Force | Out-Null
+Start-Transcript -Path "$env:SystemRoot\Setup\Scripts\sysprep.log" -Append | Out-Null
+
+try {
+
 # --- Cleanup before sealing the template ---
 
 # Windows Update download cache
@@ -10,14 +16,10 @@ Remove-Item -Recurse -Force "$env:SystemRoot\SoftwareDistribution\Download\*" -E
 Remove-Item -Recurse -Force "$env:SystemRoot\Temp\*" -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force "$env:TEMP\*" -ErrorAction SilentlyContinue
 
-# Persist the first-boot setup script so clones can re-enable WinRM after sysprep
-# (the script CDs are not attached to cloned VMs)
-New-Item -ItemType Directory -Path "$env:SystemRoot\Setup\Scripts" -Force | Out-Null
+# Clones have no script CD, so they need setup.ps1 on disk to re-enable WinRM
 Copy-Item -Path "$PSScriptRoot\setup.ps1" -Destination "$env:SystemRoot\Setup\Scripts\setup.ps1" -Force
 
-# The file only defines the specialize/oobeSystem passes, which run on the clone's
-# first boot. Windows picks it up from Panther automatically then, so it is staged
-# here rather than passed to sysprep.exe below.
+# Staged, not passed to sysprep.exe: windows reads it from Panther on the clone's first boot
 $unattend = Get-PSDrive -PSProvider FileSystem |
     ForEach-Object { Join-Path $_.Root "sysprep-unattend.xml" } |
     Where-Object { Test-Path $_ } |
@@ -25,59 +27,22 @@ $unattend = Get-PSDrive -PSProvider FileSystem |
 if (-not $unattend) { throw "sysprep-unattend.xml not found on any attached drive" }
 Copy-Item -Path $unattend -Destination "$env:SystemRoot\Panther\unattend.xml" -Force
 
-# Clear event logs (last, so the cleanup noise is gone too).
-# A few analytic/debug channels deny access even to SYSTEM; skip their noise.
+# Some analytic/debug channels deny access even to SYSTEM
 $ErrorActionPreference = "SilentlyContinue"
 wevtutil el | ForEach-Object { wevtutil cl $_ 2>$null }
 $ErrorActionPreference = "Stop"
 
 # --- Generalize ---
-# /quit instead of /shutdown: packer stops the VM itself once WinRM comes up.
-#
-# No /unattend: passing it makes sysprep run a generalize pass over the answer file,
-# and on server 2019 that pass fails with 0x80070005 (E_ACCESSDENIED) even though the
-# file defines no generalize settings. The staged copy in Panther is picked up on the
-# clone's first boot regardless, which is all it is there for.
-$start = Get-Date
-$proc = Start-Process -FilePath "$env:SystemRoot\System32\Sysprep\sysprep.exe" `
-    -ArgumentList "/generalize", "/oobe", "/quiet", "/quit" `
-    -Wait -NoNewWindow -PassThru
-Write-Output "sysprep.exe exited with $($proc.ExitCode)"
+Write-Output "starting sysprep, the VM powers off when it finishes"
 
-function Stop-WithSysprepLogs($message) {
-    foreach ($log in "setuperr.log", "setupact.log") {
-        $path = "$env:SystemRoot\System32\Sysprep\Panther\$log"
-        if (Test-Path $path) {
-            Write-Output "--- $log ---"
-            Get-Content $path -Tail 60 -ErrorAction SilentlyContinue
-        }
-    }
-    throw $message
+# Stop before sysprep, or the shutdown truncates the log mid-write
+Stop-Transcript | Out-Null
+
+# /shutdown, not /quit: generalize removes the NIC, nothing can report back after
+Start-Process -FilePath "$env:SystemRoot\System32\Sysprep\sysprep.exe" `
+    -ArgumentList "/generalize", "/oobe", "/quiet", "/shutdown"
+
+} catch {
+    Stop-Transcript | Out-Null
+    throw
 }
-
-# /quiet makes sysprep silent, so the exit code is the only sign it refused to run.
-if ($proc.ExitCode -ne 0) {
-    Stop-WithSysprepLogs "Sysprep exited with code $($proc.ExitCode)"
-}
-
-# sysprep.exe returns before generalization is done, so wait for the sealed state.
-# Returning early would let packer power the VM off mid-generalize, and every clone
-# would share the template's machine SID.
-$deadline = (Get-Date).AddMinutes(10)
-while ($true) {
-    $imageState = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State").ImageState
-    if ($imageState -eq "IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE") { break }
-
-    if ($imageState -eq "IMAGE_STATE_COMPLETE" -and (Get-Date) -gt $start.AddSeconds(60)) {
-        Stop-WithSysprepLogs "Sysprep exited 0 but left ImageState=IMAGE_STATE_COMPLETE, so it never generalized"
-    }
-
-    if ((Get-Date) -ge $deadline) {
-        Stop-WithSysprepLogs "Sysprep did not seal the image within 10 minutes, ImageState=$imageState"
-    }
-
-    Write-Output "waiting for sysprep, ImageState=$imageState"
-    Start-Sleep -Seconds 10
-}
-
-& "$PSScriptRoot\setup.ps1"
