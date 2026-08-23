@@ -71,6 +71,7 @@ jobs:
           PKR_VAR_iso_download: "true"
           PKR_VAR_iso_download_pve: "true"
           PKR_VAR_vmid: ${{ inputs.vm_id }}
+          PKR_VAR_network_adapter: "bld"
           PKR_VAR_packer_http_interface: "wt0"
           PACKER_KEY_INTERVAL: 100ms
         run: |
