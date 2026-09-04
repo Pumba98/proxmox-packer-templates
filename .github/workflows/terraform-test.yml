@@ -60,6 +60,7 @@ jobs:
           TF_VAR_template_id: ${{ inputs.vm_id }}
           TF_VAR_windows: ${{ inputs.windows }}
           TF_VAR_node: proxmox
+          TF_VAR_pool: templates
           TF_VAR_cloud_init_storage_pool: local-lvm
           TF_VAR_test_reboot: ${{ inputs.test_reboot }}
           TF_VAR_test_machine_id: ${{ inputs.test_machine_id }}
