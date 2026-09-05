@@ -23,5 +23,3 @@ winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 if ($LASTEXITCODE -ne 0) { throw "winrm set AllowUnencrypted failed ($LASTEXITCODE)" }
 winrm set winrm/config/service/auth '@{Basic="true"}'
 if ($LASTEXITCODE -ne 0) { throw "winrm set Basic failed ($LASTEXITCODE)" }
-
-Remove-NetFirewallRule -DisplayName 'packer-winrm-hold' -ErrorAction SilentlyContinue
