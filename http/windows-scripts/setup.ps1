@@ -13,9 +13,13 @@ if (Test-Path $customInstaller) {
     & $customInstaller
 }
 
+Get-NetConnectionProfile | Where-Object { $_.NetworkCategory -eq 'Public' } | Set-NetConnectionProfile -NetworkCategory Private
+
 Enable-PSRemoting -SkipNetworkProfileCheck -Force
 
 Get-NetFirewallRule -Name 'WINRM-HTTP-In-TCP*' | Set-NetFirewallRule -RemoteAddress Any -Enabled True
 
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+if ($LASTEXITCODE -ne 0) { throw "winrm set AllowUnencrypted failed ($LASTEXITCODE)" }
 winrm set winrm/config/service/auth '@{Basic="true"}'
+if ($LASTEXITCODE -ne 0) { throw "winrm set Basic failed ($LASTEXITCODE)" }
