@@ -14,10 +14,15 @@ autoinstall:
   storage:
     layout:
       name: direct
+  apt:
+    # Skip subiquity's package-by-package unattended-upgrades pass (too slow), late-commands upgrade in one batch instead
+    conf: |
+      Unattended-Upgrade::Package-Blacklist { ".*"; };
   packages:
     - qemu-guest-agent
   ssh:
     install-server: true
   late-commands:
-    - curtin in-target --target=/target -- apt update           
-    - curtin in-target --target=/target -- apt upgrade -y
+    - curtin in-target --target=/target -- apt-get update
+    - curtin in-target --target=/target -- sh -c 'DEBIAN_FRONTEND=noninteractive apt-get -y --with-new-pkgs -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold upgrade'
+    - rm -f /target/etc/apt/apt.conf.d/94curtin-config
