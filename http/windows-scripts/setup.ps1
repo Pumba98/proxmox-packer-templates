@@ -15,7 +15,7 @@ if (Test-Path $customInstaller) {
 
 Enable-PSRemoting -SkipNetworkProfileCheck -Force
 
-Set-NetFirewallRule -Name 'WINRM-HTTP-In-TCP-PUBLIC' -RemoteAddress Any -ErrorAction SilentlyContinue
+Get-NetFirewallRule -Name 'WINRM-HTTP-In-TCP*' | Set-NetFirewallRule -RemoteAddress Any -Enabled True
 
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 winrm set winrm/config/service/auth '@{Basic="true"}'

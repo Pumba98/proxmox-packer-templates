@@ -123,6 +123,7 @@ source "proxmox-iso" "vm" {
   winrm_password = var.winrm_password
   winrm_insecure = var.winrm_insecure
   winrm_use_ssl  = var.winrm_use_ssl
+  winrm_timeout  = var.winrm_timeout
 }
 
 build {

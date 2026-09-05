@@ -333,6 +333,12 @@ variable "winrm_use_ssl" {
   default     = false
 }
 
+variable "winrm_timeout" {
+  description = "The timeout waiting for winrm connection. Windows installs regularly need more than packer's default of 30m."
+  type        = string
+  default     = "30m"
+}
+
 variable "windows_edition" {
   description = "Windows edition of the ISO file to install (this is useful to overwrite for Windows 11 Pro or Server Core/Datacenter)."
   type        = string
