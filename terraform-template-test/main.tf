@@ -11,8 +11,6 @@ locals {
     for d in data.external.host_key : d.result.key
   ]
 
-  # Template ids are consecutive, so clones are spaced a block apart to keep
-  # template N's second clone off template N+1's first.
   vm_id_offset = 1000
   vm_id_stride = 100
 
@@ -128,13 +126,20 @@ resource "null_resource" "reboot" {
   }
 }
 
-# Reconnecting on the pre-reboot address is the same-IP assertion: a VM that came
-# back elsewhere is never reachable here. The uptime check catches the race where
-# the guest has not started shutting down yet.
-resource "null_resource" "post_reboot_test" {
+# Wait for shutdown before reconnecting
+resource "time_sleep" "reboot_settle" {
   count = var.test_reboot ? 1 : 0
 
   depends_on = [null_resource.reboot]
+
+  create_duration = "60s"
+}
+
+# Reconnecting on the pre-reboot address is the same-IP assertion
+resource "null_resource" "post_reboot_test" {
+  count = var.test_reboot ? 1 : 0
+
+  depends_on = [time_sleep.reboot_settle]
 
   triggers = {
     vm_id = proxmox_virtual_environment_vm.template_test[0].id
