@@ -37,6 +37,10 @@ on:
         required: true
       proxmox_password:
         required: true
+env:
+  # renovate: githubReleaseVar repo=netbirdio/netbird
+  NETBIRD_VERSION: 0.83.1
+  NETBIRD_MANAGEMENT_URL: https://api.netbird.io:443
 concurrency:
   group: ${{ inputs.vm_id }}
   cancel-in-progress: false
@@ -47,9 +51,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
       - name: Netbird Connect
-        uses: gene1wood/netbird-connect@b8c6916d108aee5e327546e49efcd29bbd41b69f #v1.1.0
-        with:
-          setup-key: ${{ secrets.netbird_setup_key }}
+        shell: bash
+        env:
+          SETUP_KEY: ${{ secrets.netbird_setup_key }}
+        run: |
+          cd "$RUNNER_TEMP"
+          base_url="https://github.com/netbirdio/netbird/releases/download/v${NETBIRD_VERSION}"
+          archive="netbird_${NETBIRD_VERSION}_linux_amd64.tar.gz"
+          curl -fsSLO "${base_url}/${archive}"
+          curl -fsSL "${base_url}/netbird_${NETBIRD_VERSION}_checksums.txt" | grep " ${archive}$" | sha256sum -c -
+          sudo tar -xzf "${archive}" -C /usr/local/bin netbird
+          sudo netbird service install
+          sudo netbird service start
+          # NetBird >= 0.83 requires profile ownership; run as root so the root user owns the default profile
+          sudo netbird up --setup-key="$SETUP_KEY" --hostname="github-$(cat /etc/hostname)" --management-url="$NETBIRD_MANAGEMENT_URL"
+          timeout 120 bash -c 'until sudo netbird status | grep -q "Management: Connected"; do sleep 2; done'
       - name: Use Packer
         uses: hashicorp-contrib/setup-packer@v4
         with:

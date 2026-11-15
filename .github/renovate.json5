@@ -13,6 +13,7 @@
       matchStrings: [
         'githubReleaseVar repo=(?<depName>.*?)\n .*version = "(?<currentValue>.*)"\n',
         'githubReleaseVar repo=(?<depName>.*?)\n .*version: (?<currentValue>.*)\n',
+        'githubReleaseVar repo=(?<depName>.*?)\n .*_VERSION: (?<currentValue>.*)\n',
         'githubReleaseVar repo=(?<depName>.*?)\n .*SCHEMATIC/(?<currentValue>.*)/nocloud',
       ],
       datasourceTemplate: 'github-releases',
@@ -43,6 +44,7 @@
       matchPackageNames: [
         'hashicorp/packer',
         'hashicorp/terraform',
+        'netbirdio/netbird',
       ],
       extractVersion: '^v(?<version>.*)$',
     },
