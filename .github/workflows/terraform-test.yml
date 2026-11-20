@@ -30,7 +30,7 @@ on:
         required: true
 env:
   # renovate: githubReleaseVar repo=netbirdio/netbird
-  NETBIRD_VERSION: 0.83.1
+  NETBIRD_VERSION: 0.83.2
   NETBIRD_MANAGEMENT_URL: https://api.netbird.io:443
 jobs:
   test:
